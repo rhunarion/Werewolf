@@ -14,7 +14,7 @@ if test $# -eq 0; then
     mv BarAPI/me/ Werewolf/
     jar cf Werewolf.jar -C Werewolf .
 
-    scp -P 3843 Werewolf.jar ???@???:~/minecraft_server/plugins
+    scp -P ??? Werewolf.jar ???@???:~/minecraft_server/plugins
 
     cd ${WWDIR}
     rm -r tmp
@@ -22,6 +22,6 @@ else
     WWALIDIR=~/workspace/WerewolfAliases
     cd ${WWALIDIR}/target
     cp WerewolfAliases-0.0.1.jar WerewolfAliases.jar
-    scp -P 3843 WerewolfAliases.jar ???@???:~/minecraft_server/plugins
+    scp -P ??? WerewolfAliases.jar ???@???:~/minecraft_server/plugins
     rm WerewolfAliases.jar
 fi
