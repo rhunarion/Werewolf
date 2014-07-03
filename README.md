@@ -2,3 +2,6 @@ Werewolf
 ========
 
 Minecraft Werewolf Plugin
+
+This project is the plugin for Minecraft Bukkit Server.  
+You can enjoy werewolf game, with many useful commands, graphical effects and hearing effects.
