@@ -1,0 +1,46 @@
+name: WerewolfAliases
+version: 0.0.1
+main: jp.ddo.jinroumc.werewolfaliases.WerewolfAliases
+
+commands:
+  help:
+  enterVil:
+  leaveVil:
+  lobby:
+  showVil:
+  showPlayers:
+  makeVil:
+  startRec:
+  stopRec:
+  resetTimer:
+  giveGM:
+  configRoom:
+  chRule:
+  
+  showRule:
+  shoutRule:
+  join:
+  unjoin:
+  setRole:
+  unsetRole:
+  requestRole:
+  
+  startGame:
+  finishGame:
+  skip:
+  kick:
+  unkick:
+  kill:
+  
+  home:
+  whisp:
+  shout:
+  co:
+  myRole:
+  vote:
+  uranai:
+  guard:
+  bite:
+  
+  
+  

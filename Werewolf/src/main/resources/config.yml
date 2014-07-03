@@ -1,0 +1,15 @@
+villageType:
+  - default
+villageName:
+  default:
+    - vil0
+    - vil1
+    - vil2
+    - vil3
+    - vil4
+lobbyLocation:
+  worldName: world
+  x: 0.5
+  y: 64
+  z: 0.5
+
