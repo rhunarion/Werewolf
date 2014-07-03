@@ -1,0 +1,16 @@
+name: Werewolf
+version: 0.0.1
+main: jp.ddo.jinroumc.werewolf.Werewolf
+
+commands:
+  ww:
+    description: Werewolf MOD
+    usage: 無効なコマンドです。このメッセージが出ている場合不具合があります。
+    permission: werewolf.ww
+    
+permissions:
+  werewolf.ww:
+    default: true
+ 
+  werewolf.op:
+    default: op
