@@ -1,0 +1,4 @@
+Werewolf
+========
+
+Minecraft Werewolf Plugin
