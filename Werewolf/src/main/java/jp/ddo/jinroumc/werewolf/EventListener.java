@@ -113,7 +113,7 @@ public class EventListener implements Listener {
 		List<Block> blList = event.blockList();
 		Iterator<Block> itr = blList.iterator();
 		while(itr.hasNext())
-			if(!itr.next().getType().equals(Material.TNT))
+			if(itr.next().getType()!=Material.TNT)
 				itr.remove();
 	}
 	

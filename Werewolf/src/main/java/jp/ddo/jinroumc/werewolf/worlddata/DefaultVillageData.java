@@ -146,7 +146,15 @@ public class DefaultVillageData extends LocationData{
 		eraseProvidedSign(world, 17, 64, 9);
 	}
 	
+	@SuppressWarnings("deprecation")
 	public static void eraseProvidedSign(World world, int x, int y, int z){
+		if(world.getBlockAt(x, y, z).getType()!=Material.WALL_SIGN){
+			Block def = Bukkit.getWorld("default_village").getBlockAt(x, y, z);
+			Block mod = world.getBlockAt(x, y, z);
+			mod.setType(def.getType());
+			mod.setData(def.getData());
+		}
+		
 		Sign sign = (Sign) world.getBlockAt(x, y, z).getState();
 		for(int i=0; i<4; i++)
 			sign.setLine(i, "");
@@ -360,14 +368,21 @@ public class DefaultVillageData extends LocationData{
 							mod = modifiedVillage.getBlockAt(x, y, z);
 							mod.setType(def.getType());
 							mod.setData(def.getData());
-							if(def.getType().equals(Material.CHEST)){
+							if(def.getType()==Material.WALL_SIGN || def.getType()==Material.SIGN_POST){
+								Sign modSign = (Sign) mod.getState();
+								Sign defSign = (Sign) def.getState();
+								for(int j=0; j<4; j++)
+									modSign.setLine(j, defSign.getLine(j));
+								modSign.update();
+							}
+							if(def.getType()==Material.CHEST){
 								Chest modChest = (Chest) mod.getState();
 								Chest defChest = (Chest) def.getState();
 								modChest.getInventory().setContents(defChest.getInventory().getContents());
 							}
-							if(def.getType().equals(Material.FURNACE))
+							if(def.getType()==Material.FURNACE)
 								((Furnace) mod.getState()).getInventory().clear(); 
-							if(def.getType().equals(Material.JUKEBOX))
+							if(def.getType()==Material.JUKEBOX)
 								((Jukebox) mod.getState()).eject();
 							mod.getState().update();
 						}
@@ -375,8 +390,14 @@ public class DefaultVillageData extends LocationData{
 						if(x>38){
 							x = -38;
 							y--;
-							if(y<41){
-								y = 79;
+							if(y<48){
+								def = defaultVillage.getBlockAt(0, 43, 6);
+								mod = modifiedVillage.getBlockAt(0, 43, 6);
+								Chest modChest = (Chest) mod.getState();
+								Chest defChest = (Chest) def.getState();
+								modChest.getInventory().setContents(defChest.getInventory().getContents());
+								
+								y = 69;
 								secondTime = true;
 							}
 							break;
@@ -386,7 +407,7 @@ public class DefaultVillageData extends LocationData{
 					for(int i=0; i<20; i++){
 						for(int z=-38; z<=38; z++){
 							def = defaultVillage.getBlockAt(x, y, z);
-							if(def.getType().isOccluding() && !def.getType().equals(Material.GRAVEL))
+							if(def.getType().isOccluding() && def.getType()!=Material.GRAVEL)
 								continue;
 							mod = modifiedVillage.getBlockAt(x, y, z);
 							mod.setType(def.getType());
@@ -397,7 +418,7 @@ public class DefaultVillageData extends LocationData{
 						if(x>38){
 							x = -38;
 							y--;
-							if(y<41){
+							if(y<55){
 								for(Entity entity : modifiedVillage.getEntities())
 									if(!(entity instanceof Player)
 											&& !entity.getType().equals(EntityType.VILLAGER))

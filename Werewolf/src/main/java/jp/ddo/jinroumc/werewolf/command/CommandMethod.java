@@ -12,8 +12,11 @@ import jp.ddo.jinroumc.werewolf.util.PluginChecker;
 import jp.ddo.jinroumc.werewolf.village.Village;
 import jp.ddo.jinroumc.werewolf.village.VillagePlayer;
 import jp.ddo.jinroumc.werewolf.village.VillageUtil;
+import jp.ddo.jinroumc.werewolf.worlddata.DefaultVillageData;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public class CommandMethod {
 	public static void enterVil(Player pl, String vilName){
@@ -580,7 +583,7 @@ public class CommandMethod {
 			pl.sendMessage(C.red+"Error: 村ワールドの中でしか使えないコマンドです。");
 			return;
 		}
-		Village vil = VillageUtil.getVillage(pl);
+		final Village vil = VillageUtil.getVillage(pl);
 		VillagePlayer vp = vil.getPlayer(pl);
 		if(!vp.gameMaster){
 			pl.sendMessage(C.red+"Error: ゲームマスターしか使えないコマンドです。");
@@ -590,12 +593,25 @@ public class CommandMethod {
 			pl.sendMessage(C.red+"Error: ゲーム進行中かゲーム終了中にしか使えないコマンドです。");
 			return;
 		}
-		if(vil.status==VillageStatus.ongoing && vil.time==VillageTime.execution){
-			pl.sendMessage(C.red+"Error: 処刑中はこのコマンドは使えません。");
-			return;
-		}
 
 		vil.sendToVillage(C.gold+"ゲームマスターがゲームをスキップしました。");
+		if(vil.status==VillageStatus.ongoing && vil.time==VillageTime.execution){
+			if(vil.doTaskLaterID==-1){
+				vil.executedPlayer.kill();
+				vil.sendToVillage(vil.executedPlayer.color+vil.executedPlayer.getName()
+						   +C.green+" さんが処刑されました。間もなく夜が訪れます。");
+	
+				vil.doTaskLaterID = Bukkit.getScheduler().runTaskLater(vil.plugin, new BukkitRunnable(){
+					@Override
+					public void run(){
+						DefaultVillageData.postExecution(vil);
+						vil.checkResult();
+						vil.doTaskLaterID = -1;
+					}
+				}, 100).getTaskId();
+			}
+			return;
+		}
 		vil.stopTimer();
 		vil.afterTimer();
 	}

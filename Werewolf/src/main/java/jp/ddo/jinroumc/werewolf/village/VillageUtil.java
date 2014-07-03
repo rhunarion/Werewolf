@@ -13,6 +13,7 @@ import jp.ddo.jinroumc.werewolf.worlddata.LobbyData;
 import me.confuser.barapi.BarAPI;
 
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -197,8 +198,10 @@ public class VillageUtil {
 		BarAPI.removeBar(pl);
 		pl.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
 		pl.removePotionEffect(PotionEffectType.INVISIBILITY);
-		pl.setFlying(false);
-		pl.setAllowFlight(false);
+		if(pl.getGameMode()!=GameMode.CREATIVE){
+			pl.setFlying(false);
+			pl.setAllowFlight(false);
+		}
 		pl.getInventory().clear();
 		pl.getInventory().addItem(LobbyData.getManual());
 	}

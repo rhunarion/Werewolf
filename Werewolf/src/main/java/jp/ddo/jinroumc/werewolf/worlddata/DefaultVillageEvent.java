@@ -60,9 +60,7 @@ public class DefaultVillageEvent extends DefaultVillageData implements Listener 
 				return;
 			if(clickSign(pl, bl, 23, 65, -6, "skip"))
 				return;
-			if(clickSign(pl, bl, 23, 65, -4, "help"))
-				return;
-			if(clickSign(pl, bl, 25, 64, -6, "configroom"))
+			if(clickSign(pl, bl, 23, 65, -4, "configroom"))
 				return;
 			
 			if(clickSign(pl, bl, 19, 64, -12, "myrole"))
@@ -164,56 +162,58 @@ public class DefaultVillageEvent extends DefaultVillageData implements Listener 
 			if(clickSign(pl, bl, -3, 43, -4, "chrule permitbite false"))
 				return;
 			
-			if(vil.getAlivePlayerByColor(C.white)!=null && vp.color!=C.white
-					&& clickSign(pl, bl, 3, 64, 0, "vote "+vil.getAlivePlayerByColor(C.white).getName()))
-				return;
-			if(vil.getAlivePlayerByColor(C.gray)!=null && vp.color!=C.gray
-					&& clickSign(pl, bl, 3, 64, -2, "vote "+vil.getAlivePlayerByColor(C.gray).getName()))
-				return;
-			if(vil.getAlivePlayerByColor(C.d_gray)!=null && vp.color!=C.d_gray
-					&& clickSign(pl, bl, 4, 65, -4, "vote "+vil.getAlivePlayerByColor(C.d_gray).getName()))
-				return;
-			if(vil.getAlivePlayerByColor(C.black)!=null && vp.color!=C.black
-					&& clickSign(pl, bl, 2, 64, -3, "vote "+vil.getAlivePlayerByColor(C.black).getName()))
-				return;
-			if(vil.getAlivePlayerByColor(C.d_red)!=null && vp.color!=C.d_red
-					&& clickSign(pl, bl, 0, 64, -3, "vote "+vil.getAlivePlayerByColor(C.d_red).getName()))
-				return;
-			if(vil.getAlivePlayerByColor(C.red)!=null && vp.color!=C.red
-					&& clickSign(pl, bl, -2, 64, -3, "vote "+vil.getAlivePlayerByColor(C.red).getName()))
-				return;
-			if(vil.getAlivePlayerByColor(C.gold)!=null && vp.color!=C.gold
-					&& clickSign(pl, bl, -4, 65, -4, "vote "+vil.getAlivePlayerByColor(C.gold).getName()))
-				return;
-			if(vil.getAlivePlayerByColor(C.yellow)!=null && vp.color!=C.yellow
-					&& clickSign(pl, bl, -3, 64, -2, "vote "+vil.getAlivePlayerByColor(C.yellow).getName()))
-				return;
-			if(vil.getAlivePlayerByColor(C.green)!=null && vp.color!=C.green
-					&& clickSign(pl, bl, -3, 64, 0, "vote "+vil.getAlivePlayerByColor(C.green).getName()))
-				return;
-			if(vil.getAlivePlayerByColor(C.d_green)!=null && vp.color!=C.d_green
-					&& clickSign(pl, bl, -3, 64, 2, "vote "+vil.getAlivePlayerByColor(C.d_green).getName()))
-				return;
-			if(vil.getAlivePlayerByColor(C.d_aqua)!=null && vp.color!=C.d_aqua
-					&& clickSign(pl, bl, -4, 65, 4, "vote "+vil.getAlivePlayerByColor(C.d_aqua).getName()))
-				return;
-			if(vil.getAlivePlayerByColor(C.d_blue)!=null && vp.color!=C.d_blue
-					&& clickSign(pl, bl, -2, 64, 3, "vote "+vil.getAlivePlayerByColor(C.d_blue).getName()))
-				return;
-			if(vil.getAlivePlayerByColor(C.aqua)!=null && vp.color!=C.aqua
-					&& clickSign(pl, bl, 0, 64, 3, "vote "+vil.getAlivePlayerByColor(C.aqua).getName()))
-				return;
-			if(vil.getAlivePlayerByColor(C.blue)!=null && vp.color!=C.blue
-					&& clickSign(pl, bl, 2, 64, 3, "vote "+vil.getAlivePlayerByColor(C.blue).getName()))
-				return;
-			if(vil.getAlivePlayerByColor(C.d_purple)!=null && vp.color!=C.d_purple
-					&& clickSign(pl, bl, 4, 65, 4, "vote "+vil.getAlivePlayerByColor(C.d_purple).getName()))
-				return;
-			if(vil.getAlivePlayerByColor(C.l_purple)!=null && vp.color!=C.l_purple
-					&& clickSign(pl, bl, 3, 64, 2, "vote "+vil.getAlivePlayerByColor(C.l_purple).getName()))
-				return;
+			if(vp.alive && vil.status==VillageStatus.ongoing){
+				if(vil.getAlivePlayerByColor(C.white)!=null && vp.color!=C.white
+						&& clickSign(pl, bl, 3, 64, 0, "vote "+vil.getAlivePlayerByColor(C.white).getName()))
+					return;
+				if(vil.getAlivePlayerByColor(C.gray)!=null && vp.color!=C.gray
+						&& clickSign(pl, bl, 3, 64, -2, "vote "+vil.getAlivePlayerByColor(C.gray).getName()))
+					return;
+				if(vil.getAlivePlayerByColor(C.d_gray)!=null && vp.color!=C.d_gray
+						&& clickSign(pl, bl, 4, 65, -4, "vote "+vil.getAlivePlayerByColor(C.d_gray).getName()))
+					return;
+				if(vil.getAlivePlayerByColor(C.black)!=null && vp.color!=C.black
+						&& clickSign(pl, bl, 2, 64, -3, "vote "+vil.getAlivePlayerByColor(C.black).getName()))
+					return;
+				if(vil.getAlivePlayerByColor(C.d_red)!=null && vp.color!=C.d_red
+						&& clickSign(pl, bl, 0, 64, -3, "vote "+vil.getAlivePlayerByColor(C.d_red).getName()))
+					return;
+				if(vil.getAlivePlayerByColor(C.red)!=null && vp.color!=C.red
+						&& clickSign(pl, bl, -2, 64, -3, "vote "+vil.getAlivePlayerByColor(C.red).getName()))
+					return;
+				if(vil.getAlivePlayerByColor(C.gold)!=null && vp.color!=C.gold
+						&& clickSign(pl, bl, -4, 65, -4, "vote "+vil.getAlivePlayerByColor(C.gold).getName()))
+					return;
+				if(vil.getAlivePlayerByColor(C.yellow)!=null && vp.color!=C.yellow
+						&& clickSign(pl, bl, -3, 64, -2, "vote "+vil.getAlivePlayerByColor(C.yellow).getName()))
+					return;
+				if(vil.getAlivePlayerByColor(C.green)!=null && vp.color!=C.green
+						&& clickSign(pl, bl, -3, 64, 0, "vote "+vil.getAlivePlayerByColor(C.green).getName()))
+					return;
+				if(vil.getAlivePlayerByColor(C.d_green)!=null && vp.color!=C.d_green
+						&& clickSign(pl, bl, -3, 64, 2, "vote "+vil.getAlivePlayerByColor(C.d_green).getName()))
+					return;
+				if(vil.getAlivePlayerByColor(C.d_aqua)!=null && vp.color!=C.d_aqua
+						&& clickSign(pl, bl, -4, 65, 4, "vote "+vil.getAlivePlayerByColor(C.d_aqua).getName()))
+					return;
+				if(vil.getAlivePlayerByColor(C.d_blue)!=null && vp.color!=C.d_blue
+						&& clickSign(pl, bl, -2, 64, 3, "vote "+vil.getAlivePlayerByColor(C.d_blue).getName()))
+					return;
+				if(vil.getAlivePlayerByColor(C.aqua)!=null && vp.color!=C.aqua
+						&& clickSign(pl, bl, 0, 64, 3, "vote "+vil.getAlivePlayerByColor(C.aqua).getName()))
+					return;
+				if(vil.getAlivePlayerByColor(C.blue)!=null && vp.color!=C.blue
+						&& clickSign(pl, bl, 2, 64, 3, "vote "+vil.getAlivePlayerByColor(C.blue).getName()))
+					return;
+				if(vil.getAlivePlayerByColor(C.d_purple)!=null && vp.color!=C.d_purple
+						&& clickSign(pl, bl, 4, 65, 4, "vote "+vil.getAlivePlayerByColor(C.d_purple).getName()))
+					return;
+				if(vil.getAlivePlayerByColor(C.l_purple)!=null && vp.color!=C.l_purple
+						&& clickSign(pl, bl, 3, 64, 2, "vote "+vil.getAlivePlayerByColor(C.l_purple).getName()))
+					return;
+			}
 			
-			if(bl.getType().equals(Material.CHEST)
+			if(bl.getType()==Material.CHEST
 					&& !(bl.getX()==0 && bl.getY()==43 && bl.getZ()==6)
 					&& (vil.status==VillageStatus.empty
 					|| vil.status==VillageStatus.preparing
@@ -253,7 +253,7 @@ public class DefaultVillageEvent extends DefaultVillageData implements Listener 
 			Player pl = event.getPlayer();
 			Block bl = event.getBlock();
 			if(bl.getX()==1 && bl.getY()==43 && bl.getZ()==5
-					&& bl.getType().equals(Material.WALL_SIGN)){
+					&& bl.getType()==Material.WALL_SIGN){
 				String[] titleList = event.getLines();
 				String title = "";
 				for(int i=0; i<event.getLines().length; i++)
@@ -262,20 +262,20 @@ public class DefaultVillageEvent extends DefaultVillageData implements Listener 
 				return;
 			}
 			if(bl.getX()==-1 && bl.getY()==43 && bl.getZ()==5
-					&& bl.getType().equals(Material.WALL_SIGN)){
-				String[] titleList = event.getLines();
-				String title = "";
-				for(int i=0; i<titleList.length; i++)
-					title += titleList[i];
-				pl.performCommand("chrule description "+title);
+					&& bl.getType()==Material.WALL_SIGN){
+				String[] descList = event.getLines();
+				String desc = "";
+				for(int i=0; i<descList.length; i++)
+					desc += descList[i];
+				pl.performCommand("chrule description "+desc);
 			}
 			if(bl.getX()==-3 && bl.getY()==43 && bl.getZ()==4
-					&& bl.getType().equals(Material.WALL_SIGN)){
-				String[] titleList = event.getLines();
-				String title = "";
-				for(int i=0; i<titleList.length; i++)
-					title += titleList[i];
-				pl.performCommand("chrule setpassword "+title);
+					&& bl.getType()==Material.WALL_SIGN){
+				String[] pwList = event.getLines();
+				String pw = "";
+				for(int i=0; i<pwList.length; i++)
+					pw += pwList[i];
+				pl.performCommand("chrule setpassword "+pw);
 			}
 			
 		}
@@ -296,13 +296,6 @@ public class DefaultVillageEvent extends DefaultVillageData implements Listener 
 				return;
 			}
 			
-			if((from.getY()<=62.0 || 62.4<=from.getY())
-					&& 26.3<to.getX() && to.getX()<26.7
-					&& 62.0<to.getY() && to.getY()<62.4
-					&& -5.7<to.getZ() && to.getZ()<-5.3){
-				pl.performCommand("configroom");
-				return;
-			}
 			if((from.getY()<=42.0 || 42.4<=from.getY())
 					&& 0.3<to.getX() && to.getX()<0.7
 					&& 42.0<to.getY() && to.getY()<42.4
@@ -389,12 +382,6 @@ public class DefaultVillageEvent extends DefaultVillageData implements Listener 
 			if(23<=x && x<=24 && 64<=y && y<=65 && 4<=z && z<=7){
 				pl.sendMessage(C.red+"Error: このエリアは編集できません。");
 				event.setCancelled(true); return; }
-			if(x==25 && y==64 && z==-6){
-				pl.sendMessage(C.red+"Error: このエリアは編集できません。");
-				event.setCancelled(true); return; }
-			if(25<=x && x<=27 && 61<=y && y<=62 && -7<=z && z<=-5){
-				pl.sendMessage(C.red+"Error: このエリアは編集できません。");
-				event.setCancelled(true); return; }
 			
 			if(18<=x && x<=23 && 62<=y && y<=66 && -14<=z && z<=-9){
 				pl.sendMessage(C.red+"Error: このエリアは編集できません。");
@@ -444,6 +431,18 @@ public class DefaultVillageEvent extends DefaultVillageData implements Listener 
 			if(18<=x && x<=23 && 62<=y && y<=66 && 9<=z && z<=14){
 				pl.sendMessage(C.red+"Error: このエリアは編集できません。");
 				event.setCancelled(true); return; }
+			
+			/*
+			 * 
+			 * if(namePlateLocation)
+			 * 		event.setCancelled(true);
+			 * 
+			 * 
+			 * 
+			 * 
+			 * 
+			 * 
+			 */
 		}		
 	}
 	

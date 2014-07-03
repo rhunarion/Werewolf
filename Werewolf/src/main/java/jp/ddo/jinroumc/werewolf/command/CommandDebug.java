@@ -7,7 +7,6 @@ import jp.ddo.jinroumc.werewolf.util.PluginChecker;
 import jp.ddo.jinroumc.werewolf.village.Village;
 import jp.ddo.jinroumc.werewolf.village.VillageUtil;
 import jp.ddo.jinroumc.werewolf.village.VillagePlayer;
-import jp.ddo.jinroumc.werewolf.worlddata.DefaultVillageData;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -83,13 +82,13 @@ public class CommandDebug {
 		}
 		
 		if(args[1].equalsIgnoreCase("g")){
-			DefaultVillageData.finishFirework(VillageUtil.getVillage("vil0"));
-			/*Location loc = new Location(Bukkit.getWorld("default_village"),23, 64, -4);
+
+			/*Location loc = new Location(Bukkit.getWorld("default_village"),23, 65, -4);
 			
 			Sign sign = (Sign) loc.getBlock().getState();
-			sign.setLine(0, "この村で人狼ゲームの");
-			sign.setLine(1, "準備を開始する");
-			sign.setLine(2, "/makevil");
+			sign.setLine(0, "コンフィグルームへ");
+			sign.setLine(1, "移動する");
+			sign.setLine(2, "/configroom");
 
 			sign.update();*/
 			return;

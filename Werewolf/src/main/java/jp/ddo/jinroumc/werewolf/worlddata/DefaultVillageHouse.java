@@ -26,7 +26,7 @@ public class DefaultVillageHouse {
 		/*
 		house.put(C.white, new DefVilHouse(C.white,
 				18, 23, 62, 66, -14, -9,		//plane
-				, 63, , ,				//bed
+				22, 63, -10, 90,				//bed
 				, 63, ,					//frontDoor
 				, 63, ,					//rearDoor
 				, 65, ,					//lever
@@ -37,7 +37,7 @@ public class DefaultVillageHouse {
 				
 		house.put(C.gray, new DefVilHouse(C.gray,
 				18, 23, 62, 66, -22, -17,		//plane
-				, 63, , ,				//bed
+				22, 63, -18, 90,				//bed
 				, 63, ,					//frontDoor
 				, 63, ,					//rearDoor
 				, 65, ,					//lever
@@ -47,8 +47,8 @@ public class DefaultVillageHouse {
 				, , ));					//voteSign
 				
 		house.put(C.d_gray, new DefVilHouse(C.d_gray,
-				, , 62, 66, -23, -18,		//plane
-				, 63, , ,				//bed
+				10, 15, 62, 66, -23, -18,		//plane
+				11, 63, -22, 0,				//bed
 				, 63, ,					//frontDoor
 				, 63, ,					//rearDoor
 				, 65, ,					//lever
@@ -58,8 +58,8 @@ public class DefaultVillageHouse {
 				, , ));					//voteSign
 				
 		house.put(C.black, new DefVilHouse(C.black,
-				, , 62, 66, -23, -18,		//plane
-				, 63, , ,				//bed
+				2, 7, 62, 66, -23, -18,		//plane
+				3, 63, -22, 0,				//bed
 				, 63, ,					//frontDoor
 				, 63, ,					//rearDoor
 				, 65, ,					//lever
@@ -69,8 +69,8 @@ public class DefaultVillageHouse {
 				, , ));					//voteSign
 				
 		house.put(C.d_red, new DefVilHouse(C.d_red,
-				, , 62, 66, -23, -18,		//plane
-				, 63, , ,				//bed
+				-6, -1, 62, 66, -23, -18,		//plane
+				-2, 63, -22, 0,				//bed
 				, 63, ,					//frontDoor
 				, 63, ,					//rearDoor
 				, 65, ,					//lever
@@ -80,8 +80,8 @@ public class DefaultVillageHouse {
 				, , ));					//voteSign
 				
 		house.put(C.red, new DefVilHouse(C.red,
-				, , 62, 66, -23, -18,		//plane
-				, 63, , ,				//bed
+				-14, -9, 62, 66, -23, -18,		//plane
+				-10, 63, -22, 0,				//bed
 				, 63, ,					//frontDoor
 				, 63, ,					//rearDoor
 				, 65, ,					//lever
@@ -91,8 +91,8 @@ public class DefaultVillageHouse {
 				, , ));					//voteSign
 				
 		house.put(C.gold, new DefVilHouse(C.gold,
-				, , 62, 66, , ,		//plane
-				, 63, , ,				//bed
+				-22, -17, 62, 66, -20, -15,		//plane
+				-21, 63, -16, -90,				//bed
 				, 63, ,					//frontDoor
 				, 63, ,					//rearDoor
 				, 65, ,					//lever
@@ -102,8 +102,8 @@ public class DefaultVillageHouse {
 				, , ));					//voteSign
 				
 		house.put(C.yellow, new DefVilHouse(C.yellow,
-				, , 62, 66, , ,		//plane
-				, 63, , ,				//bed
+				-22, -17, 62, 66, -12, -7,		//plane
+				-21, 63, -8, -90,				//bed
 				, 63, ,					//frontDoor
 				, 63, ,					//rearDoor
 				, 65, ,					//lever
@@ -113,8 +113,8 @@ public class DefaultVillageHouse {
 				, , ));					//voteSign
 				
 		house.put(C.green, new DefVilHouse(C.green,
-				, , 62, 66, , ,		//plane
-				, 63, , ,				//bed
+				-22, -17, 62, 66, 7, 12,		//plane
+				-21, 63, 8, -90,				//bed
 				, 63, ,					//frontDoor
 				, 63, ,					//rearDoor
 				, 65, ,					//lever
@@ -124,8 +124,8 @@ public class DefaultVillageHouse {
 				, , ));					//voteSign
 				
 		house.put(C.d_green, new DefVilHouse(C.d_green,
-				, , 62, 66, , ,		//plane
-				, 63, , ,				//bed
+				-22, -17, 62, 66, 15, 20,		//plane
+				-21, 63, 16, -90,				//bed
 				, 63, ,					//frontDoor
 				, 63, ,					//rearDoor
 				, 65, ,					//lever
@@ -135,8 +135,8 @@ public class DefaultVillageHouse {
 				, , ));					//voteSign
 				
 		house.put(C.d_aqua, new DefVilHouse(C.d_aqua,
-				, , 62, 66, 18, 23,		//plane
-				, 63, , ,				//bed
+				-14, -9, 62, 66, 18, 23,		//plane
+				-10, 63, 22, 180,				//bed
 				, 63, ,					//frontDoor
 				, 63, ,					//rearDoor
 				, 65, ,					//lever
@@ -146,8 +146,8 @@ public class DefaultVillageHouse {
 				, , ));					//voteSign
 				
 		house.put(C.d_blue, new DefVilHouse(C.d_blue,
-				, , 62, 66, 18, 23,		//plane
-				, 63, , ,				//bed
+				-6, -1, 62, 66, 18, 23,		//plane
+				-2, 63, 22, 180,				//bed
 				, 63, ,					//frontDoor
 				, 63, ,					//rearDoor
 				, 65, ,					//lever
@@ -157,8 +157,8 @@ public class DefaultVillageHouse {
 				, , ));					//voteSign
 				
 		house.put(C.aqua, new DefVilHouse(C.aqua,
-				, , 62, 66, 18, 23,		//plane
-				, 63, , ,				//bed
+				2, 7, 62, 66, 18, 23,		//plane
+				3, 63, 22, 180,				//bed
 				, 63, ,					//frontDoor
 				, 63, ,					//rearDoor
 				, 65, ,					//lever
@@ -168,8 +168,8 @@ public class DefaultVillageHouse {
 				, , ));					//voteSign
 				
 		house.put(C.blue, new DefVilHouse(C.blue,
-				, , 62, 66, 18, 23,		//plane
-				, 63, , ,				//bed
+				10, 15, 62, 66, 18, 23,		//plane
+				11, 63, 22, 180,				//bed
 				, 63, ,					//frontDoor
 				, 63, ,					//rearDoor
 				, 65, ,					//lever
@@ -179,8 +179,8 @@ public class DefaultVillageHouse {
 				, , ));					//voteSign
 				
 		house.put(C.d_purple, new DefVilHouse(C.d_purple,
-				18, 23, 62, 66, , ,		//plane
-				, 63, , ,				//bed
+				18, 23, 62, 66, 17, 22,		//plane
+				22, 63, 18, 90,				//bed
 				, 63, ,					//frontDoor
 				, 63, ,					//rearDoor
 				, 65, ,					//lever
@@ -190,8 +190,8 @@ public class DefaultVillageHouse {
 				, , ));					//voteSign
 				
 		house.put(C.l_purple, new DefVilHouse(C.l_purple,
-				18, 23, 62, 66, , ,		//plane
-				, 63, , ,				//bed
+				18, 23, 62, 66, 9, 14,		//plane
+				22, 63, 10, 90,				//bed
 				, 63, ,					//frontDoor
 				, 63, ,					//rearDoor
 				, 65, ,					//lever

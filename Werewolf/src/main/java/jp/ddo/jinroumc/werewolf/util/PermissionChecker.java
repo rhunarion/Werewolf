@@ -76,8 +76,8 @@ public class PermissionChecker {
 			cmdList.add("startGame");
 		if(vp.gameMaster && vil.status==VillageStatus.ongoing)
 			cmdList.add("finishGame");
-		if(vp.gameMaster && ((vil.status==VillageStatus.ongoing && vil.time!=VillageTime.execution)
-				|| vil.status==VillageStatus.finishing))
+		if(vp.gameMaster
+				&& (vil.status==VillageStatus.ongoing || vil.status==VillageStatus.finishing))
 			cmdList.add("skip");
 		if(vp.gameMaster)
 			cmdList.add("kick");

@@ -1,7 +1,5 @@
 package jp.ddo.jinroumc.werewolf;
 
-import java.util.List;
-
 import jp.ddo.jinroumc.werewolf.village.Village;
 import jp.ddo.jinroumc.werewolf.village.VillageUtil;
 import jp.ddo.jinroumc.werewolf.worlddata.DefaultVillageEvent;
@@ -31,11 +29,16 @@ public class Werewolf extends JavaPlugin {
 
 		VillageUtil.initVillageData(getConfig(), this);
 		WorldCreator.name("default_village").createWorld();
-		for(Village vil : VillageUtil.getVillageList())
+		for(Village vil : VillageUtil.getVillageList()){
 			WorldCreator.name(vil.villageName).createWorld();
+			Bukkit.getWorld(vil.villageName).setGameRuleValue("keepInventory", "true");
+			Bukkit.getWorld(vil.villageName).setGameRuleValue("mobGriefing", "false");
+		}
+		/*
 		List<Village> vilList = VillageUtil.getVillageList();
 		for(int i=0; i<vilList.size(); i++)
 			vilList.get(i).rebuildVillage();
+		*/
 
 		LobbyData.rewriteSign(this);
 	}
