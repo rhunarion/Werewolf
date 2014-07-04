@@ -19,7 +19,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
@@ -115,12 +114,6 @@ public class EventListener implements Listener {
 		while(itr.hasNext())
 			if(itr.next().getType()!=Material.TNT)
 				itr.remove();
-	}
-	
-	@EventHandler
-	public void onCreatureSpawn(CreatureSpawnEvent event) {
-		if(event.getLocation().getWorld().getName().equals("default_world"))
-			event.setCancelled(true);
 	}
 	
 	@EventHandler(priority = EventPriority.HIGH)

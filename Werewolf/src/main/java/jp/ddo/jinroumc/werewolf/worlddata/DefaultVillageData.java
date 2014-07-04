@@ -224,10 +224,10 @@ public class DefaultVillageData extends LocationData{
 		changeLeverPower(world, -18, 65, -8, yellow);
 		changeLeverPower(world, -18, 65, 8, green);
 		changeLeverPower(world, -18, 65, 16, d_green);
-		changeLeverPower(world, 11, 65, 19, d_aqua);
-		changeLeverPower(world, 3, 65, 19, d_blue);
-		changeLeverPower(world, -2, 65, 19, aqua);
-		changeLeverPower(world, -10, 65, 19, blue);
+		changeLeverPower(world, -10, 65, 19, d_aqua);
+		changeLeverPower(world, -2, 65, 19, d_blue);
+		changeLeverPower(world, 3, 65, 19, aqua);
+		changeLeverPower(world, 11, 65, 19, blue);
 		changeLeverPower(world, 19, 65, 18, d_purple);
 		changeLeverPower(world, 19, 65, 10, l_purple);
 	}

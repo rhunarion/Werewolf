@@ -29,6 +29,7 @@ public class Werewolf extends JavaPlugin {
 
 		VillageUtil.initVillageData(getConfig(), this);
 		WorldCreator.name("default_village").createWorld();
+		Bukkit.getWorld("default_village").setGameRuleValue("doMobSpawning", "false");
 		for(Village vil : VillageUtil.getVillageList()){
 			WorldCreator.name(vil.villageName).createWorld();
 			Bukkit.getWorld(vil.villageName).setGameRuleValue("keepInventory", "true");

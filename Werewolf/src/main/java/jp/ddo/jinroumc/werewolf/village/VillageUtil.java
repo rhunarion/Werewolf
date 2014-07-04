@@ -231,7 +231,6 @@ public class VillageUtil {
 		if(VillageUtil.isInVillage(pl)){
 			Village vil = VillageUtil.getVillage(pl);
 			VillagePlayer vp = vil.getPlayer(pl);
-			BarAPI.removeBar(pl);
 			vp.teleportToHome();
 			if(!vp.alive && vil.status==VillageStatus.ongoing)
 				vp.addInvisibleEffect();

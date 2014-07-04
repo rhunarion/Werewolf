@@ -3,7 +3,6 @@ package jp.ddo.jinroumc.werewolf.command;
 import java.util.List;
 
 import jp.ddo.jinroumc.werewolf.util.C;
-import jp.ddo.jinroumc.werewolf.util.LookupNameManager;
 import jp.ddo.jinroumc.werewolf.util.PluginChecker;
 import jp.ddo.jinroumc.werewolf.village.Village;
 import jp.ddo.jinroumc.werewolf.village.VillageUtil;

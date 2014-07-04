@@ -14,9 +14,7 @@ import jp.ddo.jinroumc.werewolf.village.VillagePlayer;
 import jp.ddo.jinroumc.werewolf.village.VillageUtil;
 import jp.ddo.jinroumc.werewolf.worlddata.DefaultVillageData;
 
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
 
 public class CommandMethod {
 	public static void enterVil(Player pl, String vilName){
@@ -596,20 +594,11 @@ public class CommandMethod {
 
 		vil.sendToVillage(C.gold+"ゲームマスターがゲームをスキップしました。");
 		if(vil.status==VillageStatus.ongoing && vil.time==VillageTime.execution){
-			if(vil.doTaskLaterID==-1){
-				vil.executedPlayer.kill();
-				vil.sendToVillage(vil.executedPlayer.color+vil.executedPlayer.getName()
-						   +C.green+" さんが処刑されました。間もなく夜が訪れます。");
-	
-				vil.doTaskLaterID = Bukkit.getScheduler().runTaskLater(vil.plugin, new BukkitRunnable(){
-					@Override
-					public void run(){
-						DefaultVillageData.postExecution(vil);
-						vil.checkResult();
-						vil.doTaskLaterID = -1;
-					}
-				}, 100).getTaskId();
-			}
+			vil.stopDoTaskLater();
+			vil.executedPlayer.kill();
+			
+			DefaultVillageData.postExecution(vil);
+			vil.checkResult();
 			return;
 		}
 		vil.stopTimer();
