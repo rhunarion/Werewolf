@@ -9,6 +9,8 @@ import jp.ddo.jinroumc.werewolf.worlddata.LobbyData;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.Bukkit;
+import org.bukkit.Difficulty;
+import org.bukkit.World;
 import org.bukkit.WorldCreator;
 
 public class Werewolf extends JavaPlugin {
@@ -29,17 +31,22 @@ public class Werewolf extends JavaPlugin {
 
 		VillageUtil.initVillageData(getConfig(), this);
 		WorldCreator.name("default_village").createWorld();
-		Bukkit.getWorld("default_village").setGameRuleValue("doMobSpawning", "false");
+		World defaultVillage = Bukkit.getWorld("default_village");
+		defaultVillage.setTime(6000);
+		defaultVillage.setDifficulty(Difficulty.PEACEFUL);
+		defaultVillage.setGameRuleValue("keepInventory", "true");
+		defaultVillage.setGameRuleValue("mobGriefing", "false");
+		defaultVillage.setGameRuleValue("doDaylightCycle", "false");
+		defaultVillage.setGameRuleValue("doMobSpawning", "false");
+		
 		for(Village vil : VillageUtil.getVillageList()){
 			WorldCreator.name(vil.villageName).createWorld();
+			Bukkit.getWorld(vil.villageName).setTime(6000);
+			Bukkit.getWorld(vil.villageName).setDifficulty(Difficulty.PEACEFUL);
 			Bukkit.getWorld(vil.villageName).setGameRuleValue("keepInventory", "true");
 			Bukkit.getWorld(vil.villageName).setGameRuleValue("mobGriefing", "false");
+			Bukkit.getWorld(vil.villageName).setGameRuleValue("doDaylightCycle", "false");
 		}
-		/*
-		List<Village> vilList = VillageUtil.getVillageList();
-		for(int i=0; i<vilList.size(); i++)
-			vilList.get(i).rebuildVillage();
-		*/
 
 		LobbyData.rewriteSign(this);
 	}

@@ -429,7 +429,7 @@ public class Village extends VillageTimer {
 	}
 	
 	public void gameFinishing(){
-		Bukkit.getWorld(villageName).setTime(0);
+		Bukkit.getWorld(villageName).setTime(6000);
 		stopDoTaskLater();
 		setTimer("<終了中>  ：解散まで ", 300);
 

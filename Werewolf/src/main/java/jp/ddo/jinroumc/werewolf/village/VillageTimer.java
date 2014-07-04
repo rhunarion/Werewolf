@@ -9,7 +9,6 @@ import jp.ddo.jinroumc.werewolf.enumconstant.VillageTime;
 import jp.ddo.jinroumc.werewolf.util.C;
 import me.confuser.barapi.BarAPI;
 import org.bukkit.Bukkit;
-import org.bukkit.World;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -36,16 +35,6 @@ public class VillageTimer extends VillageCore {
 				String time = min+":";
 				time = sec<=9 ? time+"0"+sec : time+sec;
 				float percent = (float) (100.0/initSeconds*seconds);
-				World world = Bukkit.getWorld(vil.villageName);
-				
-				if(vil.status==VillageStatus.ongoing){
-					if(vil.time==VillageTime.day)
-						world.setTime(6000);
-					else if(vil.time==VillageTime.revote)
-						world.setTime(12500);
-					else if(vil.time==VillageTime.night)
-						world.setTime(18000);
-				}
 				
 				if(seconds>=0){
 					for(VillagePlayer vp : vil.getPlayerListExceptNPC())

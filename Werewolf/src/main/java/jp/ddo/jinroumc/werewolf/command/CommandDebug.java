@@ -12,6 +12,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Server;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
 import com.comphenix.protocol.PacketType;
@@ -91,77 +92,15 @@ public class CommandDebug {
 			Player pl = (Player) sender;
 			Village vil = VillageUtil.getVillage(pl);
 			
-			ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(vil.plugin,
+			
+
+			/*ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(vil.plugin,
 				ListenerPriority.NORMAL, PacketType.Play.Server.NAMED_SOUND_EFFECT){
 				@Override
 				public void onPacketSending(PacketEvent event) {
 					System.out.println("あいうえお: named sound");
 				}
 			});
-			ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(vil.plugin,
-					ListenerPriority.NORMAL, PacketType.Play.Server.WORLD_EVENT){
-					@Override
-					public void onPacketSending(PacketEvent event) {
-						System.out.println("あいうえお: world event");
-						
-					}
-				});
-			ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(vil.plugin,
-					ListenerPriority.NORMAL, PacketType.Play.Server.WORLD_PARTICLES){
-					@Override
-					public void onPacketSending(PacketEvent event) {
-						System.out.println("あいうえお: world part");
-						
-					}
-				});
-			ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(vil.plugin,
-					ListenerPriority.NORMAL, PacketType.Play.Server.ENTITY_EFFECT){
-					@Override
-					public void onPacketSending(PacketEvent event) {
-						System.out.println("あいうえお: entity effe");
-						
-					}
-				});
-			ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(vil.plugin,
-					ListenerPriority.NORMAL, PacketType.Play.Server.CUSTOM_PAYLOAD){
-					@Override
-					public void onPacketSending(PacketEvent event) {
-						System.out.println("あいうえお: custom pay");
-						
-					}
-				});
-			ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(vil.plugin,
-					ListenerPriority.NORMAL, PacketType.Play.Server.ENTITY_METADATA){
-					@Override
-					public void onPacketSending(PacketEvent event) {
-						System.out.println("あいうえお: entity meta");
-						
-					}
-				});
-			ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(vil.plugin,
-					ListenerPriority.NORMAL, PacketType.Play.Server.SET_SLOT){
-					@Override
-					public void onPacketSending(PacketEvent event) {
-						System.out.println("あいうえお: set slot");
-						
-					}
-				});
-			ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(vil.plugin,
-					ListenerPriority.NORMAL, PacketType.Play.Server.UPDATE_ATTRIBUTES){
-					@Override
-					public void onPacketSending(PacketEvent event) {
-						System.out.println("あいうえお: update att");
-						
-					}
-				});
-			
-
-
-			
-			/*LookupNameManager manager = new LookupNameManager(vil.plugin);
-			manager.start(ListenerPriority.NORMAL);
-			manager.setClientName(pl, pl, "aiueo");*/
-			
 			
 			/*Location loc = new Location(Bukkit.getWorld("default_village"),23, 65, -4);
 			

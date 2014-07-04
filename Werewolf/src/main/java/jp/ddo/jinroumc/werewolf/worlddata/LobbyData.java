@@ -24,7 +24,7 @@ import org.bukkit.material.Lever;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class LobbyData extends LocationData implements Listener{
+public class LobbyData implements Listener{
 	private static String lobbyWorldName;
 	private static Location lobbyLocation; 
 	public static int rewriteSignID = -1;
@@ -60,6 +60,13 @@ public class LobbyData extends LocationData implements Listener{
 		}
 	}
 
+	private boolean clickSign(Player pl, Block block, int x, int y, int z, String command){
+		if(block.getX()==x && block.getY()==y && block.getZ()==z){
+			pl.performCommand(command);
+			return true;
+		}
+		return false;
+	}
 	public static void initLobbyLocation(FileConfiguration config){
 		lobbyWorldName = config.getString("lobbyLocation.worldName");
 		double x = config.getDouble("lobbyLocation.x");

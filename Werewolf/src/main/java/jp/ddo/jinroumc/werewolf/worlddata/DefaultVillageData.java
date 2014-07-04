@@ -26,7 +26,7 @@ import org.bukkit.material.Lever;
 import org.bukkit.material.Openable;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class DefaultVillageData extends LocationData{
+public class DefaultVillageData {
 	public static Location getSpawnLocation(Village vil){
 		World vilName = Bukkit.getWorld(vil.villageName);
 		return new Location(vilName, 24.5, 63.0, 0.5, 90, 0); 
@@ -96,14 +96,14 @@ public class DefaultVillageData extends LocationData{
 		}
 	}
 	
-	public static void writeVoteSign(VillagePlayer vp, int x, int y, int z){
+	private static void writeVoteSign(VillagePlayer vp, int x, int y, int z){
 		Sign sign = (Sign) Bukkit.getWorld(vp.village.villageName).getBlockAt(x, y, z).getState();
 		sign.setLine(0, vp.color+vp.getName());
 		sign.setLine(1, "さんに投票する");
 		sign.update();
 	}
 	
-	public static void writeHomeSign(VillagePlayer vp, int x, int y, int z){
+	private static void writeHomeSign(VillagePlayer vp, int x, int y, int z){
 		Sign sign = (Sign) Bukkit.getWorld(vp.village.villageName).getBlockAt(x, y, z).getState();
 		sign.setLine(1, vp.color+vp.getName());
 		sign.setLine(2, "さんの家");
@@ -147,7 +147,7 @@ public class DefaultVillageData extends LocationData{
 	}
 	
 	@SuppressWarnings("deprecation")
-	public static void eraseProvidedSign(World world, int x, int y, int z){
+	private static void eraseProvidedSign(World world, int x, int y, int z){
 		if(world.getBlockAt(x, y, z).getType()!=Material.WALL_SIGN){
 			Block def = Bukkit.getWorld("default_village").getBlockAt(x, y, z);
 			Block mod = world.getBlockAt(x, y, z);
@@ -232,7 +232,7 @@ public class DefaultVillageData extends LocationData{
 		changeLeverPower(world, 19, 65, 10, l_purple);
 	}
 	
-	public static void changeDoorState(World world, int x, int y, int z, boolean isOpen){
+	private static void changeDoorState(World world, int x, int y, int z, boolean isOpen){
 		BlockState state = world.getBlockAt(x, y, z).getState();
 		Openable door = (Openable) state.getData();
 		if(isOpen)
@@ -242,7 +242,7 @@ public class DefaultVillageData extends LocationData{
 		state.update();
 	}
 	
-	public static void changeLeverPower(World world, int x, int y, int z, boolean power){
+	private static void changeLeverPower(World world, int x, int y, int z, boolean power){
 		BlockState state = world.getBlockAt(x, y, z).getState();
 		Lever lever = (Lever) state.getData();
 		if(power)

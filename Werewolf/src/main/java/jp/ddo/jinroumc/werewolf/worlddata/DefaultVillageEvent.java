@@ -23,7 +23,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class DefaultVillageEvent extends DefaultVillageData implements Listener {
+public class DefaultVillageEvent implements Listener {
 
 	@EventHandler(priority = EventPriority.LOW)
 	public void onPlayerInteract(PlayerInteractEvent event){
@@ -536,7 +536,15 @@ public class DefaultVillageEvent extends DefaultVillageData implements Listener 
 		}		
 	}
 
-	public static void updateInventory(final Player pl, Village vil){
+	private boolean clickSign(Player pl, Block block, int x, int y, int z, String command){
+		if(block.getX()==x && block.getY()==y && block.getZ()==z){
+			pl.performCommand(command);
+			return true;
+		}
+		return false;
+	}
+	
+	private void updateInventory(final Player pl, Village vil){
 		Bukkit.getScheduler().runTaskLater(vil.plugin, new BukkitRunnable(){
 			@SuppressWarnings("deprecation")
 			@Override
