@@ -425,7 +425,7 @@ public class DefaultVillageData {
 										entity.remove();
 								for(int j=0; j<4; j++)
 									Bukkit.getWorld(vil.villageName).spawnEntity(new Location
-											(Bukkit.getWorld(vil.villageName), -32.5, 55.0, 12.5), EntityType.WOLF);
+											(Bukkit.getWorld(vil.villageName), -32.5, 56.0, 12.5), EntityType.WOLF);
 								vil.stopAsyncRebuild();
 							}
 							break;

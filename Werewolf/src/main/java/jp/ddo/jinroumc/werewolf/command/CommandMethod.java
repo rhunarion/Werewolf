@@ -341,31 +341,9 @@ public class CommandMethod {
 			return;
 		}
 		
-		pl.sendMessage(C.gold+"////////// "+C.yellow
-				+"Rule"+C.gold+" //////////");
-		String rule = "";
 		Village vil = VillageUtil.getVillage(pl);
-		rule += C.gold+"=="+C.yellow+"村の説明:"+C.gold+vil.description;
-		rule += "=="+C.yellow+"配役:"
-				+C.gold+"村人"+(vil.maxNum-vil.getTotalRoleNumInRule())+"人、"
-				+"占い師"+vil.uranaiNum+"人、霊媒師"+vil.reibaiNum+"人、"
-				+"狩人"+vil.kariudoNum+"人、人狼"+vil.jinrouNum+"人、"
-				+"狂人"+vil.kyoujinNum+"人、妖狐"+vil.youkoNum+"人、"
-				+"合計"+vil.maxNum+"人";
-		rule += "=="+C.yellow+"詳細:"+C.gold+"昼時間"
-				+vil.dayTime+"秒、夜時間"+vil.nightTime+"秒、パスワード";
-		rule += vil.setPassword ? "あり" : "なし";
-		rule += "、役職希望";
-		rule += vil.requestRole ? "あり" : "なし";
-		rule += "、未投票者のランダム投票";
-		rule += vil.randomVote ? "あり" : "なし";
-		rule += "、再投票回数"+vil.revoteNum+"回、/"+PluginChecker.getWw()+"whispコマンド";
-		rule += vil.permitWhisp ? "あり" : "なし";
-		rule += "、";
-		rule += vil.reishiAllPlayers ? "全死亡プレイヤーの霊視" : "処刑者のみの霊視";
-		rule += "、/"+PluginChecker.getWw()+"biteコマンド";
-		rule += vil.permitBite ? "あり" : "なし";
-		pl.sendMessage(rule);
+		VillagePlayer vp = vil.getPlayer(pl);
+		vp.showRule();
 	}
 	
 	public static void shoutRule(Player pl){
@@ -380,7 +358,7 @@ public class CommandMethod {
 			return;
 		}
 		
-		vp.shoutRule();
+		vil.shoutRule();
 	}
 	
 	public static void join(Player pl){

@@ -174,8 +174,6 @@ public class Village extends VillageTimer {
 		Bukkit.getWorld(villageName).setTime(18000);
 		
 		DefaultVillageData.changeHouseEffect(this);
-		for(VillagePlayer vp : getGhostPlayerList())
-			vp.addInvisibleEffect();
 		for(VillagePlayer vp : getAlivePlayerList())
 			vp.teleportToHome();
 		for(VillagePlayer vp : getAliveNPCList())
@@ -217,8 +215,6 @@ public class Village extends VillageTimer {
 		Bukkit.getWorld(villageName).setTime(6000);
 
 		DefaultVillageData.changeHouseEffect(this);
-		for(VillagePlayer vp : getGhostPlayerList())
-			vp.addInvisibleEffect();
 		for(VillagePlayer vp : getAlivePlayerList())
 			vp.teleportToHome();
 		for(VillagePlayer vp : getAliveNPCList())
@@ -343,9 +339,6 @@ public class Village extends VillageTimer {
 	}
 	
 	public void execution(VillagePlayer playerToBeExecuted){
-		for(VillagePlayer vp : getGhostPlayerList())
-			vp.addInvisibleEffect();
-		
 		DefaultVillageData.execution(this);
 	}
 	
@@ -354,8 +347,6 @@ public class Village extends VillageTimer {
 
 		time = VillageTime.revote;
 		currentVoteNum++;
-		for(VillagePlayer vp : getGhostPlayerList())
-			vp.addInvisibleEffect();
 		for(VillagePlayer vp : getAlivePlayerList())
 			vp.numBeingVoted = 0;
 

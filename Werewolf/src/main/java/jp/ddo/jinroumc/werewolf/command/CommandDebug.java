@@ -10,7 +10,11 @@ import jp.ddo.jinroumc.werewolf.village.VillagePlayer;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.Server;
+import org.bukkit.World;
+import org.bukkit.block.Block;
+import org.bukkit.block.Sign;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -89,12 +93,25 @@ public class CommandDebug {
 		}
 		
 		if(args[1].equalsIgnoreCase("g")){
-			Player pl = (Player) sender;
+			
+/*			final World modifiedVillage = Bukkit.getWorld(args[2]);
+			Block mod = null;
+			for(int x=-38; x<=38; x++){
+				for(int z=-38; z<=38; z++){
+					for(int y=43; y<=75; y++){
+						mod = modifiedVillage.getBlockAt(x, y, z);
+						if(mod.getType()==Material.WALL_SIGN || mod.getType()==Material.SIGN_POST){
+							Sign modSign = (Sign) mod.getState();
+							for(int j=0; j<4; j++)
+								modSign.setLine(j, C.aqua+modSign.getLine(j));
+							modSign.update();
+						}
+					}
+				}
+			}
+			/*Player pl = (Player) sender;
 			Village vil = VillageUtil.getVillage(pl);
-			
-			
-
-			/*ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(vil.plugin,
+			ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(vil.plugin,
 				ListenerPriority.NORMAL, PacketType.Play.Server.NAMED_SOUND_EFFECT){
 				@Override
 				public void onPacketSending(PacketEvent event) {

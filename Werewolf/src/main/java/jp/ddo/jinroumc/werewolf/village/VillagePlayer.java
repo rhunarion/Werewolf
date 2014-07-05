@@ -3,7 +3,6 @@ package jp.ddo.jinroumc.werewolf.village;
 import java.util.Collections;
 import java.util.List;
 
-import jp.ddo.jinroumc.werewolf.command.CommandMethod;
 import jp.ddo.jinroumc.werewolf.enumconstant.VillageRole;
 import jp.ddo.jinroumc.werewolf.enumconstant.VillageStatus;
 import jp.ddo.jinroumc.werewolf.enumconstant.VillageTime;
@@ -113,13 +112,33 @@ public class VillagePlayer extends VillagePlayerCore {
 			village.sendToVillage(C.yellow+getName()+C.gold+" さんがゲームマスターではなくなりました。");
 	}
 
-	public void shoutRule(){
-		for(VillagePlayer vp : village.getPlayerListExceptNPC()){
-			vp.sendMessage(C.gold+"ゲームマスターがルールの確認を促しています。");
-			CommandMethod.showRule(getPlayer());
-		}
+	public void showRule(){
+		sendMessage(C.gold+"////////// "+C.yellow
+				+"Rule"+C.gold+" //////////");
+		String rule = "";
+		rule += C.gold+"=="+C.yellow+"村の説明:"+C.gold+village.description;
+		rule += "=="+C.yellow+"配役:"
+				+C.gold+"村人"+(village.maxNum-village.getTotalRoleNumInRule())+"人、"
+				+"占い師"+village.uranaiNum+"人、霊媒師"+village.reibaiNum+"人、"
+				+"狩人"+village.kariudoNum+"人、人狼"+village.jinrouNum+"人、"
+				+"狂人"+village.kyoujinNum+"人、妖狐"+village.youkoNum+"人、"
+				+"合計"+village.maxNum+"人";
+		rule += "=="+C.yellow+"詳細:"+C.gold+"昼時間"
+				+village.dayTime+"秒、夜時間"+village.nightTime+"秒、パスワード";
+		rule += village.setPassword ? "あり" : "なし";
+		rule += "、役職希望";
+		rule += village.requestRole ? "あり" : "なし";
+		rule += "、未投票者のランダム投票";
+		rule += village.randomVote ? "あり" : "なし";
+		rule += "、再投票回数"+village.revoteNum+"回、/"+PluginChecker.getWw()+"whispコマンド";
+		rule += village.permitWhisp ? "あり" : "なし";
+		rule += "、";
+		rule += village.reishiAllPlayers ? "全死亡プレイヤーの霊視" : "処刑者のみの霊視";
+		rule += "、/"+PluginChecker.getWw()+"biteコマンド";
+		rule += village.permitBite ? "あり" : "なし";
+		sendMessage(rule);
 	}
-	
+
 	public void joinGame(){
 		joining = true;
 		village.objective.getScore(player).setScore(1);
@@ -203,22 +222,31 @@ public class VillagePlayer extends VillagePlayerCore {
 		
 		Player pl = getPlayer();
 		pl.removePotionEffect(PotionEffectType.INVISIBILITY);
-		pl.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 15*60*20, 0));
+		pl.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, Integer.MAX_VALUE, 0));
 	}
 
 	public void sendMessageToSpecifiedPlayer(VillagePlayer receiver, String message){
-		sendMessage(C.blue+"["+getName()+" with whisp] "+message);
-		receiver.sendMessage(C.blue+"["+getName()+" with whisp] "+message);
+		String[] splitList = message.split("\\\\", -1);
+		for(String split : splitList){
+			sendMessage(C.blue+"["+getName()+" with whisp] "+split);
+			receiver.sendMessage(C.blue+"["+getName()+" with whisp] "+split);
+		}
 	}
 	
 	public void sendMessageWithShout(String message){
-		for(VillagePlayer vp : village.getPlayerListExceptNPC())
-			vp.sendMessage(C.d_aqua+"["+getName()+" with shout] "+message);
+		String[] splitList = message.split("\\\\", -1);
+		for(String split : splitList){
+			for(VillagePlayer vp : village.getPlayerListExceptNPC())
+				vp.sendMessage(C.d_aqua+"["+getName()+" with shout] "+split);
+		}
 	}
 
 	public void sendMessageWithCO(String message){
-		for(VillagePlayer vp : village.getPlayerListExceptNPC())
-			vp.sendMessage(C.l_purple+"["+getName()+" with co] "+message);
+		String[] splitList = message.split("\\\\", -1);
+		for(String split : splitList){
+			for(VillagePlayer vp : village.getPlayerListExceptNPC())
+				vp.sendMessage(C.l_purple+"["+getName()+" with co] "+split);
+		}
 		
 		if(alive
 				&& village.status==VillageStatus.ongoing && village.time==VillageTime.day){

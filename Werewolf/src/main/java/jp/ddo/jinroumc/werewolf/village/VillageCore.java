@@ -8,6 +8,7 @@ import jp.ddo.jinroumc.werewolf.enumconstant.VillageResult;
 import jp.ddo.jinroumc.werewolf.enumconstant.VillageRole;
 import jp.ddo.jinroumc.werewolf.enumconstant.VillageStatus;
 import jp.ddo.jinroumc.werewolf.enumconstant.VillageTime;
+import jp.ddo.jinroumc.werewolf.util.C;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -94,7 +95,7 @@ public class VillageCore {
 		this.kyoujinNum = 1;
 		this.jinrouNum = 2;
 		this.youkoNum = 1;
-		this.title = villageName;
+		this.title = "みんなの人狼村";
 		this.description = "誰でも歓迎！マナーを守って楽しく人狼ゲーム！";
 		this.setPassword = false;
 		this.password = "";
@@ -132,6 +133,13 @@ public class VillageCore {
 				itr.remove();
 				break;
 			}
+		}
+	}
+	
+	public void shoutRule(){
+		for(VillagePlayer vp : getPlayerListExceptNPC()){
+			vp.sendMessage(C.gold+"ゲームマスターがルールの確認を促しています。");
+			vp.showRule();
 		}
 	}
 	
