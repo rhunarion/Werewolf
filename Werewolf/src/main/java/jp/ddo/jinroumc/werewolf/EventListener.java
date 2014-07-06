@@ -4,10 +4,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Iterator;
 import java.util.List;
 
-import jp.ddo.jinroumc.werewolf.util.C;
 import jp.ddo.jinroumc.werewolf.util.SendMessage;
 import jp.ddo.jinroumc.werewolf.village.VillageUtil;
-import jp.ddo.jinroumc.werewolf.worlddata.LobbyData;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -24,6 +22,7 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -48,17 +47,9 @@ public class EventListener implements Listener {
 	public void onPlayerJoin(PlayerJoinEvent event){
 		if(VillageUtil.isInVillage(event.getPlayer()))
 			VillageUtil.teleportToLobby(event.getPlayer());
+		else
+			SendMessage.sendToLobby(event.getJoinMessage());
 		event.setJoinMessage(null);
-		
-		Player pl = event.getPlayer();
-		pl.sendMessage(C.gold+"////////// "+C.yellow+"Minecraft 人狼サーバー"
-				+C.gold+" へようこそ！ //////////" );
-		pl.sendMessage(C.gold+"看板をクリックすれば村ワールドへ移動できます。"
-				+"ゲームに参加するには村ワールドへ移動後、"
-				+"スポーン地点両脇にあるコマンド掲示板をクリックします。");
-		
-		pl.getInventory().clear();
-		pl.getInventory().addItem(LobbyData.getManual());
 	}
 	
 	@EventHandler
@@ -69,74 +60,98 @@ public class EventListener implements Listener {
 	
 	@EventHandler
 	public void onPlayerLogout(PlayerQuitEvent event){
-		VillageUtil.onPlayerLeave(event.getPlayer());
+		if(VillageUtil.isInVillage(event.getPlayer()))
+			VillageUtil.onPlayerLeave(event.getPlayer());
+		else
+			SendMessage.sendToLobby(event.getQuitMessage());
+		event.setQuitMessage(null);
+	}
+	
+	@EventHandler
+	public void onPlayerKick(PlayerKickEvent event){
+		SendMessage.sendToLobby(event.getLeaveMessage());
+		event.setCancelled(true);
 	}
 	
 	@EventHandler
 	public void onChat(AsyncPlayerChatEvent event){
+		if(VillageUtil.isInVillage(event.getPlayer()))
+			SendMessage.splitUnspecifiedMessage(event.getPlayer(), event.getMessage());
+		else
+			SendMessage.sendToLobbyByPlayer(event.getPlayer(), event.getMessage());
 		event.setCancelled(true);
-		SendMessage.splitUnspecifiedMessage(event.getPlayer(), event.getMessage());
 	}
 
 	@EventHandler
 	public void onPlayerDeath(final PlayerDeathEvent event){
-		event.setDeathMessage(null);
-
-		Bukkit.getScheduler().runTaskLater(plugin, new BukkitRunnable(){
-			public void run(){
-				PacketContainer packet = new PacketContainer(PacketType.Play.Client.CLIENT_COMMAND);
-				packet.getClientCommands().write(0, EnumWrappers.ClientCommand.PERFORM_RESPAWN);
-				try {
-					ProtocolLibrary.getProtocolManager().recieveClientPacket(event.getEntity(), packet);
-				} catch (IllegalAccessException e) {
-					e.printStackTrace();
-				} catch (InvocationTargetException e) {
-					e.printStackTrace();
+		if(VillageUtil.isInVillage(event.getEntity())){
+			Bukkit.getScheduler().runTaskLater(plugin, new BukkitRunnable(){
+				public void run(){
+					PacketContainer packet = new PacketContainer(PacketType.Play.Client.CLIENT_COMMAND);
+					packet.getClientCommands().write(0, EnumWrappers.ClientCommand.PERFORM_RESPAWN);
+					try {
+						ProtocolLibrary.getProtocolManager().recieveClientPacket(event.getEntity(), packet);
+					} catch (IllegalAccessException e) {
+						e.printStackTrace();
+					} catch (InvocationTargetException e) {
+						e.printStackTrace();
+					}
 				}
-			}
-		}, 40);
+			}, 40);
+		}else{
+			SendMessage.sendToLobby(event.getDeathMessage());
+		}
+		event.setDeathMessage(null);
 	}
 	
 	@EventHandler
 	public void onPlayerRespawn(final PlayerRespawnEvent event){
-		Bukkit.getScheduler().runTaskLater(plugin, new BukkitRunnable(){
-			public void run(){
-				Player pl = event.getPlayer();
-				VillageUtil.onPlayerRespawn(pl);
-			}
-		}, 2);
+		if(VillageUtil.isInVillage(event.getPlayer())){
+			Bukkit.getScheduler().runTaskLater(plugin, new BukkitRunnable(){
+				public void run(){
+					Player pl = event.getPlayer();
+					VillageUtil.onPlayerRespawn(pl);
+				}
+			}, 2);
+		}
 	}
 	
 	@EventHandler
 	public void onEntityExplode(EntityExplodeEvent event){
-		List<Block> blList = event.blockList();
-		Iterator<Block> itr = blList.iterator();
-		while(itr.hasNext())
-			if(itr.next().getType()!=Material.TNT)
-				itr.remove();
+		if(VillageUtil.isVillageName(event.getEntity().getWorld().getName())){
+			List<Block> blList = event.blockList();
+			Iterator<Block> itr = blList.iterator();
+			while(itr.hasNext())
+				if(itr.next().getType()!=Material.TNT)
+					itr.remove();
+		}
 	}
 	
 	@EventHandler(priority = EventPriority.HIGH)
 	public void onPlayerMoveInCreativeMode(PlayerMoveEvent event){
-		if(event.getPlayer().getGameMode()==GameMode.CREATIVE)
+		if(VillageUtil.isInVillage(event.getPlayer())
+				&& event.getPlayer().getGameMode()==GameMode.CREATIVE)
 			event.setCancelled(false);
 	}
 
 	@EventHandler(priority = EventPriority.HIGH)
 	public void onBreakBlockInCreativeMode(BlockBreakEvent event){
-		if(event.getPlayer().getGameMode()==GameMode.CREATIVE)
+		if(VillageUtil.isInVillage(event.getPlayer())
+				&& event.getPlayer().getGameMode()==GameMode.CREATIVE)
 			event.setCancelled(false);
 	}
 	
 	@EventHandler(priority = EventPriority.HIGH)
 	public void onPlaceBlockInCreativeMode(BlockPlaceEvent event){
-		if(event.getPlayer().getGameMode()==GameMode.CREATIVE)
+		if(VillageUtil.isInVillage(event.getPlayer())
+				&& event.getPlayer().getGameMode()==GameMode.CREATIVE)
 			event.setCancelled(false);
 	}
 	
 	@EventHandler(priority = EventPriority.HIGH)
 	public void onPlayerInteractInCreativeMode(PlayerInteractEvent event){
-		if(event.getPlayer().getGameMode()==GameMode.CREATIVE)
+		if(VillageUtil.isInVillage(event.getPlayer())
+				&& event.getPlayer().getGameMode()==GameMode.CREATIVE)
 			event.setCancelled(false);
 	}
 }

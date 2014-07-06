@@ -1,5 +1,7 @@
 package jp.ddo.jinroumc.werewolf.village;
 
+import de.robingrether.idisguise.api.DisguiseAPI;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -7,8 +9,9 @@ import java.util.List;
 import jp.ddo.jinroumc.werewolf.enumconstant.VillageRole;
 import jp.ddo.jinroumc.werewolf.enumconstant.VillageStatus;
 import jp.ddo.jinroumc.werewolf.util.C;
+import jp.ddo.jinroumc.werewolf.util.LobbyData;
+import jp.ddo.jinroumc.werewolf.util.VillageManual;
 import jp.ddo.jinroumc.werewolf.worlddata.DefaultVillageData;
-import jp.ddo.jinroumc.werewolf.worlddata.LobbyData;
 
 import me.confuser.barapi.BarAPI;
 
@@ -30,7 +33,7 @@ public class VillageUtil {
 		for(String vt : villageType){
 			List<String> villageName = config.getStringList("villageName."+vt);
 			for(String vn : villageName){
-				villageList.add(new Village(vn, vt, plugin));
+				villageList.add(new DefaultVillageData(vn, vt, plugin));
 			}
 		}
 	}
@@ -88,12 +91,6 @@ public class VillageUtil {
 			return C.d_red+"人狼";
 	}
 	
-	public static boolean isInLobby(Player pl){
-		if(pl.getWorld().getName().equals(LobbyData.getLobbyWorldName()))
-			return true;
-		return false;
-	}	
-
 	public static boolean isInVillage(Player pl){
 		String vilName = pl.getWorld().getName();
 		for(Village vil : villageList)
@@ -149,7 +146,7 @@ public class VillageUtil {
 	}
 
 	public static void teleportToVillage(Player pl, Village vil){
-		Location loc = DefaultVillageData.getSpawnLocation(vil);
+		Location loc = ((DefaultVillageData) vil).getSpawnLocation();
 		pl.teleport(loc);
 		pl.setBedSpawnLocation(loc, true);
 	}
@@ -203,10 +200,18 @@ public class VillageUtil {
 			pl.setAllowFlight(false);
 		}
 		pl.getInventory().clear();
-		pl.getInventory().addItem(LobbyData.getManual());
+		pl.getInventory().addItem(VillageManual.getManual());
+		
+		DisguiseAPI api = Bukkit.getServer().getServicesManager().getRegistration(DisguiseAPI.class).getProvider();
+		if(api.isDisguised(pl))
+            api.undisguiseToAll(pl);
 	}
 	
 	public static void addPlayer(Player pl, Village vil){
+		for(VillagePlayer vp : vil.getPlayerListExceptNPC())
+			if(vp.getPlayer()==pl)
+				return;
+		
 		vil.playerList.add(new VillagePlayer(pl));
 		if(vil.status!=VillageStatus.ongoing)
 			vil.sendToVillage(C.yellow+pl.getName()+C.gold+" さんが "
@@ -234,8 +239,6 @@ public class VillageUtil {
 			vp.teleportToHome();
 			if(!vp.alive && vil.status==VillageStatus.ongoing)
 				vp.addInvisibleEffect();
-		}else{
-			pl.teleport(LobbyData.getLobby());
 		}
 	}	
 }

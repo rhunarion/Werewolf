@@ -24,7 +24,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class Village extends VillageTimer {
 	
-	Village(String villageName, String villageType, JavaPlugin plugin){
+	public Village(String villageName, String villageType, JavaPlugin plugin){
 		super(villageName, villageType, plugin);
 	}
 	
@@ -152,9 +152,9 @@ public class Village extends VillageTimer {
 		assignColor();
 		setScoreboard();
 		stopAsyncRebuild();
-		DefaultVillageData.writeSign(this);
 		for(VillagePlayer vp : getJoiningPlayerList())
 			vp.alive = true;
+		((DefaultVillageData) this).writeSign();
 		
 		sendToVillage(C.green+"/////////////////////////////////");
 		sendToVillage(C.green+"/////      "+C.aqua
@@ -173,7 +173,7 @@ public class Village extends VillageTimer {
 		setTimer("<"+day+"日目夜>  ："+(day+1)+"日目朝まで ", nightTime);
 		Bukkit.getWorld(villageName).setTime(18000);
 		
-		DefaultVillageData.changeHouseEffect(this);
+		((DefaultVillageData) this).changeHouseEffect();
 		for(VillagePlayer vp : getAlivePlayerList())
 			vp.teleportToHome();
 		for(VillagePlayer vp : getAliveNPCList())
@@ -214,7 +214,7 @@ public class Village extends VillageTimer {
 		setTimer("<"+day+"日目昼>  ：処刑まで ", dayTime);
 		Bukkit.getWorld(villageName).setTime(6000);
 
-		DefaultVillageData.changeHouseEffect(this);
+		((DefaultVillageData) this).changeHouseEffect();
 		for(VillagePlayer vp : getAlivePlayerList())
 			vp.teleportToHome();
 		for(VillagePlayer vp : getAliveNPCList())
@@ -325,7 +325,7 @@ public class Village extends VillageTimer {
 				+maxVotedPlayer.getName()+C.green+" さんを処刑することに決まりました。");
 		executedPlayer = maxVotedPlayer;
 		maxVotedPlayer.teleportToScaffold();
-		DefaultVillageData.preExecution(this);
+		((DefaultVillageData) this).preExecution();
 		
 		final Village vil = this;
 		final VillagePlayer playerToBeExecuted = maxVotedPlayer;
@@ -339,7 +339,7 @@ public class Village extends VillageTimer {
 	}
 	
 	public void execution(VillagePlayer playerToBeExecuted){
-		DefaultVillageData.execution(this);
+		((DefaultVillageData) this).execution();
 	}
 	
 	public void revote(){
@@ -440,7 +440,7 @@ public class Village extends VillageTimer {
 						+VillageUtil.getVillageRoleInJapanese(vp.role)+C.gold+" でした。");
 			}
 		}
-		DefaultVillageData.finishFirework(this);
+		((DefaultVillageData) this).finishFirework();
 		status = VillageStatus.finishing;
 		for(VillagePlayer vp : getPlayerListExceptNPC())
 			vp.changeStatusOnGameFinish();
@@ -458,7 +458,7 @@ public class Village extends VillageTimer {
 			VillageUtil.onPlayerLeave(pl);
 		}
 		
-		VillageUtil.getVillageList().add(new Village(villageName, villageType, plugin));
+		VillageUtil.getVillageList().add(new DefaultVillageData(villageName, villageType, plugin));
 		Iterator<Village> itr = VillageUtil.getVillageList().iterator(); 
 		while(itr.hasNext()){
 			if(itr.next()==this){
@@ -472,7 +472,7 @@ public class Village extends VillageTimer {
 				entity.remove();
 		Village newVil = VillageUtil.getVillage(villageName);
 		newVil.getPlayer("Mr.Firvic").spawnVillager();
-		DefaultVillageData.eraseSign(newVil);
-		DefaultVillageData.copyOriginal(newVil);
+		((DefaultVillageData) newVil).eraseSign();
+		((DefaultVillageData) newVil).copyOriginal();
 	}
 }

@@ -1,5 +1,7 @@
 package jp.ddo.jinroumc.werewolf.worlddata;
 
+import java.util.HashMap;
+
 import jp.ddo.jinroumc.werewolf.enumconstant.VillageRole;
 import jp.ddo.jinroumc.werewolf.enumconstant.VillageStatus;
 import jp.ddo.jinroumc.werewolf.enumconstant.VillageTime;
@@ -9,6 +11,7 @@ import jp.ddo.jinroumc.werewolf.village.VillagePlayer;
 import jp.ddo.jinroumc.werewolf.village.VillageUtil;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -17,6 +20,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockBurnEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -61,39 +65,6 @@ public class DefaultVillageEvent implements Listener {
 			if(clickSign(pl, bl, 23, 65, -6, "skip"))
 				return;
 			if(clickSign(pl, bl, 23, 65, -4, "configroom"))
-				return;
-			
-			if(clickSign(pl, bl, 19, 64, -12, "myrole"))
-				return;
-			if(clickSign(pl, bl, 19, 64, -20, "myrole"))
-				return;
-			if(clickSign(pl, bl, 13, 64, -19, "myrole"))
-				return;
-			if(clickSign(pl, bl, 5, 64, -19, "myrole"))
-				return;
-			if(clickSign(pl, bl, -4, 64, -19, "myrole"))
-				return;
-			if(clickSign(pl, bl, -12, 64, -19, "myrole"))
-				return;
-			if(clickSign(pl, bl, -18, 64, -18, "myrole"))
-				return;
-			if(clickSign(pl, bl, -18, 64, -10, "myrole"))
-				return;
-			if(clickSign(pl, bl, 19, 64, 12, "myrole"))
-				return;
-			if(clickSign(pl, bl, 19, 64, 20, "myrole"))
-				return;
-			if(clickSign(pl, bl, 13, 64, 19, "myrole"))
-				return;
-			if(clickSign(pl, bl, 5, 64, 19, "myrole"))
-				return;
-			if(clickSign(pl, bl, -4, 64, 19, "myrole"))
-				return;
-			if(clickSign(pl, bl, -12, 64, 19, "myrole"))
-				return;
-			if(clickSign(pl, bl, -18, 64, 18, "myrole"))
-				return;
-			if(clickSign(pl, bl, -18, 64, 10, "myrole"))
 				return;
 			
 			if(clickSign(pl, bl, 0, 44, -6, "home"))
@@ -162,57 +133,18 @@ public class DefaultVillageEvent implements Listener {
 			if(clickSign(pl, bl, -3, 43, -4, "chrule permitbite false"))
 				return;
 			
-			if(vp.alive && vil.status==VillageStatus.ongoing){
-				if(vil.getAlivePlayerByColor(C.white)!=null && vp.color!=C.white
-						&& clickSign(pl, bl, 3, 64, 0, "vote "+vil.getAlivePlayerByColor(C.white).getName()))
+			for(DefVilHouse house : DefaultVillageHouse.getHouseMap().values())
+				if(clickSign(pl, bl, house.myroleSignX, house.myroleSignY, house.myroleSignZ, "myrole"))
 					return;
-				if(vil.getAlivePlayerByColor(C.gray)!=null && vp.color!=C.gray
-						&& clickSign(pl, bl, 3, 64, -2, "vote "+vil.getAlivePlayerByColor(C.gray).getName()))
-					return;
-				if(vil.getAlivePlayerByColor(C.d_gray)!=null && vp.color!=C.d_gray
-						&& clickSign(pl, bl, 4, 65, -4, "vote "+vil.getAlivePlayerByColor(C.d_gray).getName()))
-					return;
-				if(vil.getAlivePlayerByColor(C.black)!=null && vp.color!=C.black
-						&& clickSign(pl, bl, 2, 64, -3, "vote "+vil.getAlivePlayerByColor(C.black).getName()))
-					return;
-				if(vil.getAlivePlayerByColor(C.d_red)!=null && vp.color!=C.d_red
-						&& clickSign(pl, bl, 0, 64, -3, "vote "+vil.getAlivePlayerByColor(C.d_red).getName()))
-					return;
-				if(vil.getAlivePlayerByColor(C.red)!=null && vp.color!=C.red
-						&& clickSign(pl, bl, -2, 64, -3, "vote "+vil.getAlivePlayerByColor(C.red).getName()))
-					return;
-				if(vil.getAlivePlayerByColor(C.gold)!=null && vp.color!=C.gold
-						&& clickSign(pl, bl, -4, 65, -4, "vote "+vil.getAlivePlayerByColor(C.gold).getName()))
-					return;
-				if(vil.getAlivePlayerByColor(C.yellow)!=null && vp.color!=C.yellow
-						&& clickSign(pl, bl, -3, 64, -2, "vote "+vil.getAlivePlayerByColor(C.yellow).getName()))
-					return;
-				if(vil.getAlivePlayerByColor(C.green)!=null && vp.color!=C.green
-						&& clickSign(pl, bl, -3, 64, 0, "vote "+vil.getAlivePlayerByColor(C.green).getName()))
-					return;
-				if(vil.getAlivePlayerByColor(C.d_green)!=null && vp.color!=C.d_green
-						&& clickSign(pl, bl, -3, 64, 2, "vote "+vil.getAlivePlayerByColor(C.d_green).getName()))
-					return;
-				if(vil.getAlivePlayerByColor(C.d_aqua)!=null && vp.color!=C.d_aqua
-						&& clickSign(pl, bl, -4, 65, 4, "vote "+vil.getAlivePlayerByColor(C.d_aqua).getName()))
-					return;
-				if(vil.getAlivePlayerByColor(C.d_blue)!=null && vp.color!=C.d_blue
-						&& clickSign(pl, bl, -2, 64, 3, "vote "+vil.getAlivePlayerByColor(C.d_blue).getName()))
-					return;
-				if(vil.getAlivePlayerByColor(C.aqua)!=null && vp.color!=C.aqua
-						&& clickSign(pl, bl, 0, 64, 3, "vote "+vil.getAlivePlayerByColor(C.aqua).getName()))
-					return;
-				if(vil.getAlivePlayerByColor(C.blue)!=null && vp.color!=C.blue
-						&& clickSign(pl, bl, 2, 64, 3, "vote "+vil.getAlivePlayerByColor(C.blue).getName()))
-					return;
-				if(vil.getAlivePlayerByColor(C.d_purple)!=null && vp.color!=C.d_purple
-						&& clickSign(pl, bl, 4, 65, 4, "vote "+vil.getAlivePlayerByColor(C.d_purple).getName()))
-					return;
-				if(vil.getAlivePlayerByColor(C.l_purple)!=null && vp.color!=C.l_purple
-						&& clickSign(pl, bl, 3, 64, 2, "vote "+vil.getAlivePlayerByColor(C.l_purple).getName()))
-					return;
-			}
 			
+			
+			if(vp.alive && vil.status==VillageStatus.ongoing)
+				for(DefVilHouse house : DefaultVillageHouse.getHouseMap().values())
+					if(vil.getAlivePlayerByColor(house.color)!=null && vp.color!=house.color
+							&& clickSign(pl, bl, house.voteSignX, house.voteSignY, house.voteSignZ,
+									"vote "+vil.getAlivePlayerByColor(house.color).getName()))
+						return;
+						
 			if(bl.getType()==Material.CHEST
 					&& !(bl.getX()==0 && bl.getY()==43 && bl.getZ()==6)
 					&& (vil.status==VillageStatus.empty
@@ -222,27 +154,13 @@ public class DefaultVillageEvent implements Listener {
 				return;
 			}
 			if(vil.status==VillageStatus.ongoing){
-				/*if(bl.getX()==20 && bl.getY()==64 && bl.getZ()==13 && vp.color!=C.white){
-					pl.sendMessage(C.red+"他のプレイヤーのチェストを開けることはできません。");
-					event.setCancelled(true);
-				}*/
-				//(20, , -13);
-				//(20, , -21);
-				//(14, , -20);
-				//(6, , -20);
-				//(-5, , -20);
-				//(-13, , -20);
-				//(-19, , -19);
-				//(-19, , -11);
-				//(, , );
-				//(, , );
-				//(, , );
-				//(, , );
-				//(, , );
-				//(, , );
-				//(, , );
-				//(, , );
-					
+				for(DefVilHouse house : DefaultVillageHouse.getHouseMap().values()){
+					if(bl.getX()==house.chestX && bl.getY()==house.chestY && bl.getZ()==house.chestZ
+							&& vp.color!=house.color){
+						pl.sendMessage(C.red+"他のプレイヤーのチェストを開けることはできません。");
+						event.setCancelled(true);
+					}					
+				}
 			}
 		}
 	}
@@ -318,33 +236,15 @@ public class DefaultVillageEvent implements Listener {
 			
 			if(vp.alive && vp.role!=VillageRole.jinrou
 					&& vil.status==VillageStatus.ongoing && vil.time==VillageTime.night){
-				if(vp.color==C.white || vp.color==C.gray || vp.color==C.d_purple || vp.color==C.l_purple){
-					if(to.getX()<18.5 || 23.5<to.getX()){
+				HashMap<ChatColor, DefVilHouse> houseMap = DefaultVillageHouse.getHouseMap();
+				DefVilHouse house = houseMap.get(vp.color);
+				if((house.bedPitch==90 && (to.getX()<house.frontDoorX+0.5 || house.rearDoorX+0.5<to.getX()))
+						|| (house.bedPitch==0 && (to.getZ()<house.rearDoorZ+0.5 || house.frontDoorZ+0.5<to.getZ()))
+						|| (house.bedPitch==-90 && (to.getX()<house.rearDoorX+0.5 || house.frontDoorX+0.5<to.getX()))
+						|| (house.bedPitch==180 && (to.getZ()<house.frontDoorZ+0.5 || house.rearDoorZ+0.5<to.getZ()))){
 						pl.sendMessage(C.red+"Error: 夜に外へ出ることはできません。");
 						event.setCancelled(true);
 						return;
-					}
-				}
-				if(vp.color==C.d_gray || vp.color==C.black || vp.color==C.d_red || vp.color==C.red){
-					if(to.getZ()<-22.5 || -17.5<to.getZ()){
-						pl.sendMessage(C.red+"Error: 夜に外へ出ることはできません。");
-						event.setCancelled(true);
-						return;
-					}
-				}
-				if(vp.color==C.gold|| vp.color==C.yellow || vp.color==C.green || vp.color==C.d_green){
-					if(to.getX()<-21.5 || -16.5<to.getX()){
-						pl.sendMessage(C.red+"Error: 夜に外へ出ることはできません。");
-						event.setCancelled(true);
-						return;
-					}
-				}
-				if(vp.color==C.d_aqua || vp.color==C.d_blue || vp.color==C.aqua || vp.color==C.blue){
-					if(to.getZ()<18.5 || 23.5<to.getZ()){
-						pl.sendMessage(C.red+"Error: 夜に外へ出ることはできません。");
-						event.setCancelled(true);
-						return;
-					}
 				}
 			}
 		}
@@ -383,66 +283,23 @@ public class DefaultVillageEvent implements Listener {
 				pl.sendMessage(C.red+"Error: このエリアは編集できません。");
 				event.setCancelled(true); return; }
 			
-			if(18<=x && x<=23 && 62<=y && y<=66 && -14<=z && z<=-9){
-				pl.sendMessage(C.red+"Error: このエリアは編集できません。");
-				event.setCancelled(true); return; }
-			if(18<=x && x<=23 && 62<=y && y<=66 && -22<=z && z<=-17){
-				pl.sendMessage(C.red+"Error: このエリアは編集できません。");
-				event.setCancelled(true); return; }
-			if(10<=x && x<=15 && 62<=y && y<=66 && -23<=z && z<=-18){
-				pl.sendMessage(C.red+"Error: このエリアは編集できません。");
-				event.setCancelled(true); return; }
-			if(2<=x && x<=7 && 62<=y && y<=66 && -23<=z && z<=-18){
-				pl.sendMessage(C.red+"Error: このエリアは編集できません。");
-				event.setCancelled(true); return; }
-			if(-6<=x && x<=-1 && 62<=y && y<=66 && -23<=z && z<=-18){
-				pl.sendMessage(C.red+"Error: このエリアは編集できません。");
-				event.setCancelled(true); return; }
-			if(-14<=x && x<=-9 && 62<=y && y<=66 && -23<=z && z<=-18){
-				pl.sendMessage(C.red+"Error: このエリアは編集できません。");
-				event.setCancelled(true); return; }
-			if(-22<=x && x<=-17 && 62<=y && y<=66 && -20<=z && z<=-15){
-				pl.sendMessage(C.red+"Error: このエリアは編集できません。");
-				event.setCancelled(true); return; }
-			if(-22<=x && x<=-17 && 62<=y && y<=66 && -12<=z && z<=-7){
-				pl.sendMessage(C.red+"Error: このエリアは編集できません。");
-				event.setCancelled(true); return; }
-			if(-22<=x && x<=-17 && 62<=y && y<=66 && 7<=z && z<=12){
-				pl.sendMessage(C.red+"Error: このエリアは編集できません。");
-				event.setCancelled(true); return; }
-			if(-22<=x && x<=-17 && 62<=y && y<=66 && 15<=z && z<=20){
-				pl.sendMessage(C.red+"Error: このエリアは編集できません。");
-				event.setCancelled(true); return; }
-			if(-14<=x && x<=-9 && 62<=y && y<=66 && 18<=z && z<=23){
-				pl.sendMessage(C.red+"Error: このエリアは編集できません。");
-				event.setCancelled(true); return; }
-			if(-6<=x && x<=-1 && 62<=y && y<=66 && 18<=z && z<=23){
-				pl.sendMessage(C.red+"Error: このエリアは編集できません。");
-				event.setCancelled(true); return; }
-			if(2<=x && x<=7 && 62<=y && y<=66 && 18<=z && z<=23){
-				pl.sendMessage(C.red+"Error: このエリアは編集できません。");
-				event.setCancelled(true); return; }
-			if(10<=x && x<=15 && 62<=y && y<=66 && 18<=z && z<=23){
-				pl.sendMessage(C.red+"Error: このエリアは編集できません。");
-				event.setCancelled(true); return; }
-			if(18<=x && x<=23 && 62<=y && y<=66 && 17<=z && z<=22){
-				pl.sendMessage(C.red+"Error: このエリアは編集できません。");
-				event.setCancelled(true); return; }
-			if(18<=x && x<=23 && 62<=y && y<=66 && 9<=z && z<=14){
-				pl.sendMessage(C.red+"Error: このエリアは編集できません。");
-				event.setCancelled(true); return; }
+			for(DefVilHouse house : DefaultVillageHouse.getHouseMap().values()){
+				if(house.westPlane<=x && x<=house.eastPlane
+						&& house.bottomPlane<=y && y<=house.topPlane
+						&& house.northPlane<=z && z<=house.southPlane){
+					pl.sendMessage(C.red+"Error: このエリアは編集できません。");
+					event.setCancelled(true);
+					return; 
+				}
+			}
 			
-			/*
-			 * 
-			 * if(namePlateLocation)
-			 * 		event.setCancelled(true);
-			 * 
-			 * 
-			 * 
-			 * 
-			 * 
-			 * 
-			 */
+			for(DefVilHouse house : DefaultVillageHouse.getHouseMap().values()){
+				if(house.namePlateX==x && house.namePlateY==y && house.namePlateZ==z){
+					pl.sendMessage(C.red+"Error: このエリアは編集できません。");
+					event.setCancelled(true);
+					return; 
+				}
+			}
 		}		
 	}
 	
@@ -485,57 +342,53 @@ public class DefaultVillageEvent implements Listener {
 				pl.sendMessage(C.red+"Error: このエリアは編集できません。");
 				event.setCancelled(true); updateInventory(pl, vil); return; }
 			
-			if(18<=x && x<=23 && 62<=y && y<=66 && -14<=z && z<=-9){
-				pl.sendMessage(C.red+"Error: このエリアは編集できません。");
-				event.setCancelled(true); updateInventory(pl, vil); return; }
-			if(18<=x && x<=23 && 62<=y && y<=66 && -22<=z && z<=-17){
-				pl.sendMessage(C.red+"Error: このエリアは編集できません。");
-				event.setCancelled(true); updateInventory(pl, vil); return; }
-			if(10<=x && x<=15 && 62<=y && y<=66 && -23<=z && z<=-18){
-				pl.sendMessage(C.red+"Error: このエリアは編集できません。");
-				event.setCancelled(true); updateInventory(pl, vil); return; }
-			if(2<=x && x<=7 && 62<=y && y<=66 && -23<=z && z<=-18){
-				pl.sendMessage(C.red+"Error: このエリアは編集できません。");
-				event.setCancelled(true); updateInventory(pl, vil); return; }
-			if(-6<=x && x<=-1 && 62<=y && y<=66 && -23<=z && z<=-18){
-				pl.sendMessage(C.red+"Error: このエリアは編集できません。");
-				event.setCancelled(true); updateInventory(pl, vil); return; }
-			if(-14<=x && x<=-9 && 62<=y && y<=66 && -23<=z && z<=-18){
-				pl.sendMessage(C.red+"Error: このエリアは編集できません。");
-				event.setCancelled(true); updateInventory(pl, vil); return; }
-			if(-22<=x && x<=-17 && 62<=y && y<=66 && -20<=z && z<=-15){
-				pl.sendMessage(C.red+"Error: このエリアは編集できません。");
-				event.setCancelled(true); updateInventory(pl, vil); return; }
-			if(-22<=x && x<=-17 && 62<=y && y<=66 && -12<=z && z<=-7){
-				pl.sendMessage(C.red+"Error: このエリアは編集できません。");
-				event.setCancelled(true); updateInventory(pl, vil); return; }
-			if(-22<=x && x<=-17 && 62<=y && y<=66 && 7<=z && z<=12){
-				pl.sendMessage(C.red+"Error: このエリアは編集できません。");
-				event.setCancelled(true); updateInventory(pl, vil); return; }
-			if(-22<=x && x<=-17 && 62<=y && y<=66 && 15<=z && z<=20){
-				pl.sendMessage(C.red+"Error: このエリアは編集できません。");
-				event.setCancelled(true); updateInventory(pl, vil); return; }
-			if(-14<=x && x<=-9 && 62<=y && y<=66 && 18<=z && z<=23){
-				pl.sendMessage(C.red+"Error: このエリアは編集できません。");
-				event.setCancelled(true); updateInventory(pl, vil); return; }
-			if(-6<=x && x<=-1 && 62<=y && y<=66 && 18<=z && z<=23){
-				pl.sendMessage(C.red+"Error: このエリアは編集できません。");
-				event.setCancelled(true); updateInventory(pl, vil); return; }
-			if(2<=x && x<=7 && 62<=y && y<=66 && 18<=z && z<=23){
-				pl.sendMessage(C.red+"Error: このエリアは編集できません。");
-				event.setCancelled(true); updateInventory(pl, vil); return; }
-			if(10<=x && x<=15 && 62<=y && y<=66 && 18<=z && z<=23){
-				pl.sendMessage(C.red+"Error: このエリアは編集できません。");
-				event.setCancelled(true); updateInventory(pl, vil); return; }
-			if(18<=x && x<=23 && 62<=y && y<=66 && 17<=z && z<=22){
-				pl.sendMessage(C.red+"Error: このエリアは編集できません。");
-				event.setCancelled(true); updateInventory(pl, vil); return; }
-			if(18<=x && x<=23 && 62<=y && y<=66 && 9<=z && z<=14){
-				pl.sendMessage(C.red+"Error: このエリアは編集できません。");
-				event.setCancelled(true); updateInventory(pl, vil); return; }
+			for(DefVilHouse house : DefaultVillageHouse.getHouseMap().values()){
+				if(house.westPlane<=x && x<=house.eastPlane
+						&& house.bottomPlane<=y && y<=house.topPlane
+						&& house.northPlane<=z && z<=house.southPlane){
+					pl.sendMessage(C.red+"Error: このエリアは編集できません。");
+					event.setCancelled(true);
+					return; 
+				}
+			}
 		}		
 	}
 
+	@EventHandler
+	public void onBlockBurn(BlockBurnEvent event){
+		int x = event.getBlock().getX();
+		int y = event.getBlock().getY();
+		int z = event.getBlock().getZ();
+
+		if(x<=-39 || 39<=x || y<=47 || 80<=y || z<=-39 || 39<=z){
+			event.setCancelled(true); return; }
+		
+		if(-6<=x && x<=6 && 63<=y && -6<=z && z<=6){
+			event.setCancelled(true); return; }
+		if(-22<=x && x<=-17 && 63<=y && -4<=z && z<=4){
+			event.setCancelled(true); return; }
+		if(23<=x && x<=24 && 64<=y && y<=65 && -7<=z && z<=-4){
+			event.setCancelled(true); return; }
+		if(23<=x && x<=24 && 64<=y && y<=65 && 4<=z && z<=7){
+			event.setCancelled(true); return; }
+		
+		for(DefVilHouse house : DefaultVillageHouse.getHouseMap().values()){
+			if(house.westPlane<=x && x<=house.eastPlane
+					&& house.bottomPlane<=y && y<=house.topPlane
+					&& house.northPlane<=z && z<=house.southPlane){
+				event.setCancelled(true);
+				return; 
+			}
+		}
+		
+		for(DefVilHouse house : DefaultVillageHouse.getHouseMap().values()){
+			if(house.namePlateX==x && house.namePlateY==y && house.namePlateZ==z){
+				event.setCancelled(true);
+				return; 
+			}
+		}
+	}
+	
 	private boolean clickSign(Player pl, Block block, int x, int y, int z, String command){
 		if(block.getX()==x && block.getY()==y && block.getZ()==z){
 			pl.performCommand(command);

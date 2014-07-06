@@ -32,23 +32,23 @@ public class VillagePlayer extends VillagePlayerCore {
 	}
 	
 	public void teleportToConfigRoom(){
-		getPlayer().teleport(DefaultVillageData.getConfigRoom(village));
+		getPlayer().teleport(((DefaultVillageData) village).getConfigRoom());
 	}
 	
 	public void teleportToScaffold(){
 		if(connection)
-			getPlayer().teleport(DefaultVillageData.getScaffold(village));
+			getPlayer().teleport(((DefaultVillageData) village).getScaffold());
 		else
-			villagerEntity.teleport(DefaultVillageData.getScaffold(village));
+			villagerEntity.teleport(((DefaultVillageData) village).getScaffold());
 	}
 	
 	public void teleportToHome(){
 		if(!alive || village.status!=VillageStatus.ongoing)
 			VillageUtil.teleportToVillage(getPlayer(), village);
 		else if(alive && connection)
-			getPlayer().teleport(DefaultVillageData.getHome(this, village));
+			getPlayer().teleport(((DefaultVillageData) village).getHome(this));
 		else
-			villagerEntity.teleport(DefaultVillageData.getHome(this, village));
+			villagerEntity.teleport(((DefaultVillageData) village).getHome(this));
 	}
 
 	public void giveUpGame(){
@@ -373,13 +373,13 @@ public class VillagePlayer extends VillagePlayerCore {
 
 	public void spawnVillager(){
 		villagerEntity = (LivingEntity) Bukkit.getWorld(village.villageName)
-						.spawnEntity(DefaultVillageData.getHome(this, village), EntityType.VILLAGER);
+						.spawnEntity(((DefaultVillageData) village).getHome(this), EntityType.VILLAGER);
 		villagerEntity.setCustomName(getName());
 		villagerEntity.setCustomNameVisible(true);
 	}
 	
 	public void setFenceAroundBed(){
-		Location home = DefaultVillageData.getHome(this, village);
+		Location home = ((DefaultVillageData) village).getHome(this);
 		World world = home.getWorld();
 		int x = home.getX()>=0 ? (int) home.getX() : (int) home.getX()-1;
 		int y = (int) home.getY()+2;
@@ -404,7 +404,7 @@ public class VillagePlayer extends VillagePlayerCore {
 	}
 	
 	public void removeFenceAroundBed(){
-		Location home = DefaultVillageData.getHome(this, village);
+		Location home = ((DefaultVillageData) village).getHome(this);
 		World world = home.getWorld();
 		int x = home.getX()>=0 ? (int) home.getX() : (int) home.getX()-1;
 		int y = (int) home.getY()+2;

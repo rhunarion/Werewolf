@@ -9,7 +9,7 @@ villageName:
     - vil4
 lobbyLocation:
   worldName: world
+  useDefaultSpawnPoint: false
   x: 0.5
   y: 64
   z: 0.5
-

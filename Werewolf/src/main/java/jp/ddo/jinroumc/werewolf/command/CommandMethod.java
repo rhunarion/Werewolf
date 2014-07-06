@@ -575,7 +575,7 @@ public class CommandMethod {
 			vil.stopDoTaskLater();
 			vil.executedPlayer.kill();
 			
-			DefaultVillageData.postExecution(vil);
+			((DefaultVillageData) vil).postExecution();
 			vil.checkResult();
 			return;
 		}

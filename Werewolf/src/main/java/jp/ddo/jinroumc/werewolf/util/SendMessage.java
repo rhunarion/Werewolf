@@ -18,30 +18,26 @@ public class SendMessage {
 	}
 	
 	public static void unspecifiedMessage(Player sender, String message){
-		if(VillageUtil.isInVillage(sender)){
-			Village vil = VillageUtil.getVillage(sender);
-			VillagePlayer vp = vil.getPlayer(sender);
-			
-			if(vil.status!=VillageStatus.ongoing){
-				sendToVillageByPlayer(vp, message, vil);
+		Village vil = VillageUtil.getVillage(sender);
+		VillagePlayer vp = vil.getPlayer(sender);
+		
+		if(vil.status!=VillageStatus.ongoing){
+			sendToVillageByPlayer(vp, message, vil);
+		}else{
+			if(!vp.alive){
+				sendToGhost(sender, message, vil);
 			}else{
-				if(!vp.alive){
-					sendToGhost(sender, message, vil);
+				if(vil.time!=VillageTime.night){
+					sendToVillageByPlayer(vp, message, vil);
 				}else{
-					if(vil.time!=VillageTime.night){
-						sendToVillageByPlayer(vp, message, vil);
-					}else{
-						if(vp.role==VillageRole.jinrou)
-							sendToWolf(sender, message, vil);
-						else if(vp.role==VillageRole.youko)
-							sendToFox(sender, message, vil);
-						else
-							sendToMyself(sender, message);
-					}
+					if(vp.role==VillageRole.jinrou)
+						sendToWolf(sender, message, vil);
+					else if(vp.role==VillageRole.youko)
+						sendToFox(sender, message, vil);
+					else
+						sendToMyself(sender, message);
 				}
 			}
-		}else{
-			sendToLobbyByPlayer(sender, message);
 		}
 	}
 	
@@ -50,10 +46,16 @@ public class SendMessage {
 			pl.sendMessage(message);
 	}
 	
+	public static void sendToLobby(String message){
+		for(Player pl : Bukkit.getOnlinePlayers())
+			if(!VillageUtil.isInVillage(pl))
+				pl.sendMessage(message);
+	}
+	
 	public static void sendToLobbyByPlayer(Player sender, String message){
 		for(Player pl : Bukkit.getOnlinePlayers())
 			if(!VillageUtil.isInVillage(pl))
-				pl.sendMessage("["+sender.getName()+"] "+message);
+				pl.sendMessage("<"+sender.getName()+"> "+message);
 	}
 	
 	public static void sendToVillageByPlayer(VillagePlayer vp, String message, Village vil){

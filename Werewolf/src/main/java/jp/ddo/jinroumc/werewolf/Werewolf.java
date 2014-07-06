@@ -1,10 +1,10 @@
 package jp.ddo.jinroumc.werewolf;
 
+import jp.ddo.jinroumc.werewolf.util.LobbyData;
 import jp.ddo.jinroumc.werewolf.village.Village;
 import jp.ddo.jinroumc.werewolf.village.VillageUtil;
 import jp.ddo.jinroumc.werewolf.worlddata.DefaultVillageEvent;
 import jp.ddo.jinroumc.werewolf.worlddata.GameEvent;
-import jp.ddo.jinroumc.werewolf.worlddata.LobbyData;
 
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -13,22 +13,18 @@ import org.bukkit.Difficulty;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
 
+import de.robingrether.idisguise.sound.SoundSystem;
+
 public class Werewolf extends JavaPlugin {
 	@Override
 	public void onEnable(){
 		getServer().getPluginManager().registerEvents(new EventListener(this), this);
 		getServer().getPluginManager().registerEvents(new GameEvent(), this);
-		getServer().getPluginManager().registerEvents(new LobbyData(), this);
 		getServer().getPluginManager().registerEvents(new DefaultVillageEvent(), this);
 		getCommand("ww").setExecutor(new WwCommandExecutor());
 		getCommand("ww").setTabCompleter(new WwTabCompleter());
 
-		LobbyData.initLobbyLocation(getConfig());
-		for(Player pl : Bukkit.getOnlinePlayers()){
-			VillageUtil.teleportToLobby(pl);
-			VillageUtil.onPlayerLeave(pl);
-		}
-
+		this.saveDefaultConfig();
 		VillageUtil.initVillageData(getConfig(), this);
 		WorldCreator.name("default_village").createWorld();
 		World defaultVillage = Bukkit.getWorld("default_village");
@@ -48,12 +44,24 @@ public class Werewolf extends JavaPlugin {
 			Bukkit.getWorld(vil.villageName).setGameRuleValue("doDaylightCycle", "false");
 		}
 
-		LobbyData.rewriteSign(this);
+		LobbyData.initLobbyLocation(getConfig());
+		for(Player pl : Bukkit.getOnlinePlayers()){
+			if(VillageUtil.isInVillage(pl)){
+				VillageUtil.teleportToLobby(pl);
+				VillageUtil.onPlayerLeave(pl);
+			}
+		}
+		
+		SoundSystem.setEnabled(false);
 	}
 	
 	@Override
 	public void onDisable(){
-		Bukkit.getScheduler().cancelAllTasks();
+		for(Village vil : VillageUtil.getVillageList()){
+			vil.stopTimer();
+			vil.stopDoTaskLater();
+			vil.stopAsyncRebuild();
+		}
 	}
 }
 
