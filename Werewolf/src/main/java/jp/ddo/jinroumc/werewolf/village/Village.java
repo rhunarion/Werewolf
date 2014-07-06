@@ -22,6 +22,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import de.robingrether.idisguise.api.DisguiseAPI;
+import de.robingrether.idisguise.disguise.DisguiseType;
+import de.robingrether.idisguise.disguise.MobDisguise;
+
 public class Village extends VillageTimer {
 	
 	public Village(String villageName, String villageType, JavaPlugin plugin){
@@ -178,6 +182,12 @@ public class Village extends VillageTimer {
 			vp.teleportToHome();
 		for(VillagePlayer vp : getAliveNPCList())
 			vp.setFenceAroundBed();
+
+		DisguiseAPI api = Bukkit.getServer().getServicesManager().getRegistration(DisguiseAPI.class).getProvider();
+   		for(VillagePlayer vp : getJinrouListExceptNPC()){
+			api.disguiseToAll(vp.getPlayer(), new MobDisguise(DisguiseType.ZOMBIE, true));
+			int i;
+   		}
 		
 		if(day!=0){
 			sendToVillage(C.green+"////////// " 

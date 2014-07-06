@@ -22,8 +22,11 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerKickEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.server.ServerListPingEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
@@ -37,6 +40,8 @@ public class WerewolfLobby extends JavaPlugin implements Listener {
 	@Override
 	public void onEnable(){
 		getServer().getPluginManager().registerEvents(this, this);
+		getCommand("debug").setExecutor(new CommandDebug());
+		
 		rewriteSign();
 	}
 	
@@ -57,8 +62,25 @@ public class WerewolfLobby extends JavaPlugin implements Listener {
 		
 		pl.getInventory().clear();
 		pl.getInventory().addItem(getManual());
+		
+		event.setJoinMessage(C.yellow+event.getPlayer().getName()+C.gold+" さんがログインしました。");
 	}
 
+	@EventHandler
+	public void onPlayerLogout(PlayerQuitEvent event){
+		event.setQuitMessage(null);
+	}
+	
+	@EventHandler
+	public void onPlayerKick(PlayerKickEvent event){
+		event.setLeaveMessage(null);
+	}
+	
+	@EventHandler
+	public void onPlayerDeath(final PlayerDeathEvent event){
+		event.setDeathMessage(null);
+	}
+	
 	@EventHandler
 	public void onPlayerInteract(PlayerInteractEvent event){
 		if(event.getPlayer().getWorld().getName().equals("world")){

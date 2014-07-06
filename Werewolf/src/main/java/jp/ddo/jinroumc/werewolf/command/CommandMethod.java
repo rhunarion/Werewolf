@@ -17,6 +17,8 @@ import jp.ddo.jinroumc.werewolf.worlddata.DefaultVillageData;
 import org.bukkit.entity.Player;
 
 public class CommandMethod {
+	public static boolean allowMakeVil = true;
+	
 	public static void enterVil(Player pl, String vilName){
 		if(VillageUtil.isInVillage(pl)){
 			Village vil = VillageUtil.getVillage(pl);
@@ -192,7 +194,7 @@ public class CommandMethod {
 	}
 	
 	public static void makeVil(Player pl, String vilType){
-		if(CommandDebug.prohibitMakeVil){
+		if(!allowMakeVil){
 			pl.sendMessage(C.red+"Error: 現在、人狼ゲームの準備開始が禁止されています。");
 			return;
 		}

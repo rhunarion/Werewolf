@@ -1,7 +1,6 @@
 package jp.ddo.jinroumc.werewolf;
 
 import jp.ddo.jinroumc.werewolf.command.CommandChRule;
-import jp.ddo.jinroumc.werewolf.command.CommandDebug;
 import jp.ddo.jinroumc.werewolf.command.CommandHelp;
 import jp.ddo.jinroumc.werewolf.command.CommandMethod;
 import jp.ddo.jinroumc.werewolf.util.C;
@@ -27,12 +26,6 @@ public class WwCommandExecutor implements CommandExecutor {
 			else if(args.length==3) CommandHelp.help(sender, args[1], args[2]);
 			return true;
 		}		
-		
-		//debug command
-		if(args[0].equalsIgnoreCase("debug") && sender.hasPermission("werewolf.op")){
-			CommandDebug.debug(sender, args);
-			return true;
-		}
 		
 		//check sender
 		if(!(sender instanceof Player)){

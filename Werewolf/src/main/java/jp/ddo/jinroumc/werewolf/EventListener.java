@@ -22,7 +22,6 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -47,9 +46,6 @@ public class EventListener implements Listener {
 	public void onPlayerJoin(PlayerJoinEvent event){
 		if(VillageUtil.isInVillage(event.getPlayer()))
 			VillageUtil.teleportToLobby(event.getPlayer());
-		else
-			SendMessage.sendToLobby(event.getJoinMessage());
-		event.setJoinMessage(null);
 	}
 	
 	@EventHandler
@@ -62,24 +58,12 @@ public class EventListener implements Listener {
 	public void onPlayerLogout(PlayerQuitEvent event){
 		if(VillageUtil.isInVillage(event.getPlayer()))
 			VillageUtil.onPlayerLeave(event.getPlayer());
-		else
-			SendMessage.sendToLobby(event.getQuitMessage());
-		event.setQuitMessage(null);
-	}
-	
-	@EventHandler
-	public void onPlayerKick(PlayerKickEvent event){
-		SendMessage.sendToLobby(event.getLeaveMessage());
-		event.setCancelled(true);
 	}
 	
 	@EventHandler
 	public void onChat(AsyncPlayerChatEvent event){
 		if(VillageUtil.isInVillage(event.getPlayer()))
 			SendMessage.splitUnspecifiedMessage(event.getPlayer(), event.getMessage());
-		else
-			SendMessage.sendToLobbyByPlayer(event.getPlayer(), event.getMessage());
-		event.setCancelled(true);
 	}
 
 	@EventHandler
@@ -98,10 +82,7 @@ public class EventListener implements Listener {
 					}
 				}
 			}, 40);
-		}else{
-			SendMessage.sendToLobby(event.getDeathMessage());
 		}
-		event.setDeathMessage(null);
 	}
 	
 	@EventHandler

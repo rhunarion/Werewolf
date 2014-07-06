@@ -213,7 +213,9 @@ public class VillagePlayer extends VillagePlayerCore {
 		for(VillagePlayer alive : village.getAlivePlayerListExceptNPC())
 			alive.getPlayer().hidePlayer(pl);
 		for(VillagePlayer ghost : village.getGhostPlayerList())
-			pl.showPlayer(ghost.getPlayer());
+			ghost.getPlayer().showPlayer(pl);
+		for(VillagePlayer pc : village.getPlayerListExceptNPC())
+			pl.showPlayer(pc.getPlayer());
 	}
 	
 	public void addInvisibleEffect(){

@@ -46,12 +46,6 @@ public class SendMessage {
 			pl.sendMessage(message);
 	}
 	
-	public static void sendToLobby(String message){
-		for(Player pl : Bukkit.getOnlinePlayers())
-			if(!VillageUtil.isInVillage(pl))
-				pl.sendMessage(message);
-	}
-	
 	public static void sendToLobbyByPlayer(Player sender, String message){
 		for(Player pl : Bukkit.getOnlinePlayers())
 			if(!VillageUtil.isInVillage(pl))

@@ -13,8 +13,6 @@ import org.bukkit.Difficulty;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
 
-import de.robingrether.idisguise.sound.SoundSystem;
-
 public class Werewolf extends JavaPlugin {
 	@Override
 	public void onEnable(){
@@ -52,7 +50,8 @@ public class Werewolf extends JavaPlugin {
 			}
 		}
 		
-		SoundSystem.setEnabled(false);
+		//SoundSystem.setEnabled(false);
+		int i;
 	}
 	
 	@Override
