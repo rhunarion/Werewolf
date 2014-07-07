@@ -12,12 +12,12 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
@@ -31,8 +31,10 @@ public class GameEvent implements Listener {
 		
 		if(VillageUtil.isVillageName(event.getDamager().getWorld().getName())){
 			Entity attacker = event.getDamager();
-			if(!(attacker instanceof Player))
+			if(!(attacker instanceof Player)){
+				event.setCancelled(true);
 				return;
+			}
 
 			Player pl = (Player) attacker;
 			Village vil = VillageUtil.getVillage(pl);
@@ -42,13 +44,13 @@ public class GameEvent implements Listener {
 			VillagePlayer defenderVp = null;
 			if(defender instanceof Player){
 				defenderVp = vil.getPlayer((Player) defender);
-			}else if(defender.getType().equals(EntityType.VILLAGER)){
+			}else{
 				for(VillagePlayer vp : vil.getNPCList())
 					if(vp.villagerEntity==defender)
 						defenderVp = vp;
-			}else{
-				return;
 			}
+			if(defenderVp==null)
+				return;
 			
 			if(attackerVp.alive && defenderVp.alive  
 					&& attackerVp.role==VillageRole.jinrou
@@ -80,19 +82,14 @@ public class GameEvent implements Listener {
 			if(vil.status!=VillageStatus.ongoing
 					|| vil.time!=VillageTime.execution
 					|| !((DefaultVillageData) vil).isInsideScaffold(loc)){
-				if(entity.getType().equals(EntityType.VILLAGER)
-						&& ((LivingEntity) entity).isCustomNameVisible()){
-					for(VillagePlayer npc : vil.getNPCList()){
-						if(npc.villagerEntity==entity
-								&& (vil.status!=VillageStatus.ongoing || npc.alive)){
-							npc.spawnVillager();
-							return;
-						}
+				for(VillagePlayer npc : vil.getNPCList()){
+					if(npc.villagerEntity==entity
+							&& (vil.status!=VillageStatus.ongoing || npc.alive)){
+						npc.spawnVillager();
+						return;
 					}
-					return;
-				}else{
-					return;
 				}
+				return;
 			}
 			
 			VillagePlayer vp = null;
@@ -123,6 +120,17 @@ public class GameEvent implements Listener {
 		}
 	}
 
+	@EventHandler
+	public void onTargetPlayer(EntityTargetEvent event){
+		if(VillageUtil.isVillageName(event.getEntity().getWorld().getName())){
+			Entity entity = event.getEntity();
+			Village vil = VillageUtil.getVillage(entity.getWorld().getName());
+			for(VillagePlayer npc : vil.getAliveNPCList())
+				if(npc.villagerEntity==entity)
+					event.setCancelled(true);
+		}
+	}
+	
 	@EventHandler
 	public void onGhostPickupItem(PlayerPickupItemEvent event){
 		if(VillageUtil.isInVillage(event.getPlayer())){
@@ -166,7 +174,7 @@ public class GameEvent implements Listener {
 		}
 	}
 
-	public static void removeDoorSound(JavaPlugin plugin){
+	public static void removeNightSound(JavaPlugin plugin){
 /*		ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(plugin,
 			ListenerPriority.NORMAL, PacketType.Play.Server.WORLD_EVENT) {
 				@Override

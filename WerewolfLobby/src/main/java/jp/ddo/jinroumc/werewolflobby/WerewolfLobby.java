@@ -36,7 +36,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class WerewolfLobby extends JavaPlugin implements Listener {
 	public static int rewriteSignID = -1;
-	
+
 	@Override
 	public void onEnable(){
 		getServer().getPluginManager().registerEvents(this, this);
@@ -112,12 +112,13 @@ public class WerewolfLobby extends JavaPlugin implements Listener {
 			return;
 		}
 	}
-	
+
 	@EventHandler
 	public void onPlaceBlock(BlockPlaceEvent event){
 		if(event.getPlayer().getWorld().getName().equals("world")
 			&& event.getPlayer().getGameMode()!=GameMode.CREATIVE){
 			event.setCancelled(true);
+			updateInventory(event.getPlayer());
 			return;
 		}
 	}
@@ -126,7 +127,8 @@ public class WerewolfLobby extends JavaPlugin implements Listener {
 	public void onPlayerAttack(EntityDamageByEntityEvent event){
 		if(event.getEntity().getWorld().getName().equals("world")){
 			Entity attacker = event.getDamager();
-			if(attacker instanceof Player)
+			Entity defender = event.getEntity();
+			if(attacker instanceof Player && defender instanceof Player)
 				event.setCancelled(true);
 			return;
 		}
@@ -150,6 +152,16 @@ public class WerewolfLobby extends JavaPlugin implements Listener {
 			return true;
 		}
 		return false;
+	}
+
+	private void updateInventory(final Player pl){
+		Bukkit.getScheduler().runTaskLater(this, new BukkitRunnable(){
+			@SuppressWarnings("deprecation")
+			@Override
+			public void run(){
+				pl.updateInventory();
+			}
+		}, 1);
 	}
 
 	private static ItemStack getManual(){

@@ -19,6 +19,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -173,6 +174,7 @@ public class VillageUtil {
 		
 		pl.getInventory().addItem(new ItemStack(Material.LOG, 64));
 		pl.getInventory().addItem(new ItemStack(Material.COBBLESTONE, 64));
+		pl.getInventory().addItem(new ItemStack(Material.BREAD, 64));
 		pl.updateInventory();
 	}
 
@@ -204,7 +206,7 @@ public class VillageUtil {
 		
 		DisguiseAPI api = Bukkit.getServer().getServicesManager().getRegistration(DisguiseAPI.class).getProvider();
 		if(api.isDisguised(pl))
-            api.undisguiseToAll(pl);
+			api.undisguiseToAll(pl);
 	}
 	
 	public static void addPlayer(Player pl, Village vil){
@@ -218,7 +220,7 @@ public class VillageUtil {
 							+C.yellow+vil.title+C.gold+" ("+vil.villageName+") を訪れました。");
 	}
 	
-	public static void removePlayer(Player pl, Village vil){
+	public static void removePlayer(OfflinePlayer pl, Village vil){
 		Iterator<VillagePlayer> itr = vil.playerList.iterator(); 
 		while(itr.hasNext()){
 			if(itr.next().player==pl){

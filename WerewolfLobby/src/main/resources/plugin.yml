@@ -4,4 +4,8 @@ main: jp.ddo.jinroumc.werewolflobby.WerewolfLobby
 
 commands:
   debug:
+    permission: werewolflobby.debug
+    
+permissions:
+  werewolflobby.debug:
     default: op

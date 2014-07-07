@@ -18,8 +18,15 @@ import org.bukkit.World;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Villager;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+
+import de.robingrether.idisguise.api.DisguiseAPI;
+import de.robingrether.idisguise.disguise.DisguiseType;
+import de.robingrether.idisguise.disguise.MobDisguise;
 
 public class VillagePlayer extends VillagePlayerCore {
 	
@@ -90,9 +97,9 @@ public class VillagePlayer extends VillagePlayerCore {
 		
 		if(village.status==VillageStatus.preparing || village.status==VillageStatus.recruiting){
 			village.scoreboard.resetScores(player);
-			VillageUtil.removePlayer(getPlayer(), village);
+			VillageUtil.removePlayer(player, village);
 		}else if(village.status==VillageStatus.finishing){
-			VillageUtil.removePlayer(getPlayer(), village);
+			VillageUtil.removePlayer(player, village);
 		}
 	}
 	
@@ -180,11 +187,31 @@ public class VillagePlayer extends VillagePlayerCore {
 		votedPlayer = null;
 		guardPlayer = null;
 		tryUranai = false;
+		Location loc = null;
+		ItemStack skull = new ItemStack(Material.SKULL_ITEM);
+		SkullMeta skullMeta = (SkullMeta) skull.getItemMeta();
 		
-		if(connection)
+		if(connection){
 			addGhostTeam();
-		else
+			undisguise();
+			loc = getPlayer().getLocation();
+		}else{
 			removeFenceAroundBed();
+			loc = villagerEntity.getLocation();
+		}
+
+		skull.setDurability((short) 3);			
+		skullMeta.setDisplayName(getName()+" の頭");
+		skullMeta.setOwner(getName());
+		skull.setItemMeta(skullMeta);
+
+		World world = Bukkit.getWorld(village.villageName);
+		world.dropItem(loc, skull);
+		world.dropItem(loc, new ItemStack(Material.BONE, 3));
+		world.dropItem(loc, new ItemStack(Material.RAW_BEEF, 3));
+		world.dropItem(loc, new ItemStack(Material.ROTTEN_FLESH, 3));
+		world.dropItem(loc, new ItemStack(Material.LEATHER_CHESTPLATE, 1));
+		world.dropItem(loc, new ItemStack(Material.LEATHER_LEGGINGS, 1));
 	}
 	
 	public void giveDeathDamage(){
@@ -347,6 +374,7 @@ public class VillagePlayer extends VillagePlayerCore {
 		}
 		if(target.role==VillageRole.youko){
 			village.sendToVillage(C.green+"どこからか狐の悲鳴が聞こえてきました。");
+			target.disguiseBlaze();
 			for(VillagePlayer jinrou : village.getJinrouListExceptNPC())
 				jinrou.sendMessage(color+getName()+C.gold+" さんが "+target.color+target.getName()
 						+C.gold+" さんを噛み殺そうとしましたが、 "
@@ -371,13 +399,21 @@ public class VillagePlayer extends VillagePlayerCore {
 		pl.removePotionEffect(PotionEffectType.INVISIBILITY);
 		pl.setAllowFlight(true);
 		pl.setFlying(true);
+		undisguise();
 	}
 
 	public void spawnVillager(){
-		villagerEntity = (LivingEntity) Bukkit.getWorld(village.villageName)
-						.spawnEntity(((DefaultVillageData) village).getHome(this), EntityType.VILLAGER);
-		villagerEntity.setCustomName(getName());
-		villagerEntity.setCustomNameVisible(true);
+		if(role==VillageRole.jinrou
+				&& village.status==VillageStatus.ongoing && village.time==VillageTime.night){
+			villagerEntity = (LivingEntity) Bukkit.getWorld(village.villageName)
+					.spawnEntity(((DefaultVillageData) village).getHome(this), EntityType.ZOMBIE);
+		}else{
+			villagerEntity = (LivingEntity) Bukkit.getWorld(village.villageName)
+					.spawnEntity(((DefaultVillageData) village).getHome(this), EntityType.VILLAGER);
+			villagerEntity.setCustomName(getName());
+			villagerEntity.setCustomNameVisible(true);
+			((Villager) villagerEntity).setProfession(proffession);
+		}
 	}
 	
 	public void setFenceAroundBed(){
@@ -428,5 +464,50 @@ public class VillagePlayer extends VillagePlayerCore {
 			world.getBlockAt(x, y, z-1).setType(Material.AIR);
 		if(world.getBlockAt(x+1, y, z-1).getType()==Material.FENCE)
 			world.getBlockAt(x+1, y, z-1).setType(Material.AIR);
+	}
+	
+	public void disguiseZombie(){
+		if(getName().matches("p\\d+"))
+			return;
+
+		if(connection){
+			DisguiseAPI api = Bukkit.getServer().getServicesManager().getRegistration(DisguiseAPI.class).getProvider();
+			api.disguiseToAll(getPlayer(), new MobDisguise(DisguiseType.ZOMBIE, true));
+		}else{
+			villagerEntity.remove();
+			spawnVillager();
+		}
+	}
+	
+	public void disguiseBlaze(){
+		if(getName().matches("p\\d+"))
+			return;
+
+		if(connection){
+			DisguiseAPI api = Bukkit.getServer().getServicesManager().getRegistration(DisguiseAPI.class).getProvider();
+			api.disguiseToAll(getPlayer(), new MobDisguise(DisguiseType.BLAZE, true));
+		}else{
+			Location loc = villagerEntity.getLocation();
+			villagerEntity.remove();
+			villagerEntity = (LivingEntity) Bukkit.getWorld(village.villageName)
+						.spawnEntity(loc, EntityType.BLAZE);
+		}
+	}
+	
+	public void undisguise(){
+		if(getName().matches("p\\d+"))
+			return;
+
+		DisguiseAPI api = Bukkit.getServer().getServicesManager().getRegistration(DisguiseAPI.class).getProvider();
+		if(connection){
+			if(api.isDisguised(getPlayer()))
+				api.undisguiseToAll(getPlayer());
+		}else{
+			if(villagerEntity.getType()==EntityType.VILLAGER)
+				return;
+			
+			villagerEntity.remove();
+			spawnVillager();
+		}
 	}
 }

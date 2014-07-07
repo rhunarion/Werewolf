@@ -11,12 +11,15 @@ import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.CreatureSpawnEvent;
+import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
@@ -64,6 +67,9 @@ public class EventListener implements Listener {
 	public void onChat(AsyncPlayerChatEvent event){
 		if(VillageUtil.isInVillage(event.getPlayer()))
 			SendMessage.splitUnspecifiedMessage(event.getPlayer(), event.getMessage());
+		else
+			SendMessage.sendToLobbyByPlayer(event.getPlayer(), event.getMessage());
+		event.setCancelled(true);
 	}
 
 	@EventHandler
@@ -108,6 +114,21 @@ public class EventListener implements Listener {
 		}
 	}
 	
+	@EventHandler
+	public void onMobSpawn(CreatureSpawnEvent event){
+		if(VillageUtil.isVillageName(event.getEntity().getWorld().getName())){
+			if(event.getSpawnReason()==SpawnReason.NATURAL
+					&& event.getEntityType()!=EntityType.COW
+					&& event.getEntityType()!=EntityType.SHEEP
+					&& event.getEntityType()!=EntityType.PIG
+					&& event.getEntityType()!=EntityType.CHICKEN
+					&& event.getEntityType()!=EntityType.HORSE
+					&& event.getEntityType()!=EntityType.BAT
+					&& event.getEntityType()!=EntityType.SQUID)
+					event.setCancelled(true);
+		}
+	}
+
 	@EventHandler(priority = EventPriority.HIGH)
 	public void onPlayerMoveInCreativeMode(PlayerMoveEvent event){
 		if(VillageUtil.isInVillage(event.getPlayer())

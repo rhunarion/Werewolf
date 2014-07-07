@@ -22,10 +22,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import de.robingrether.idisguise.api.DisguiseAPI;
-import de.robingrether.idisguise.disguise.DisguiseType;
-import de.robingrether.idisguise.disguise.MobDisguise;
-
 public class Village extends VillageTimer {
 	
 	public Village(String villageName, String villageType, JavaPlugin plugin){
@@ -183,12 +179,9 @@ public class Village extends VillageTimer {
 		for(VillagePlayer vp : getAliveNPCList())
 			vp.setFenceAroundBed();
 
-		DisguiseAPI api = Bukkit.getServer().getServicesManager().getRegistration(DisguiseAPI.class).getProvider();
-   		for(VillagePlayer vp : getJinrouListExceptNPC()){
-			api.disguiseToAll(vp.getPlayer(), new MobDisguise(DisguiseType.ZOMBIE, true));
-			int i;
-   		}
-		
+   		for(VillagePlayer vp : getJinrouList())
+   			vp.disguiseZombie();
+   			
 		if(day!=0){
 			sendToVillage(C.green+"////////// " 
 							+C.aqua+""+day+"日目夜"+C.green+" になりました。 //////////");
@@ -230,6 +223,11 @@ public class Village extends VillageTimer {
 		for(VillagePlayer vp : getAliveNPCList())
 			vp.removeFenceAroundBed();
 		
+		for(VillagePlayer vp : getJinrouList())
+			vp.undisguise();
+		for(VillagePlayer vp : getYoukoList())
+			vp.undisguise();
+
 		sendToVillage(C.green+"////////// " 
 								+C.aqua+""+day+"日目朝"+C.green+" になりました。 //////////");
 		if(bittenPlayer==null && cursedPlayerList.size()==0){

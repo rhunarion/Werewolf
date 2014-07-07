@@ -13,12 +13,15 @@ import org.bukkit.Difficulty;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
 
+import de.robingrether.idisguise.sound.SoundSystem;
+
 public class Werewolf extends JavaPlugin {
 	@Override
 	public void onEnable(){
 		getServer().getPluginManager().registerEvents(new EventListener(this), this);
 		getServer().getPluginManager().registerEvents(new GameEvent(), this);
 		getServer().getPluginManager().registerEvents(new DefaultVillageEvent(), this);
+		GameEvent.removeNightSound(this);
 		getCommand("ww").setExecutor(new WwCommandExecutor());
 		getCommand("ww").setTabCompleter(new WwTabCompleter());
 
@@ -36,7 +39,7 @@ public class Werewolf extends JavaPlugin {
 		for(Village vil : VillageUtil.getVillageList()){
 			WorldCreator.name(vil.villageName).createWorld();
 			Bukkit.getWorld(vil.villageName).setTime(6000);
-			Bukkit.getWorld(vil.villageName).setDifficulty(Difficulty.PEACEFUL);
+			Bukkit.getWorld(vil.villageName).setDifficulty(Difficulty.HARD);
 			Bukkit.getWorld(vil.villageName).setGameRuleValue("keepInventory", "true");
 			Bukkit.getWorld(vil.villageName).setGameRuleValue("mobGriefing", "false");
 			Bukkit.getWorld(vil.villageName).setGameRuleValue("doDaylightCycle", "false");
@@ -50,8 +53,7 @@ public class Werewolf extends JavaPlugin {
 			}
 		}
 		
-		//SoundSystem.setEnabled(false);
-		int i;
+		SoundSystem.setEnabled(false);
 	}
 	
 	@Override

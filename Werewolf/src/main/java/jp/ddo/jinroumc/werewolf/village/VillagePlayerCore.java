@@ -1,5 +1,7 @@
 package jp.ddo.jinroumc.werewolf.village;
 
+import java.util.Random;
+
 import jp.ddo.jinroumc.werewolf.enumconstant.VillageRole;
 import jp.ddo.jinroumc.werewolf.util.C;
 
@@ -7,10 +9,14 @@ import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Villager.Profession;
 
 public class VillagePlayerCore{
+	public static Random rnd = new Random();
+	
 	public OfflinePlayer player;
 	public LivingEntity villagerEntity;
+	public Profession proffession;
 	public Village village;
 	public VillageRole role;
 	public VillageRole roleRequested;
@@ -24,9 +30,11 @@ public class VillagePlayerCore{
 	public VillagePlayer guardPlayer;
 	public boolean tryUranai;
 
+	@SuppressWarnings("deprecation")
 	VillagePlayerCore(Player pl){
 		this.player = (OfflinePlayer) pl;
 		this.villagerEntity = null;
+		this.proffession = Profession.getProfession(rnd.nextInt(5));
 		this.village = VillageUtil.getVillage(pl);
 		this.role = VillageRole.none;
 		this.roleRequested = VillageRole.none;
@@ -41,8 +49,11 @@ public class VillagePlayerCore{
 		this.tryUranai = false;
 	}
 	
+	@SuppressWarnings("deprecation")
 	VillagePlayerCore(OfflinePlayer pl, Village vil){
 		this.player = pl;
+		this.villagerEntity = null;
+		this.proffession = Profession.getProfession(rnd.nextInt(5));
 		this.village = vil;
 		this.role = VillageRole.none;
 		this.roleRequested = VillageRole.none;

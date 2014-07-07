@@ -86,22 +86,15 @@ public class CommandDebug implements CommandExecutor {
 		}
 		
 		if(args[0].equalsIgnoreCase("g")){
+
 			
-/*			final World modifiedVillage = Bukkit.getWorld(args[2]);
-			Block mod = null;
-			for(int x=-38; x<=38; x++){
-				for(int z=-38; z<=38; z++){
-					for(int y=43; y<=75; y++){
-						mod = modifiedVillage.getBlockAt(x, y, z);
-						if(mod.getType()==Material.WALL_SIGN || mod.getType()==Material.SIGN_POST){
-							Sign modSign = (Sign) mod.getState();
-							for(int j=0; j<4; j++)
-								modSign.setLine(j, C.aqua+modSign.getLine(j));
-							modSign.update();
-						}
-					}
-				}
-			}
+/*			Location loc = pl.getLocation();
+			loc.setZ(loc.getZ()-3);
+			
+			//pl.playSound(loc, Sound.GHAST_SCREAM2, 1f, 1.5f);
+			//pl.playSound(loc, Sound.ENDERMAN_DEATH, 1f, 0.5f);
+			//pl.playSound(loc, Sound.WOLF_HURT, 1f, 0f);
+			
 			/*Player pl = (Player) sender;
 			Village vil = VillageUtil.getVillage(pl);
 			ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(vil.plugin,
