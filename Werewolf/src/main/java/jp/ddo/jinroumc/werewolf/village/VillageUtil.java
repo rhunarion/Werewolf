@@ -187,11 +187,11 @@ public class VillageUtil {
 			}else{
 				removePlayer(pl, vil);
 			}
-			for(VillagePlayer pc : vil.getPlayerListExceptNPC()){
+			for(VillagePlayer pc : vil.getPlayerListExceptNpc()){
 				pl.showPlayer(pc.getPlayer());
 				pc.getPlayer().showPlayer(pl);
 			}
-			if(vil.getPlayerListExceptNPC().size()==0 && vil.status!=VillageStatus.empty)
+			if(vil.getPlayerListExceptNpc().size()==0 && vil.status!=VillageStatus.empty)
 				vil.rebuildVillage();
 		}
 		BarAPI.removeBar(pl);

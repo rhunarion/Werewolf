@@ -21,6 +21,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -85,7 +86,7 @@ public class VillagePlayer extends VillagePlayerCore {
 		}
 
 		if(gameMaster && village.status!=VillageStatus.finishing){
-			List<VillagePlayer> vpList = village.getAlivePlayerListExceptNPC();
+			List<VillagePlayer> vpList = village.getAlivePlayerListExceptNpc();
 			
 			if(vpList.size()==0){
 				village.sendToVillage(C.gold+"参加者がいなくなったため強制終了します。");
@@ -190,8 +191,6 @@ public class VillagePlayer extends VillagePlayerCore {
 		guardPlayer = null;
 		tryUranai = false;
 		Location loc = null;
-		ItemStack skull = new ItemStack(Material.SKULL_ITEM);
-		SkullMeta skullMeta = (SkullMeta) skull.getItemMeta();
 		
 		if(connection){
 			addGhostTeam();
@@ -202,18 +201,39 @@ public class VillagePlayer extends VillagePlayerCore {
 			loc = villagerEntity.getLocation();
 		}
 
+		ItemStack skull = new ItemStack(Material.SKULL_ITEM);
+		SkullMeta skullMeta = (SkullMeta) skull.getItemMeta();
 		skull.setDurability((short) 3);			
 		skullMeta.setDisplayName(getName()+" の頭");
 		skullMeta.setOwner(getName());
 		skull.setItemMeta(skullMeta);
+		
+		ItemStack bone = new ItemStack(Material.BONE, 5);
+		ItemMeta boneMeta = (ItemMeta) bone.getItemMeta();
+		boneMeta.setDisplayName(getName()+" の骨");
+		bone.setItemMeta(boneMeta);
+		
+		ItemStack flesh = new ItemStack(Material.RAW_BEEF, 5);
+		ItemMeta fleshMeta = (ItemMeta) flesh.getItemMeta();
+		fleshMeta.setDisplayName(getName()+" の肉");
+		flesh.setItemMeta(fleshMeta);
+		
+		ItemStack upperLether = new ItemStack(Material.LEATHER_CHESTPLATE, 1);
+		ItemMeta upperLetherMeta = (ItemMeta) upperLether.getItemMeta();
+		upperLetherMeta.setDisplayName(getName()+" の上半身の皮");
+		upperLether.setItemMeta(upperLetherMeta);
+		
+		ItemStack lowerLether = new ItemStack(Material.LEATHER_LEGGINGS, 1);
+		ItemMeta lowerLetherMeta = (ItemMeta) lowerLether.getItemMeta();
+		lowerLetherMeta.setDisplayName(getName()+" の下半身の皮");
+		lowerLether.setItemMeta(lowerLetherMeta);
 
 		World world = Bukkit.getWorld(village.villageName);
 		world.dropItem(loc, skull);
-		world.dropItem(loc, new ItemStack(Material.BONE, 3));
-		world.dropItem(loc, new ItemStack(Material.RAW_BEEF, 3));
-		world.dropItem(loc, new ItemStack(Material.ROTTEN_FLESH, 3));
-		world.dropItem(loc, new ItemStack(Material.LEATHER_CHESTPLATE, 1));
-		world.dropItem(loc, new ItemStack(Material.LEATHER_LEGGINGS, 1));
+		world.dropItem(loc, bone);
+		world.dropItem(loc, flesh);
+		world.dropItem(loc, upperLether);
+		world.dropItem(loc, lowerLether);
 	}
 	
 	public void giveDeathDamage(){
@@ -239,11 +259,11 @@ public class VillagePlayer extends VillagePlayerCore {
 		pl.setAllowFlight(true);
 		pl.setFlying(true);
 		
-		for(VillagePlayer alive : village.getAlivePlayerListExceptNPC())
+		for(VillagePlayer alive : village.getAlivePlayerListExceptNpc())
 			alive.getPlayer().hidePlayer(pl);
 		for(VillagePlayer ghost : village.getPlayerListExceptAliveWhileOngoing())
 			ghost.getPlayer().showPlayer(pl);
-		for(VillagePlayer pc : village.getPlayerListExceptNPC())
+		for(VillagePlayer pc : village.getPlayerListExceptNpc())
 			pl.showPlayer(pc.getPlayer());
 	}
 	
@@ -267,7 +287,7 @@ public class VillagePlayer extends VillagePlayerCore {
 	public void sendMessageWithShout(String message){
 		String[] splitList = message.split("\\\\", -1);
 		for(String split : splitList){
-			for(VillagePlayer vp : village.getPlayerListExceptNPC())
+			for(VillagePlayer vp : village.getPlayerListExceptNpc())
 				vp.sendMessage(C.d_aqua+"["+getName()+" with shout] "+split);
 		}
 	}
@@ -275,7 +295,7 @@ public class VillagePlayer extends VillagePlayerCore {
 	public void sendMessageWithCO(String message){
 		String[] splitList = message.split("\\\\", -1);
 		for(String split : splitList){
-			for(VillagePlayer vp : village.getPlayerListExceptNPC())
+			for(VillagePlayer vp : village.getPlayerListExceptNpc())
 				vp.sendMessage(C.l_purple+"["+getName()+" with co] "+split);
 		}
 		
@@ -367,13 +387,13 @@ public class VillagePlayer extends VillagePlayerCore {
 		for(VillagePlayer kariudo : village.getKariudoList()){
 			if(kariudo.guardPlayer==target){
 				village.sendToVillage(C.green+"どこからか矢を放つ音と、狼の悲鳴が聞こえてきました。");
-				for(VillagePlayer jinrou : village.getAliveJinrouListExceptNPC())
+				for(VillagePlayer jinrou : village.getAliveJinrouListExceptNpc())
 					jinrou.sendMessage(color+getName()+C.gold+" さんが "+target.color+target.getName()
 							+C.gold+" さんを噛み殺そうとしましたが、 "
 							+C.aqua+"狩人"+C.gold+" に護衛されていたようです。");
 				
 				Location loc = null;
-				for(VillagePlayer bitable : village.getPlayerListExceptAliveJinrouAndNPC()){
+				for(VillagePlayer bitable : village.getPlayerListExceptAliveJinrouAndNpc()){
 					if(bitable==target)
 						continue;
 					loc = new Location(Bukkit.getWorld(village.villageName), 0, 64, 0);
@@ -382,7 +402,7 @@ public class VillagePlayer extends VillagePlayerCore {
 				Bukkit.getScheduler().runTaskLater(village.plugin, new BukkitRunnable(){
 					@Override
 					public void run(){
-						for(VillagePlayer bitable : village.getPlayerListExceptAliveJinrouAndNPC()){
+						for(VillagePlayer bitable : village.getPlayerListExceptAliveJinrouAndNpc()){
 							if(bitable==target)
 								continue;
 							Location loc = new Location(Bukkit.getWorld(village.villageName), 0, 64, 0);
@@ -395,7 +415,7 @@ public class VillagePlayer extends VillagePlayerCore {
 					loc = target.getPlayer().getLocation();
 				else
 					loc = target.villagerEntity.getLocation();
-				for(VillagePlayer jinrou : village.getAliveJinrouListExceptNPC())
+				for(VillagePlayer jinrou : village.getAliveJinrouListExceptNpc())
 					jinrou.playSoundAtModifiedPoint(loc, Sound.SHOOT_ARROW, 1f);
 				if(target.connection)
 					target.playSoundAtModifiedPoint(loc, Sound.SHOOT_ARROW, 1f);
@@ -409,7 +429,7 @@ public class VillagePlayer extends VillagePlayerCore {
 				Bukkit.getScheduler().runTaskLater(village.plugin, new BukkitRunnable(){
 					@Override
 					public void run(){
-						for(VillagePlayer jinrou : village.getAliveJinrouListExceptNPC())
+						for(VillagePlayer jinrou : village.getAliveJinrouListExceptNpc())
 							jinrou.playSoundAtModifiedPoint(bitingLoc, Sound.WOLF_HURT, 0f);
 						if(target.connection)
 							target.playSoundAtModifiedPoint(bitingLoc, Sound.WOLF_HURT, 0f);
@@ -424,13 +444,13 @@ public class VillagePlayer extends VillagePlayerCore {
 		if(target.role==VillageRole.youko){
 			village.sendToVillage(C.green+"どこからか狐の悲鳴が聞こえてきました。");
 			target.disguiseBlaze();
-			for(VillagePlayer jinrou : village.getAliveJinrouListExceptNPC())
+			for(VillagePlayer jinrou : village.getAliveJinrouListExceptNpc())
 				jinrou.sendMessage(color+getName()+C.gold+" さんが "+target.color+target.getName()
 						+C.gold+" さんを噛み殺そうとしましたが、 "
 						+C.yellow+"妖狐"+C.gold+" が人間に化けていたようです。");
 
 			Location loc = null;
-			for(VillagePlayer bitable : village.getPlayerListExceptAliveJinrouAndNPC()){
+			for(VillagePlayer bitable : village.getPlayerListExceptAliveJinrouAndNpc()){
 				if(bitable==target)
 					continue;
 				loc = new Location(Bukkit.getWorld(village.villageName), 0, 64, 0);
@@ -440,7 +460,7 @@ public class VillagePlayer extends VillagePlayerCore {
 				loc = target.getPlayer().getLocation();
 			else
 				loc = target.villagerEntity.getLocation();
-			for(VillagePlayer jinrou : village.getAliveJinrouListExceptNPC())
+			for(VillagePlayer jinrou : village.getAliveJinrouListExceptNpc())
 				jinrou.playSoundAtModifiedPoint(loc, Sound.GHAST_SCREAM2, 1.5f);
 			if(target.connection)
 				target.playSoundAtModifiedPoint(loc, Sound.GHAST_SCREAM2, 1.5f);
@@ -454,12 +474,12 @@ public class VillagePlayer extends VillagePlayerCore {
 		target.giveDeathDamage();
 		if(target.connection)
 			target.sendMessage(C.gold+"あなたは人狼に噛み殺されました。");
-		for(VillagePlayer jinrou : village.getAliveJinrouListExceptNPC())
+		for(VillagePlayer jinrou : village.getAliveJinrouListExceptNpc())
 			jinrou.sendMessage(color+getName()+C.gold+" さんが "+target.color+target.getName()
 						+C.gold+" さんを噛み殺しました。");
 
 		Location loc = null;
-		for(VillagePlayer bitable : village.getPlayerListExceptAliveJinrouAndNPC()){
+		for(VillagePlayer bitable : village.getPlayerListExceptAliveJinrouAndNpc()){
 			loc = new Location(Bukkit.getWorld(village.villageName), 0, 64, 0);
 			bitable.playSoundAtModifiedPoint(loc,Sound.ENDERMAN_DEATH, 0.5f);
 		}
@@ -467,7 +487,7 @@ public class VillagePlayer extends VillagePlayerCore {
 			loc = target.getPlayer().getLocation();
 		else
 			loc = target.villagerEntity.getLocation();
-		for(VillagePlayer jinrou : village.getAliveJinrouListExceptNPC())
+		for(VillagePlayer jinrou : village.getAliveJinrouListExceptNpc())
 			jinrou.playSoundAtModifiedPoint(loc, Sound.ENDERMAN_DEATH, 0.5f);
 		if(target.connection)
 			target.playSoundAtModifiedPoint(loc, Sound.ENDERMAN_DEATH, 0.5f);
@@ -488,7 +508,7 @@ public class VillagePlayer extends VillagePlayerCore {
 	
 	public void changeStatusOnGameFinish(){
 		Player pl = getPlayer();
-		for(VillagePlayer pc : village.getPlayerListExceptNPC())
+		for(VillagePlayer pc : village.getPlayerListExceptNpc())
 			pl.showPlayer(pc.getPlayer());
 		pl.removePotionEffect(PotionEffectType.INVISIBILITY);
 		pl.setAllowFlight(true);
@@ -561,7 +581,7 @@ public class VillagePlayer extends VillagePlayerCore {
 	}
 	
 	public void disguiseZombie(){
-		if(getName().contains("."))
+		if(getName().contains(".") && !getName().contains(".."))
 			return;
 
 		if(connection){
@@ -574,7 +594,7 @@ public class VillagePlayer extends VillagePlayerCore {
 	}
 	
 	public void disguiseBlaze(){
-		if(getName().contains("."))
+		if(getName().contains(".") && !getName().contains(".."))
 			return;
 
 		if(connection){
@@ -589,7 +609,7 @@ public class VillagePlayer extends VillagePlayerCore {
 	}
 	
 	public void undisguise(){
-		if(getName().contains("."))
+		if(getName().contains(".") && !getName().contains(".."))
 			return;
 
 		DisguiseAPI api = Bukkit.getServer().getServicesManager().getRegistration(DisguiseAPI.class).getProvider();

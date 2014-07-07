@@ -29,7 +29,7 @@ public class Village extends VillageTimer {
 	}
 	
 	private void assignRole(){
-		List<VillagePlayer> vpList = getJoiningPlayerListExceptNPC();
+		List<VillagePlayer> vpList = getJoiningPlayerListExceptNpc();
 		Collections.shuffle(vpList);
 		VillagePlayer fv = getPlayer("Mr.Firvic");
 
@@ -85,7 +85,7 @@ public class Village extends VillageTimer {
 	}
 
 	private void assignColor(){
-		List<VillagePlayer> vpList = getJoiningPlayerListExceptNPC();
+		List<VillagePlayer> vpList = getJoiningPlayerListExceptNpc();
 		
 		List<ChatColor> clList = new ArrayList<ChatColor>();
 		clList.add(ChatColor.AQUA);
@@ -162,7 +162,7 @@ public class Village extends VillageTimer {
 												+"ゲーム開始"+C.green+"      /////");
 		sendToVillage(C.green+"/////////////////////////////////");
 		sendToVillage(C.green+"平和だった村の様子がおかしい…。今夜は何か起きそうな気がする…。");
-		for(VillagePlayer vp : getAlivePlayerListExceptNPC())
+		for(VillagePlayer vp : getAlivePlayerListExceptNpc())
 			vp.showMyRole();
 		for(VillagePlayer vp : getPlayerListExceptAliveWhileOngoing())
 			vp.addGhostTeam();
@@ -177,7 +177,7 @@ public class Village extends VillageTimer {
 		((DefaultVillageData) this).changeHouseEffect();
 		for(VillagePlayer vp : getAlivePlayerList())
 			vp.teleportToHome();
-		for(VillagePlayer vp : getAliveNPCList())
+		for(VillagePlayer vp : getAliveNpcList())
 			vp.setFenceAroundBed();
 
    		for(VillagePlayer vp : getAliveJinrouList())
@@ -186,7 +186,7 @@ public class Village extends VillageTimer {
 		if(day!=0){
 			sendToVillage(C.green+"////////// " 
 							+C.aqua+""+day+"日目夜"+C.green+" になりました。 //////////");
-			for(VillagePlayer vp : getAlivePlayerListExceptNPC()){
+			for(VillagePlayer vp : getAlivePlayerListExceptNpc()){
 				if(vp.role==VillageRole.uranaishi){
 					vp.sendMessage(C.yellow+"/"+PluginChecker.getWw()+"uranai <player>"
 							+C.gold+" とコマンドすることで夜に指定したプレイヤーを占うことができます。");
@@ -221,7 +221,7 @@ public class Village extends VillageTimer {
 		((DefaultVillageData) this).changeHouseEffect();
 		for(VillagePlayer vp : getAlivePlayerList())
 			vp.teleportToHome();
-		for(VillagePlayer vp : getAliveNPCList())
+		for(VillagePlayer vp : getAliveNpcList())
 			vp.removeFenceAroundBed();
 		
 		for(VillagePlayer vp : getAliveJinrouList())
@@ -243,7 +243,7 @@ public class Village extends VillageTimer {
 							+C.green+" さんが誰かに呪い殺されました。");
 		}
 		
-		for(VillagePlayer vp : getAlivePlayerListExceptNPC()){
+		for(VillagePlayer vp : getAlivePlayerListExceptNpc()){
 			if(vp.role==VillageRole.reibaishi){
 				if(reishiAllPlayers){
 					if(bittenPlayer!=null)
@@ -338,11 +338,11 @@ public class Village extends VillageTimer {
 		
 		final Village vil = this;
 		final VillagePlayer playerToBeExecuted = maxVotedPlayer;
-		doTaskLaterID = Bukkit.getScheduler().runTaskLater(plugin, new BukkitRunnable(){
+		doTaskLaterId = Bukkit.getScheduler().runTaskLater(plugin, new BukkitRunnable(){
 			@Override
 			public void run(){
 				vil.execution(playerToBeExecuted);
-				vil.doTaskLaterID = -1;
+				vil.doTaskLaterId = -1;
 			}
 		}, 100).getTaskId();
 	}
@@ -451,7 +451,7 @@ public class Village extends VillageTimer {
 		}
 		((DefaultVillageData) this).finishFirework();
 		status = VillageStatus.finishing;
-		for(VillagePlayer vp : getPlayerListExceptNPC())
+		for(VillagePlayer vp : getPlayerListExceptNpc())
 			vp.changeStatusOnGameFinish();
 		for(VillagePlayer vp : getJoiningPlayerList())
 			vp.joining = false;
@@ -461,7 +461,7 @@ public class Village extends VillageTimer {
 		sendToVillage(C.gold+"お疲れ様でした。この村は再生成されます。");
 		stopTimer();
 		stopDoTaskLater();
-		for(VillagePlayer vp : getPlayerListExceptNPC()){
+		for(VillagePlayer vp : getPlayerListExceptNpc()){
 			Player pl = vp.getPlayer();
 			VillageUtil.teleportToLobby(pl);
 			VillageUtil.onPlayerLeave(pl);

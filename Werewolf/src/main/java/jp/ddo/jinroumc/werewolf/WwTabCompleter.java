@@ -81,7 +81,7 @@ public class WwTabCompleter implements TabCompleter {
 
 		if(args.length==2 && args[0].equalsIgnoreCase("giveGM")
 				&& (vp.gameMaster))
-			return getPartialMatches(args, vil.getPlayerNameListExceptGMandNPC());
+			return getPartialMatches(args, vil.getPlayerNameListExceptGMandNpc());
 
 		if(args.length==2 && args[0].equalsIgnoreCase("chRule")
 				&& (vp.gameMaster && vil.status!=VillageStatus.finishing))
@@ -118,7 +118,7 @@ public class WwTabCompleter implements TabCompleter {
 
 		if(args.length==2 && args[0].equalsIgnoreCase("kick")
 				&& (vp.gameMaster))
-			return getPartialMatches(args, vil.getPlayerNameListExceptGMandNPC());
+			return getPartialMatches(args, vil.getPlayerNameListExceptGMandNpc());
 
 		if(args.length==2 && args[0].equalsIgnoreCase("unkick")
 				&& (vp.gameMaster))
@@ -131,7 +131,7 @@ public class WwTabCompleter implements TabCompleter {
 		if(args.length==2 && args[0].equalsIgnoreCase("whisp")
 				&& (vp.alive && vil.permitWhisp
 						&& vil.status==VillageStatus.ongoing && vil.time!=VillageTime.night))
-			return getPartialMatches(args, vil.getAlivePlayerNameListExceptMyselfAndNPC(pl));
+			return getPartialMatches(args, vil.getAlivePlayerNameListExceptMyselfAndNpc(pl));
 		
 		if(args.length==2 && args[0].equalsIgnoreCase("vote")
 				&& (vp.alive

@@ -57,11 +57,11 @@ public class SendMessage {
 				&& (vil.status==VillageStatus.preparing
 				|| vil.status==VillageStatus.recruiting
 				|| vil.status==VillageStatus.finishing))
-			for(VillagePlayer pc : vil.getPlayerListExceptNPC())
+			for(VillagePlayer pc : vil.getPlayerListExceptNpc())
 				pc.sendMessage(C.d_aqua+"["+vp.getName()+"] "
 								+C.reset+""+message);
 		else
-			for(VillagePlayer pc : vil.getPlayerListExceptNPC())
+			for(VillagePlayer pc : vil.getPlayerListExceptNpc())
 				pc.sendMessage("["+vp.getName()+"] "+C.reset+message);
 		
 		if(vp.alive
@@ -78,7 +78,7 @@ public class SendMessage {
 	}
 
 	public static void sendToWolf(Player sender, String message, Village vil){
-		for(VillagePlayer vp : vil.getPlayerListExceptNPC()){
+		for(VillagePlayer vp : vil.getPlayerListExceptNpc()){
 			if(vp.role==VillageRole.jinrou)
 				vp.sendMessage(C.d_red+"["+sender.getName()+" to wolf] "+message);
 			else{
@@ -98,7 +98,7 @@ public class SendMessage {
 	}
 
 	public static void sendToFox(Player sender, String message, Village vil){
-		for(VillagePlayer vp : vil.getPlayerListExceptNPC()){
+		for(VillagePlayer vp : vil.getPlayerListExceptNpc()){
 			if(vp.role==VillageRole.youko)
 				vp.sendMessage(C.yellow+"["+sender.getName()+" to fox] "+message);
 			else{

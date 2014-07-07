@@ -166,7 +166,7 @@ public class CommandMethod {
 		pl.sendMessage(C.gold+"////////// "+C.yellow
 				+"Player List"+C.gold+" //////////");
 		Village vil = VillageUtil.getVillage(pl);
-		List<String> pnList = vil.getPlayerNameListExceptNPC();
+		List<String> pnList = vil.getPlayerNameListExceptNpc();
 		Collections.sort(pnList, String.CASE_INSENSITIVE_ORDER);
 		String message = C.gold+"Mr.Firvic";
 		if(vil.getPlayer("Mr.Firvic").role!=VillageRole.none
@@ -307,7 +307,7 @@ public class CommandMethod {
 			pl.sendMessage(C.red+"Error: ゲームマスターしか使えないコマンドです。");
 			return;
 		}
-		if(!vil.isPlayerExceptGMandNPC(target)){
+		if(!vil.isPlayerExceptGMandNpc(target)){
 			pl.sendMessage(C.red+"Error: "+target+" というプレイヤーは指定できません。");
 			return;
 		}
@@ -596,7 +596,7 @@ public class CommandMethod {
 			pl.sendMessage(C.red+"Error: ゲームマスターしか使えないコマンドです。");
 			return;
 		}
-		if(!vil.isPlayerExceptGMandNPC(target)){
+		if(!vil.isPlayerExceptGMandNpc(target)){
 			pl.sendMessage(C.red+"Error: "+target+" というプレイヤーは指定できません。");
 			return;
 		}
@@ -694,7 +694,7 @@ public class CommandMethod {
 			pl.sendMessage(C.red+"Error: ルールで許可されていないため、そのコマンドは使えません。");
 			return;
 		}
-		if(!vil.isAlivePlayerExceptMyselfAndNPC(pl, target)){
+		if(!vil.isAlivePlayerExceptMyselfAndNpc(pl, target)){
 			pl.sendMessage(C.red+"Error: "+target+" というプレイヤーは指定できません。");
 			return;
 		}

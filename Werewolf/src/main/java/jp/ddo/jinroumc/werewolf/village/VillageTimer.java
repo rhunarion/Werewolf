@@ -22,7 +22,7 @@ public class VillageTimer extends VillageCore {
 		final VillageTimer vil = this;
 		stopTimer();
 		
-		timerID = Bukkit.getScheduler().runTaskTimer(plugin, new BukkitRunnable(){
+		timerId = Bukkit.getScheduler().runTaskTimer(plugin, new BukkitRunnable(){
 
 			int seconds = initSeconds;
 			int rnd = new Random().nextInt(9)+2;
@@ -37,7 +37,7 @@ public class VillageTimer extends VillageCore {
 				float percent = (float) (100.0/initSeconds*seconds);
 				
 				if(seconds>=0){
-					for(VillagePlayer vp : vil.getPlayerListExceptNPC())
+					for(VillagePlayer vp : vil.getPlayerListExceptNpc())
 						if(vp.player.isOnline() && !(vp.getName().contains(".")))
 							if(seconds>30)
 								BarAPI.setMessage(vp.getPlayer(), C.yellow+vil.title+C.white
@@ -46,14 +46,14 @@ public class VillageTimer extends VillageCore {
 								BarAPI.setMessage(vp.getPlayer(), C.yellow+vil.title+C.white
 													+" ("+vil.villageName+") "+message+C.red+time, percent);
 					if(seconds==30 && vil.status==VillageStatus.ongoing && vil.time==VillageTime.day)
-						for(VillagePlayer vp : vil.getAlivePlayerListExceptNPC())
+						for(VillagePlayer vp : vil.getAlivePlayerListExceptNpc())
 							if(vp.votedPlayer==null)
 								vp.sendMessage(C.gold+"あなたは未投票です。"
 										+"集会場の看板をクリックして、処刑までに投票を完了してください。");
 					if(seconds==initSeconds/rnd && !vil.tryBiting
 							&& vil.status==VillageStatus.ongoing
 							&& vil.day!=0 && vil.time==VillageTime.night
-							&& vil.getAliveJinrouListExceptNPC().size()==0){
+							&& vil.getAliveJinrouListExceptNpc().size()==0){
 						List<VillagePlayer> bitableList = vil.getAlivePlayerListExceptJinrou();
 						Collections.shuffle(bitableList);
 						List<VillagePlayer> jinrouList = vil.getAliveJinrouList();
@@ -63,7 +63,7 @@ public class VillageTimer extends VillageCore {
 					}
 					seconds--;
 				}else{
-					for(VillagePlayer vp : vil.getPlayerListExceptNPC())
+					for(VillagePlayer vp : vil.getPlayerListExceptNpc())
 						BarAPI.removeBar(vp.getPlayer());
 					vil.stopTimer();
 					vil.afterTimer();
@@ -73,25 +73,25 @@ public class VillageTimer extends VillageCore {
 	}
 	
 	public void stopTimer(){
-		if(timerID!=-1){
-			Bukkit.getScheduler().cancelTask(timerID);
-			timerID = -1;
-			for(VillagePlayer vp : getPlayerListExceptNPC())
+		if(timerId!=-1){
+			Bukkit.getScheduler().cancelTask(timerId);
+			timerId = -1;
+			for(VillagePlayer vp : getPlayerListExceptNpc())
 				BarAPI.removeBar(vp.getPlayer());
 		}
 	}
 	
 	public void stopDoTaskLater(){
-		if(doTaskLaterID!=-1){
-			Bukkit.getScheduler().cancelTask(doTaskLaterID);
-			doTaskLaterID = -1;
+		if(doTaskLaterId!=-1){
+			Bukkit.getScheduler().cancelTask(doTaskLaterId);
+			doTaskLaterId = -1;
 		}
 	}
 	
 	public void stopAsyncRebuild(){
-		if(asyncRebuildID!=-1){
-			Bukkit.getScheduler().cancelTask(asyncRebuildID);
-			asyncRebuildID = -1;
+		if(asyncRebuildId!=-1){
+			Bukkit.getScheduler().cancelTask(asyncRebuildId);
+			asyncRebuildId = -1;
 		}
 	}
 

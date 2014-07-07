@@ -225,7 +225,7 @@ public class DefaultVillageData extends Village {
 		final World defaultVillage = Bukkit.getWorld("default_village");
 		vil.stopAsyncRebuild();
 
-		vil.asyncRebuildID = Bukkit.getScheduler().runTaskTimer(vil.plugin, new BukkitRunnable(){
+		vil.asyncRebuildId = Bukkit.getScheduler().runTaskTimer(vil.plugin, new BukkitRunnable(){
 			int y = 79;
 			int x = -38;
 			boolean secondTime = false;

@@ -25,9 +25,9 @@ public class VillageCore {
 	public VillageStatus status;
 	public VillageResult result;
 	public JavaPlugin plugin;
-	public int timerID;
-	public int doTaskLaterID;
-	public int asyncRebuildID;
+	public int timerId;
+	public int doTaskLaterId;
+	public int asyncRebuildId;
 	public List<VillagePlayer> playerList;
 	public List<Player> kickedPlayerList;
 
@@ -68,9 +68,9 @@ public class VillageCore {
 		this.status = VillageStatus.empty;
 		this.result = VillageResult.draw;
 		this.plugin = plugin;
-		this.timerID = -1;
-		this.doTaskLaterID = -1;
-		this.asyncRebuildID = -1;
+		this.timerId = -1;
+		this.doTaskLaterId = -1;
+		this.asyncRebuildId = -1;
 		this.playerList = new ArrayList<VillagePlayer>();
 		this.kickedPlayerList = new ArrayList<Player>();
 
@@ -116,7 +116,7 @@ public class VillageCore {
 	}
 
 	public void sendToVillage(String message){
-		for(VillagePlayer vp : getPlayerListExceptNPC())
+		for(VillagePlayer vp : getPlayerListExceptNpc())
 			vp.sendMessage(message);
 	}
 	
@@ -137,7 +137,7 @@ public class VillageCore {
 	}
 	
 	public void shoutRule(){
-		for(VillagePlayer vp : getPlayerListExceptNPC()){
+		for(VillagePlayer vp : getPlayerListExceptNpc()){
 			vp.sendMessage(C.gold+"ゲームマスターがルールの確認を促しています。");
 			vp.showRule();
 		}
@@ -173,7 +173,7 @@ public class VillageCore {
 		return plList;
 	}
 	
-	public List<VillagePlayer> getJoiningPlayerListExceptNPC(){
+	public List<VillagePlayer> getJoiningPlayerListExceptNpc(){
 		List<VillagePlayer> plList = new ArrayList<VillagePlayer>();
 		for(VillagePlayer vp : playerList)
 			if(vp.joining && vp.connection)
@@ -181,7 +181,7 @@ public class VillageCore {
 		return plList;
 	}
 
-	public List<VillagePlayer> getPlayerListExceptNPC(){
+	public List<VillagePlayer> getPlayerListExceptNpc(){
 		List<VillagePlayer> plList = new ArrayList<VillagePlayer>();
 		for(VillagePlayer vp : playerList)
 			if(vp.connection)
@@ -189,7 +189,7 @@ public class VillageCore {
 		return plList;
 	}
 
-	public List<VillagePlayer> getPlayerListExceptAliveJinrouAndNPC(){
+	public List<VillagePlayer> getPlayerListExceptAliveJinrouAndNpc(){
 		List<VillagePlayer> plList = new ArrayList<VillagePlayer>();
 		for(VillagePlayer vp : playerList)
 			if(vp.connection && (vp.role!=VillageRole.jinrou || !vp.alive))
@@ -197,7 +197,7 @@ public class VillageCore {
 		return plList;
 	}
 
-	public List<VillagePlayer> getNPCList(){
+	public List<VillagePlayer> getNpcList(){
 		List<VillagePlayer> plList = new ArrayList<VillagePlayer>();
 		if(status==VillageStatus.empty
 				|| status==VillageStatus.preparing
@@ -217,7 +217,7 @@ public class VillageCore {
 		return plList;
 	}
 
-	public List<VillagePlayer> getAlivePlayerListExceptNPC(){
+	public List<VillagePlayer> getAlivePlayerListExceptNpc(){
 		List<VillagePlayer> plList = new ArrayList<VillagePlayer>();
 		for(VillagePlayer vp : playerList)
 			if(vp.alive && vp.connection)
@@ -225,7 +225,7 @@ public class VillageCore {
 		return plList;
 	}
 	
-	public List<VillagePlayer> getAliveNPCList(){
+	public List<VillagePlayer> getAliveNpcList(){
 		List<VillagePlayer> plList = new ArrayList<VillagePlayer>();
 		for(VillagePlayer vp : playerList)
 			if(vp.alive && !vp.connection)
@@ -282,7 +282,7 @@ public class VillageCore {
 		return plList;
 	}
 	
-	public List<VillagePlayer> getJinrouListExceptNPC(){
+	public List<VillagePlayer> getJinrouListExceptNpc(){
 		List<VillagePlayer> plList = new ArrayList<VillagePlayer>();
 		for(VillagePlayer vp : playerList)
 			if(vp.role==VillageRole.jinrou && vp.connection)
@@ -298,7 +298,7 @@ public class VillageCore {
 		return plList;
 	}
 	
-	public List<VillagePlayer> getAliveJinrouListExceptNPC(){
+	public List<VillagePlayer> getAliveJinrouListExceptNpc(){
 		List<VillagePlayer> plList = new ArrayList<VillagePlayer>();
 		for(VillagePlayer vp : playerList)
 			if(vp.role==VillageRole.jinrou && vp.connection && vp.alive)
@@ -322,7 +322,7 @@ public class VillageCore {
 		return plList;
 	}
 
-	public List<String> getPlayerNameListExceptNPC(){
+	public List<String> getPlayerNameListExceptNpc(){
 		List<String> plList = new ArrayList<String>();
 		for(VillagePlayer vp : playerList)
 			if(vp.connection)
@@ -330,7 +330,7 @@ public class VillageCore {
 		return plList;
 	}
 	
-	public List<String> getPlayerNameListExceptGMandNPC(){
+	public List<String> getPlayerNameListExceptGMandNpc(){
 		List<String> plList = new ArrayList<String>();
 		for(VillagePlayer vp : playerList)
 			if(!vp.gameMaster && vp.connection)
@@ -379,7 +379,7 @@ public class VillageCore {
 		return plList;
 	}
 	
-	public List<String> getAlivePlayerNameListExceptMyselfAndNPC(Player pl){
+	public List<String> getAlivePlayerNameListExceptMyselfAndNpc(Player pl){
 		List<String> plList = new ArrayList<String>();
 		for(VillagePlayer vp : playerList)
 			if(vp.alive && vp.player!=pl && vp.connection)
@@ -395,8 +395,8 @@ public class VillageCore {
 		return plList;
 	}
 	
-	public boolean isPlayerExceptGMandNPC(String plName){
-		for(String pn : getPlayerNameListExceptGMandNPC()){
+	public boolean isPlayerExceptGMandNpc(String plName){
+		for(String pn : getPlayerNameListExceptGMandNpc()){
 			if(pn.equals(plName))
 				return true;
 		}
@@ -435,8 +435,8 @@ public class VillageCore {
 		return false;
 	}
 
-	public boolean isAlivePlayerExceptMyselfAndNPC(Player pl, String plName){
-		for(String pn : getAlivePlayerNameListExceptMyselfAndNPC(pl)){
+	public boolean isAlivePlayerExceptMyselfAndNpc(Player pl, String plName){
+		for(String pn : getAlivePlayerNameListExceptMyselfAndNpc(pl)){
 			if(pn.equals(plName))
 				return true;
 		}

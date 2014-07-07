@@ -39,8 +39,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class WerewolfLobby extends JavaPlugin implements Listener {
-	public static int rewriteSignID = -1;
-	public static int sendTipsID = -1;
+	public static int rewriteSignId = -1;
+	public static int sendTipsId = -1;
 
 	@Override
 	public void onEnable(){
@@ -196,7 +196,7 @@ public class WerewolfLobby extends JavaPlugin implements Listener {
 	}
 
 	private void rewriteSign(){
-		rewriteSignID = Bukkit.getScheduler().runTaskTimer(this, new BukkitRunnable(){
+		rewriteSignId = Bukkit.getScheduler().runTaskTimer(this, new BukkitRunnable(){
 			@Override
 			public void run(){
 				World lobby = Bukkit.getWorld("world");
@@ -284,9 +284,9 @@ public class WerewolfLobby extends JavaPlugin implements Listener {
 	}
 	
 	private static void stopRewriteSign(){
-		if(rewriteSignID!=-1){
-			Bukkit.getScheduler().cancelTask(rewriteSignID);
-			rewriteSignID = -1;
+		if(rewriteSignId!=-1){
+			Bukkit.getScheduler().cancelTask(rewriteSignId);
+			rewriteSignId = -1;
 		}
 	}
 	
@@ -304,7 +304,7 @@ public class WerewolfLobby extends JavaPlugin implements Listener {
 		
 		final List<String> tips = tipsContainer;
 		
-		sendTipsID = Bukkit.getScheduler().runTaskTimer(this, new BukkitRunnable(){
+		sendTipsId = Bukkit.getScheduler().runTaskTimer(this, new BukkitRunnable(){
 			Random rnd = new Random();
 			
 			@Override
@@ -316,9 +316,9 @@ public class WerewolfLobby extends JavaPlugin implements Listener {
 	}
 	
 	private static void stopSendTips(){
-		if(sendTipsID!=-1){
-			Bukkit.getScheduler().cancelTask(sendTipsID);
-			sendTipsID = -1;
+		if(sendTipsId!=-1){
+			Bukkit.getScheduler().cancelTask(sendTipsId);
+			sendTipsId = -1;
 		}
 	}
 }

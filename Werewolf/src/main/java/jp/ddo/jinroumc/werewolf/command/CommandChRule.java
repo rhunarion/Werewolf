@@ -55,7 +55,7 @@ public class CommandChRule {
 										+vil.maxNum+"人"+C.gold+" に設定されました。");
 				if(vil.getJoiningPlayerNum()>vil.maxNum){
 					vil.sendToVillage(C.gold+"参加者が定員を越えているためリセットします。");
-					for(VillagePlayer join : vil.getJoiningPlayerListExceptNPC()){
+					for(VillagePlayer join : vil.getJoiningPlayerListExceptNpc()){
 						join.unjoinGame();
 					}
 				}

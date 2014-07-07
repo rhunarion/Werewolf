@@ -287,7 +287,8 @@ public class DefaultVillageEvent implements Listener {
 			for(DefaultVillageHouseCore house : DefaultVillageHouse.getHouseMap().values()){
 				if(house.westPlane<=x && x<=house.eastPlane
 						&& house.bottomPlane<=y && y<=house.topPlane
-						&& house.northPlane<=z && z<=house.southPlane){
+						&& house.northPlane<=z && z<=house.southPlane
+						&& event.getBlock().getType()!=Material.SKULL){
 					pl.sendMessage(C.red+"Error: このエリアは編集できません。");
 					event.setCancelled(true);
 					return; 
@@ -347,9 +348,11 @@ public class DefaultVillageEvent implements Listener {
 			for(DefaultVillageHouseCore house : DefaultVillageHouse.getHouseMap().values()){
 				if(house.westPlane<=x && x<=house.eastPlane
 						&& house.bottomPlane<=y && y<=house.topPlane
-						&& house.northPlane<=z && z<=house.southPlane){
+						&& house.northPlane<=z && z<=house.southPlane
+						&& event.getBlock().getType()!=Material.SKULL){
 					pl.sendMessage(C.red+"Error: このエリアは編集できません。");
 					event.setCancelled(true);
+					updateInventory(pl, vil);
 					return; 
 				}
 			}

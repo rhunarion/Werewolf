@@ -31,7 +31,9 @@ import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketEvent;
 
 public class GameEvent implements Listener {
-
+	private static PacketAdapter doorAdapter;
+	private static PacketAdapter voiceAdapter;
+	
 	@EventHandler
 	public void onPlayerAttack(EntityDamageByEntityEvent event){
 		
@@ -54,7 +56,7 @@ public class GameEvent implements Listener {
 			if(defender instanceof Player){
 				defenderVp = vil.getPlayer((Player) defender);
 			}else{
-				for(VillagePlayer vp : vil.getNPCList())
+				for(VillagePlayer vp : vil.getNpcList())
 					if(vp.villagerEntity==defender)
 						defenderVp = vp;
 			}
@@ -91,7 +93,7 @@ public class GameEvent implements Listener {
 			if(vil.status!=VillageStatus.ongoing
 					|| vil.time!=VillageTime.execution
 					|| !((DefaultVillageData) vil).isInsideScaffold(loc)){
-				for(VillagePlayer npc : vil.getNPCList()){
+				for(VillagePlayer npc : vil.getNpcList()){
 					if(npc.villagerEntity==entity
 							&& (vil.status!=VillageStatus.ongoing || npc.alive)){
 						npc.spawnVillager();
@@ -105,7 +107,7 @@ public class GameEvent implements Listener {
 			if(entity instanceof Player){
 				vp = vil.getPlayer((Player) entity);
 			}else if(entity.getType().equals(EntityType.VILLAGER)){
-				for(VillagePlayer npc : vil.getAliveNPCList())
+				for(VillagePlayer npc : vil.getAliveNpcList())
 					if(npc.villagerEntity==entity)
 						vp = npc;
 			}else{
@@ -118,12 +120,12 @@ public class GameEvent implements Listener {
 			vil.sendToVillage(vp.color+vp.getName()
 					   +C.green+" さんが処刑されました。間もなく夜が訪れます。");
 	
-			vil.doTaskLaterID = Bukkit.getScheduler().runTaskLater(vil.plugin, new BukkitRunnable(){
+			vil.doTaskLaterId = Bukkit.getScheduler().runTaskLater(vil.plugin, new BukkitRunnable(){
 				@Override
 				public void run(){
 					((DefaultVillageData) vil).postExecution();
 					vil.checkResult();
-					vil.doTaskLaterID = -1;
+					vil.doTaskLaterId = -1;
 				}
 			}, 100).getTaskId();
 		}
@@ -134,7 +136,7 @@ public class GameEvent implements Listener {
 		if(VillageUtil.isVillageName(event.getEntity().getWorld().getName())){
 			Entity entity = event.getEntity();
 			Village vil = VillageUtil.getVillage(entity.getWorld().getName());
-			for(VillagePlayer npc : vil.getAliveNPCList())
+			for(VillagePlayer npc : vil.getAliveNpcList())
 				if(npc.villagerEntity==entity)
 					event.setCancelled(true);
 		}
@@ -184,37 +186,43 @@ public class GameEvent implements Listener {
 	}
 
 	public static void removeNightEffect(JavaPlugin plugin){
-		ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(plugin,
-			ListenerPriority.NORMAL, PacketType.Play.Server.WORLD_EVENT) {
-				@Override
-				public void onPacketSending(PacketEvent event) {
-					System.out.println(event.getPacket().getStrings().size());
-					System.out.println(event.getPacket().toString());
-					/*String soundName = event.getPacket().getStrings().read(0);
-					if (soundName.equals("random.door_open")
-							|| soundName.equals("random.door_close")) {
-						event.setCancelled(true);
-					}*/
-				}
-			}
-		);
-		ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(plugin,
+		doorAdapter = new PacketAdapter(plugin,
+				ListenerPriority.NORMAL, PacketType.Play.Server.WORLD_EVENT) {
+					@Override
+					public void onPacketSending(PacketEvent event) {
+						if(VillageUtil.isInVillage(event.getPlayer())){
+							Village vil = VillageUtil.getVillage(event.getPlayer());
+							int soundId = event.getPacket().getIntegers().read(0);
+							if(vil.status==VillageStatus.ongoing && vil.time==VillageTime.night
+								&& soundId==1003)
+									event.setCancelled(true);
+						}
+					}
+				};
+		voiceAdapter = new PacketAdapter(plugin,
 				ListenerPriority.NORMAL, PacketType.Play.Server.NAMED_SOUND_EFFECT) {
 					@Override
 					public void onPacketSending(PacketEvent event) {
-						System.out.println(event.getPacket().getStrings().size());
-						System.out.println(event.getPacket().getStrings().readSafely(0));
-						/*String soundName = event.getPacket().getStrings().read(0);
-						if (soundName.equals("random.door_open")
-								|| soundName.equals("random.door_close")) {
-							event.setCancelled(true);
-						}*/
+						if(VillageUtil.isInVillage(event.getPlayer())){
+							Village vil = VillageUtil.getVillage(event.getPlayer());
+							String sound = event.getPacket().getStrings().read(0);
+							
+							if(vil.status==VillageStatus.ongoing && vil.time==VillageTime.night
+									&& (sound.startsWith("mob.villager.")
+									|| sound.startsWith("mob.zombie.")
+									|| sound.startsWith("mob.blaze.")
+									|| sound.equals("fire.fire")))
+								event.setCancelled(true);
+						}
 					}
-				}
-			);
+				};
+		
+		ProtocolLibrary.getProtocolManager().addPacketListener(doorAdapter);
+		ProtocolLibrary.getProtocolManager().addPacketListener(voiceAdapter);
 	}
 	
 	public static void removePacketAdapter(){
-		int i;
+		ProtocolLibrary.getProtocolManager().removePacketListener(doorAdapter);
+		ProtocolLibrary.getProtocolManager().removePacketListener(voiceAdapter);
 	}
 }
