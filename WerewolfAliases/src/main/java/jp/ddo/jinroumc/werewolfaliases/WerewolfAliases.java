@@ -17,53 +17,62 @@ import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
 
 public class WerewolfAliases extends JavaPlugin implements Listener {
+	private PacketAdapter clientAdapter = new PacketAdapter(this,
+			ListenerPriority.NORMAL, PacketType.Play.Client.TAB_COMPLETE){
+				@Override
+				public void onPacketReceiving(PacketEvent event) {
+					String cmd = event.getPacket().getStrings().read(0).toLowerCase();
+					if (cmd.startsWith("/") && !cmd.contains(" ")){
+						List<String> cmdList = PermissionChecker.getCommandList(event.getPlayer());
+						for(int i=0; i<cmdList.size(); i++)
+							cmdList.set(i, "/" + cmdList.get(i));
+						
+						String[] ws = new String[1];
+						ws[0] = cmd;
+						List<String> tabCompList = WwTabCompleter.getPartialMatchesToLowerCase(ws, cmdList);
+						if(tabCompList.size()==0){
+							event.setCancelled(true);
+							return;
+						}
+						String[] tabCompArray = tabCompList.toArray(new String[0]);
+						PacketContainer packet = new PacketContainer(PacketType.Play.Server.TAB_COMPLETE);
+						packet.getStringArrays().write(0, tabCompArray);
+						
+						try {
+							ProtocolLibrary.getProtocolManager().sendServerPacket(event.getPlayer(), packet);
+						} catch (InvocationTargetException e) {
+							e.printStackTrace();
+						}
+					}
+				}
+			};
+		
+	private PacketAdapter serverAdapter =  new PacketAdapter(this,
+			ListenerPriority.NORMAL, PacketType.Play.Server.TAB_COMPLETE){
+				@Override
+				public void onPacketSending(PacketEvent event) {
+					String[] tabCompArray = event.getPacket().getStringArrays().read(0);
+					if(tabCompArray.length>0 && tabCompArray[0].startsWith("/")){
+						List<String> cmdList = PermissionChecker.getCommandList(event.getPlayer());
+						for(int i=0; i<cmdList.size(); i++)
+							cmdList.set(i, cmdList.get(i).toLowerCase());
+						for(String tabComp : tabCompArray)
+							if(!cmdList.contains(tabComp.substring(1)))
+								event.setCancelled(true);
+					}
+				}
+			};
+	
 	@Override
 	public void onEnable(){
-		ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(this,
-			ListenerPriority.NORMAL, PacketType.Play.Client.TAB_COMPLETE){
-			@Override
-			public void onPacketReceiving(PacketEvent event) {
-				String cmd = event.getPacket().getStrings().read(0).toLowerCase();
-				if (cmd.startsWith("/") && !cmd.contains(" ")){
-					List<String> cmdList = PermissionChecker.getCommandList(event.getPlayer());
-					for(int i=0; i<cmdList.size(); i++)
-						cmdList.set(i, "/" + cmdList.get(i));
-					
-					String[] ws = new String[1];
-					ws[0] = cmd;
-					List<String> tabCompList = WwTabCompleter.getPartialMatchesToLowerCase(ws, cmdList);
-					if(tabCompList.size()==0){
-						event.setCancelled(true);
-						return;
-					}
-					String[] tabCompArray = tabCompList.toArray(new String[0]);
-					PacketContainer packet = new PacketContainer(PacketType.Play.Server.TAB_COMPLETE);
-					packet.getStringArrays().write(0, tabCompArray);
-					
-					try {
-						ProtocolLibrary.getProtocolManager().sendServerPacket(event.getPlayer(), packet);
-					} catch (InvocationTargetException e) {
-						e.printStackTrace();
-					}
-				}
-			}
-		});
-		
-		ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(this,
-			ListenerPriority.NORMAL, PacketType.Play.Server.TAB_COMPLETE){
-			@Override
-			public void onPacketSending(PacketEvent event) {
-				String[] tabCompArray = event.getPacket().getStringArrays().read(0);
-				if(tabCompArray.length>0 && tabCompArray[0].startsWith("/")){
-					List<String> cmdList = PermissionChecker.getCommandList(event.getPlayer());
-					for(int i=0; i<cmdList.size(); i++)
-						cmdList.set(i, cmdList.get(i).toLowerCase());
-					for(String tabComp : tabCompArray)
-						if(!cmdList.contains(tabComp.substring(1)))
-							event.setCancelled(true);
-				}
-			}
-		});
+		ProtocolLibrary.getProtocolManager().addPacketListener(clientAdapter);
+		ProtocolLibrary.getProtocolManager().addPacketListener(serverAdapter);
+	}
+	
+	@Override
+	public void onDisable(){
+		ProtocolLibrary.getProtocolManager().removePacketListener(clientAdapter);
+		ProtocolLibrary.getProtocolManager().removePacketListener(serverAdapter);
 	}
 
 	@Override

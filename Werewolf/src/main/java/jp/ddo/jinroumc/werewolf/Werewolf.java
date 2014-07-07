@@ -13,6 +13,11 @@ import org.bukkit.Difficulty;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
 
+import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.events.ListenerPriority;
+import com.comphenix.protocol.events.PacketAdapter;
+
 import de.robingrether.idisguise.sound.SoundSystem;
 
 public class Werewolf extends JavaPlugin {
@@ -63,6 +68,8 @@ public class Werewolf extends JavaPlugin {
 			vil.stopDoTaskLater();
 			vil.stopAsyncRebuild();
 		}
+		int i;
+		//ProtocolLibrary.getProtocolManager().removePacketListener();
 	}
 }
 
