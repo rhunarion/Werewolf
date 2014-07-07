@@ -53,10 +53,10 @@ public class VillageTimer extends VillageCore {
 					if(seconds==initSeconds/rnd && !vil.tryBiting
 							&& vil.status==VillageStatus.ongoing
 							&& vil.day!=0 && vil.time==VillageTime.night
-							&& vil.getJinrouListExceptNPC().size()==0){
-						List<VillagePlayer> bitableList = vil.getBitablePlayerList();
+							&& vil.getAliveJinrouListExceptNPC().size()==0){
+						List<VillagePlayer> bitableList = vil.getAlivePlayerListExceptJinrou();
 						Collections.shuffle(bitableList);
-						List<VillagePlayer> jinrouList = vil.getJinrouList();
+						List<VillagePlayer> jinrouList = vil.getAliveJinrouList();
 						Collections.shuffle(jinrouList);
 						
 						jinrouList.get(0).bitePlayer(bitableList.get(0));

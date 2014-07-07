@@ -41,7 +41,7 @@ public class CommandChRule {
 					pl.sendMessage(C.red+"Error: 最大人数は4人以上、16人以下にしてください。");
 					return;
 				}
-				if(val<vil.getTotalRoleNumInRule()){
+				if(val<vil.getTotalRoleNumInRuleExceptMurabito()){
 					pl.sendMessage(C.red+"Error: 先に村人以外の配役の数を減らしてください。");
 					return;
 				}
@@ -75,7 +75,7 @@ public class CommandChRule {
 					pl.sendMessage(C.red+"Error: 占い師の人数は0人以上にしてください。");
 					return;
 				}
-				if(vil.getTotalRoleNumInRule()-vil.uranaiNum+val > vil.maxNum){
+				if(vil.getTotalRoleNumInRuleExceptMurabito()-vil.uranaiNum+val > vil.maxNum){
 					pl.sendMessage(C.red+"Error: 占い師の人数が多すぎます。先に他の配役を減らしてください。");
 					return;
 				}
@@ -103,7 +103,7 @@ public class CommandChRule {
 					pl.sendMessage(C.red+"Error: 霊媒師の人数は0人以上にしてください。");
 					return;
 				}
-				if(vil.getTotalRoleNumInRule()-vil.reibaiNum+val > vil.maxNum){
+				if(vil.getTotalRoleNumInRuleExceptMurabito()-vil.reibaiNum+val > vil.maxNum){
 					pl.sendMessage(C.red+"Error: 霊媒師の人数が多すぎます。先に他の配役を減らしてください。");
 					return;
 				}
@@ -131,7 +131,7 @@ public class CommandChRule {
 					pl.sendMessage(C.red+"Error: 狩人の人数は0人以上にしてください。");
 					return;
 				}
-				if(vil.getTotalRoleNumInRule()-vil.kariudoNum+val > vil.maxNum){
+				if(vil.getTotalRoleNumInRuleExceptMurabito()-vil.kariudoNum+val > vil.maxNum){
 					pl.sendMessage(C.red+"Error: 狩人の人数が多すぎます。先に他の配役を減らしてください。");
 					return; 
 				}
@@ -159,7 +159,7 @@ public class CommandChRule {
 					pl.sendMessage(C.red+"Error: 人狼の人数は1人以上にしてください。");
 					return;
 				}
-				if(vil.getTotalRoleNumInRule()-vil.jinrouNum+val > vil.maxNum){
+				if(vil.getTotalRoleNumInRuleExceptMurabito()-vil.jinrouNum+val > vil.maxNum){
 					pl.sendMessage(C.red+"Error: 人狼の人数が多すぎます。先に他の配役を減らしてください。");
 					return;
 				}
@@ -191,7 +191,7 @@ public class CommandChRule {
 					pl.sendMessage(C.red+"Error: 狂人の人数は0人以上にしてください。");
 					return;
 				}
-				if(vil.getTotalRoleNumInRule()-vil.kyoujinNum+val > vil.maxNum){
+				if(vil.getTotalRoleNumInRuleExceptMurabito()-vil.kyoujinNum+val > vil.maxNum){
 					pl.sendMessage(C.red+"Error: 狂人の人数が多すぎます。先に他の配役を減らしてください。");
 					return;
 				}
@@ -219,7 +219,7 @@ public class CommandChRule {
 					pl.sendMessage(C.red+"Error: 妖狐の人数は0人以上にしてください。");
 					return;
 				}
-				if(vil.getTotalRoleNumInRule()-vil.youkoNum+val > vil.maxNum){
+				if(vil.getTotalRoleNumInRuleExceptMurabito()-vil.youkoNum+val > vil.maxNum){
 					pl.sendMessage(C.red+"Error: 妖狐の人数が多すぎます。先に他の配役を減らしてください。");
 					return;
 				}

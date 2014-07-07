@@ -133,13 +133,13 @@ public class DefaultVillageEvent implements Listener {
 			if(clickSign(pl, bl, -3, 43, -4, "chrule permitbite false"))
 				return;
 			
-			for(DefVilHouse house : DefaultVillageHouse.getHouseMap().values())
+			for(DefaultVillageHouseCore house : DefaultVillageHouse.getHouseMap().values())
 				if(clickSign(pl, bl, house.myroleSignX, house.myroleSignY, house.myroleSignZ, "myrole"))
 					return;
 			
 			
 			if(vp.alive && vil.status==VillageStatus.ongoing)
-				for(DefVilHouse house : DefaultVillageHouse.getHouseMap().values())
+				for(DefaultVillageHouseCore house : DefaultVillageHouse.getHouseMap().values())
 					if(vil.getAlivePlayerByColor(house.color)!=null && vp.color!=house.color
 							&& clickSign(pl, bl, house.voteSignX, house.voteSignY, house.voteSignZ,
 									"vote "+vil.getAlivePlayerByColor(house.color).getName()))
@@ -154,7 +154,7 @@ public class DefaultVillageEvent implements Listener {
 				return;
 			}
 			if(vil.status==VillageStatus.ongoing){
-				for(DefVilHouse house : DefaultVillageHouse.getHouseMap().values()){
+				for(DefaultVillageHouseCore house : DefaultVillageHouse.getHouseMap().values()){
 					if(bl.getX()==house.chestX && bl.getY()==house.chestY && bl.getZ()==house.chestZ
 							&& vp.color!=house.color){
 						pl.sendMessage(C.red+"他のプレイヤーのチェストを開けることはできません。");
@@ -236,8 +236,8 @@ public class DefaultVillageEvent implements Listener {
 			
 			if(vp.alive && vp.role!=VillageRole.jinrou
 					&& vil.status==VillageStatus.ongoing && vil.time==VillageTime.night){
-				HashMap<ChatColor, DefVilHouse> houseMap = DefaultVillageHouse.getHouseMap();
-				DefVilHouse house = houseMap.get(vp.color);
+				HashMap<ChatColor, DefaultVillageHouseCore> houseMap = DefaultVillageHouse.getHouseMap();
+				DefaultVillageHouseCore house = houseMap.get(vp.color);
 				if((house.bedPitch==90 && (to.getX()<house.frontDoorX+0.5 || house.rearDoorX+0.5<to.getX()))
 						|| (house.bedPitch==0 && (to.getZ()<house.rearDoorZ+0.5 || house.frontDoorZ+0.5<to.getZ()))
 						|| (house.bedPitch==-90 && (to.getX()<house.rearDoorX+0.5 || house.frontDoorX+0.5<to.getX()))
@@ -270,7 +270,8 @@ public class DefaultVillageEvent implements Listener {
 				pl.sendMessage(C.red+"Error: このエリアは編集できません。");
 				event.setCancelled(true); return; }
 			
-			if(-6<=x && x<=6 && 63<=y && -6<=z && z<=6){
+			if(-6<=x && x<=6 && 63<=y && -6<=z && z<=6
+					&& event.getBlock().getType()!=Material.SKULL){
 				pl.sendMessage(C.red+"Error: このエリアは編集できません。");
 				event.setCancelled(true); return; }
 			if(-22<=x && x<=-17 && 63<=y && -4<=z && z<=4){
@@ -283,7 +284,7 @@ public class DefaultVillageEvent implements Listener {
 				pl.sendMessage(C.red+"Error: このエリアは編集できません。");
 				event.setCancelled(true); return; }
 			
-			for(DefVilHouse house : DefaultVillageHouse.getHouseMap().values()){
+			for(DefaultVillageHouseCore house : DefaultVillageHouse.getHouseMap().values()){
 				if(house.westPlane<=x && x<=house.eastPlane
 						&& house.bottomPlane<=y && y<=house.topPlane
 						&& house.northPlane<=z && z<=house.southPlane){
@@ -293,7 +294,7 @@ public class DefaultVillageEvent implements Listener {
 				}
 			}
 			
-			for(DefVilHouse house : DefaultVillageHouse.getHouseMap().values()){
+			for(DefaultVillageHouseCore house : DefaultVillageHouse.getHouseMap().values()){
 				if(house.namePlateX==x && house.namePlateY==y && house.namePlateZ==z){
 					pl.sendMessage(C.red+"Error: このエリアは編集できません。");
 					event.setCancelled(true);
@@ -323,7 +324,8 @@ public class DefaultVillageEvent implements Listener {
 				pl.sendMessage(C.red+"Error: このエリアは編集できません。");
 				event.setCancelled(true); updateInventory(pl, vil); return; }
 			
-			if(-6<=x && x<=6 && 63<=y && -6<=z && z<=6){
+			if(-6<=x && x<=6 && 63<=y && -6<=z && z<=6
+					&& event.getBlock().getType()!=Material.SKULL){
 				pl.sendMessage(C.red+"Error: このエリアは編集できません。");
 				event.setCancelled(true); updateInventory(pl, vil); return; }
 			if(-22<=x && x<=-17 && 63<=y && -4<=z && z<=4){
@@ -342,7 +344,7 @@ public class DefaultVillageEvent implements Listener {
 				pl.sendMessage(C.red+"Error: このエリアは編集できません。");
 				event.setCancelled(true); updateInventory(pl, vil); return; }
 			
-			for(DefVilHouse house : DefaultVillageHouse.getHouseMap().values()){
+			for(DefaultVillageHouseCore house : DefaultVillageHouse.getHouseMap().values()){
 				if(house.westPlane<=x && x<=house.eastPlane
 						&& house.bottomPlane<=y && y<=house.topPlane
 						&& house.northPlane<=z && z<=house.southPlane){
@@ -372,7 +374,7 @@ public class DefaultVillageEvent implements Listener {
 		if(23<=x && x<=24 && 64<=y && y<=65 && 4<=z && z<=7){
 			event.setCancelled(true); return; }
 		
-		for(DefVilHouse house : DefaultVillageHouse.getHouseMap().values()){
+		for(DefaultVillageHouseCore house : DefaultVillageHouse.getHouseMap().values()){
 			if(house.westPlane<=x && x<=house.eastPlane
 					&& house.bottomPlane<=y && y<=house.topPlane
 					&& house.northPlane<=z && z<=house.southPlane){
@@ -381,7 +383,7 @@ public class DefaultVillageEvent implements Listener {
 			}
 		}
 		
-		for(DefVilHouse house : DefaultVillageHouse.getHouseMap().values()){
+		for(DefaultVillageHouseCore house : DefaultVillageHouse.getHouseMap().values()){
 			if(house.namePlateX==x && house.namePlateY==y && house.namePlateZ==z){
 				event.setCancelled(true);
 				return; 

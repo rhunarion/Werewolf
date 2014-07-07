@@ -73,7 +73,7 @@ public class SendMessage {
 	}
 	
 	public static void sendToGhost(Player sender, String message, Village vil){
-		for(VillagePlayer vp : vil.getGhostPlayerList())
+		for(VillagePlayer vp : vil.getPlayerListExceptAliveWhileOngoing())
 			vp.sendMessage(C.gray+"["+sender.getName()+" to ghost] "+message);
 	}
 

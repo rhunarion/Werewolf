@@ -39,7 +39,7 @@ public class Werewolf extends JavaPlugin {
 		for(Village vil : VillageUtil.getVillageList()){
 			WorldCreator.name(vil.villageName).createWorld();
 			Bukkit.getWorld(vil.villageName).setTime(6000);
-			Bukkit.getWorld(vil.villageName).setDifficulty(Difficulty.HARD);
+			Bukkit.getWorld(vil.villageName).setDifficulty(Difficulty.EASY);
 			Bukkit.getWorld(vil.villageName).setGameRuleValue("keepInventory", "true");
 			Bukkit.getWorld(vil.villageName).setGameRuleValue("mobGriefing", "false");
 			Bukkit.getWorld(vil.villageName).setGameRuleValue("doDaylightCycle", "false");

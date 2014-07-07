@@ -7,11 +7,11 @@ import jp.ddo.jinroumc.werewolf.util.C;
 import org.bukkit.ChatColor;
 
 public class DefaultVillageHouse {
-	private static HashMap<ChatColor, DefVilHouse> houseMap = new HashMap<ChatColor, DefVilHouse>();
+	private static HashMap<ChatColor, DefaultVillageHouseCore> houseMap = new HashMap<ChatColor, DefaultVillageHouseCore>();
 
 	static{
 		/*   //template
-		house.put(C, new DefVilHouse(C,
+		house.put(C, new DefaultVillageHouseCore(C,
 				, , 62, 66, , ,			//plane
 				, 63, , ,					//bed
 				, 63, ,					//frontDoor
@@ -25,7 +25,7 @@ public class DefaultVillageHouse {
 				
 		 */
 
-		houseMap.put(C.white, new DefVilHouse(C.white,
+		houseMap.put(C.white, new DefaultVillageHouseCore(C.white,
 				18, 23, 62, 66, -14, -9,		//plane
 				22, 63, -10, 90,				//bed
 				18, 63, -10,					//frontDoor
@@ -37,7 +37,7 @@ public class DefaultVillageHouse {
 				3, 64, 0,						//voteSign
 				5, 64, -1));					//votePos
 				
-		houseMap.put(C.gray, new DefVilHouse(C.gray,
+		houseMap.put(C.gray, new DefaultVillageHouseCore(C.gray,
 				18, 23, 62, 66, -22, -17,	//plane
 				22, 63, -18, 90,				//bed
 				18, 63, -18,					//frontDoor
@@ -49,7 +49,7 @@ public class DefaultVillageHouse {
 				3, 64, -2,						//voteSign
 				5, 64, -3));					//votePos
 				
-		houseMap.put(C.d_gray, new DefVilHouse(C.d_gray,
+		houseMap.put(C.d_gray, new DefaultVillageHouseCore(C.d_gray,
 				10, 15, 62, 66, -23, -18,	//plane
 				11, 63, -22, 0,				//bed
 				11, 63, -18,					//frontDoor
@@ -61,7 +61,7 @@ public class DefaultVillageHouse {
 				4, 65, -4,						//voteSign
 				3, 64, -5));					//votePos
 				
-		houseMap.put(C.black, new DefVilHouse(C.black,
+		houseMap.put(C.black, new DefaultVillageHouseCore(C.black,
 				2, 7, 62, 66, -23, -18,		//plane
 				3, 63, -22, 0,				//bed
 				3, 63, -18,					//frontDoor
@@ -73,7 +73,7 @@ public class DefaultVillageHouse {
 				2, 64, -3,						//voteSign
 				1, 64, -5));					//votePos
 				
-		houseMap.put(C.d_red, new DefVilHouse(C.d_red,
+		houseMap.put(C.d_red, new DefaultVillageHouseCore(C.d_red,
 				-6, -1, 62, 66, -23, -18,	//plane
 				-2, 63, -22, 0,				//bed
 				-2, 63, -18,					//frontDoor
@@ -85,7 +85,7 @@ public class DefaultVillageHouse {
 				0, 64, -3,						//voteSign
 				-1, 64, -5));					//votePos
 				
-		houseMap.put(C.red, new DefVilHouse(C.red,
+		houseMap.put(C.red, new DefaultVillageHouseCore(C.red,
 				-14, -9, 62, 66, -23, -18,	//plane
 				-10, 63, -22, 0,				//bed
 				-10, 63, -18,					//frontDoor
@@ -97,7 +97,7 @@ public class DefaultVillageHouse {
 				-2, 64, -3,					//voteSign
 				-3, 64, -5));					//votePos
 				
-		houseMap.put(C.gold, new DefVilHouse(C.gold,
+		houseMap.put(C.gold, new DefaultVillageHouseCore(C.gold,
 				-22, -17, 62, 66, -20, -15,	//plane
 				-21, 63, -16, -90,			//bed
 				-17, 63, -16,					//frontDoor
@@ -109,7 +109,7 @@ public class DefaultVillageHouse {
 				-4, 65, -4,					//voteSign
 				-5, 64, -3));					//votePos
 				
-		houseMap.put(C.yellow, new DefVilHouse(C.yellow,
+		houseMap.put(C.yellow, new DefaultVillageHouseCore(C.yellow,
 				-22, -17, 62, 66, -12, -7,	//plane
 				-21, 63, -8, -90,				//bed
 				-17, 63, -8,					//frontDoor
@@ -121,7 +121,7 @@ public class DefaultVillageHouse {
 				-3, 64, -2,					//voteSign
 				-5, 64, -1));					//votePos
 				
-		houseMap.put(C.green, new DefVilHouse(C.green,
+		houseMap.put(C.green, new DefaultVillageHouseCore(C.green,
 				-22, -17, 62, 66, 7, 12,		//plane
 				-21, 63, 8, -90,				//bed
 				-17, 63, 8,					//frontDoor
@@ -133,7 +133,7 @@ public class DefaultVillageHouse {
 				-3, 64, 0,						//voteSign
 				-5, 64, 1));					//votePos
 				
-		houseMap.put(C.d_green, new DefVilHouse(C.d_green,
+		houseMap.put(C.d_green, new DefaultVillageHouseCore(C.d_green,
 				-22, -17, 62, 66, 15, 20,		//plane
 				-21, 63, 16, -90,				//bed
 				-17, 63, 16,					//frontDoor
@@ -145,7 +145,7 @@ public class DefaultVillageHouse {
 				-3, 64, 2,						//voteSign
 				-5, 64, 3));					//votePos
 				
-		houseMap.put(C.d_aqua, new DefVilHouse(C.d_aqua,
+		houseMap.put(C.d_aqua, new DefaultVillageHouseCore(C.d_aqua,
 				-14, -9, 62, 66, 18, 23,		//plane
 				-10, 63, 22, 180,				//bed
 				-10, 63, 18,					//frontDoor
@@ -157,7 +157,7 @@ public class DefaultVillageHouse {
 				-4, 65, 4,						//voteSign
 				-3, 64, 5));					//votePos
 				
-		houseMap.put(C.d_blue, new DefVilHouse(C.d_blue,
+		houseMap.put(C.d_blue, new DefaultVillageHouseCore(C.d_blue,
 				-6, -1, 62, 66, 18, 23,		//plane
 				-2, 63, 22, 180,				//bed
 				-2, 63, 18,					//frontDoor
@@ -169,7 +169,7 @@ public class DefaultVillageHouse {
 				-2, 64, 3,						//voteSign
 				-1, 64, 5));					//votePos
 				
-		houseMap.put(C.aqua, new DefVilHouse(C.aqua,
+		houseMap.put(C.aqua, new DefaultVillageHouseCore(C.aqua,
 				2, 7, 62, 66, 18, 23,		//plane
 				3, 63, 22, 180,				//bed
 				3, 63, 18,						//frontDoor
@@ -181,7 +181,7 @@ public class DefaultVillageHouse {
 				0, 64, 3,						//voteSign
 				1, 64, 5));					//votePos
 				
-		houseMap.put(C.blue, new DefVilHouse(C.blue,
+		houseMap.put(C.blue, new DefaultVillageHouseCore(C.blue,
 				10, 15, 62, 66, 18, 23,		//plane
 				11, 63, 22, 180,				//bed
 				11, 63, 18,					//frontDoor
@@ -193,7 +193,7 @@ public class DefaultVillageHouse {
 				2, 64, 3,						//voteSign
 				3, 64, 5));					//votePos
 				
-		houseMap.put(C.d_purple, new DefVilHouse(C.d_purple,
+		houseMap.put(C.d_purple, new DefaultVillageHouseCore(C.d_purple,
 				18, 23, 62, 66, 17, 22,		//plane
 				22, 63, 18, 90,				//bed
 				18, 63, 18,					//frontDoor
@@ -205,7 +205,7 @@ public class DefaultVillageHouse {
 				4, 65, 4,						//voteSign
 				5, 64, 3));					//votePos
 				
-		houseMap.put(C.l_purple, new DefVilHouse(C.l_purple,
+		houseMap.put(C.l_purple, new DefaultVillageHouseCore(C.l_purple,
 				18, 23, 62, 66, 9, 14,		//plane
 				22, 63, 10, 90,				//bed
 				18, 63, 10,					//frontDoor
@@ -218,127 +218,8 @@ public class DefaultVillageHouse {
 				5, 64, 1));					//votePos
 	}
 	
-	public static HashMap<ChatColor, DefVilHouse> getHouseMap(){
+	public static HashMap<ChatColor, DefaultVillageHouseCore> getHouseMap(){
 		return houseMap;
 	}
 	
 }
-
-class DefVilHouse{
-	ChatColor color;
-	
-	int westPlane;
-	int eastPlane;
-	int bottomPlane;
-	int topPlane;
-	int northPlane;
-	int southPlane;
-
-	int bedX;
-	int bedY;
-	int bedZ;
-	int bedPitch;
-	
-	int frontDoorX;
-	int frontDoorY;
-	int frontDoorZ;
-	int rearDoorX;
-	int rearDoorY;
-	int rearDoorZ;
-	int leverX;
-	int leverY;
-	int leverZ;
-	int chestX;
-	int chestY;
-	int chestZ;
-	int myroleSignX;
-	int myroleSignY;
-	int myroleSignZ;
-	int namePlateX;
-	int namePlateY;
-	int namePlateZ;
-	int voteSignX;
-	int voteSignY;
-	int voteSignZ;
-	int votePosX;
-	int votePosY;
-	int votePosZ;
-	
-	DefVilHouse(ChatColor color,
-			
-			int westPlane,
-			int eastPlane,
-			int bottomPlane,
-			int topPlane,
-			int northPlane,
-			int southPlane,
-			
-			int bedX,
-			int bedY,
-			int bedZ,
-			int bedPitch,
-			int frontDoorX,
-			int frontDoorY,
-			int frontDoorZ,
-			int rearDoorX,
-			int rearDoorY,
-			int rearDoorZ,
-			int leverX,
-			int leverY,
-			int leverZ,
-			int chestX,
-			int chestY,
-			int chestZ,
-			int myroleSignX,
-			int myroleSignY,
-			int myroleSignZ,
-			int namePlateX,
-			int namePlateY,
-			int namePlateZ,
-			int voteSignX,
-			int voteSignY,
-			int voteSignZ,
-			int votePosX,
-			int votePosY,
-			int votePosZ){
-		
-		this.color = color;
-		
-		this.westPlane = westPlane;
-		this.eastPlane = eastPlane;
-		this.bottomPlane = bottomPlane;
-		this.topPlane = topPlane;
-		this.northPlane = northPlane;
-		this.southPlane = southPlane;
-		
-		this.bedX = bedX;
-		this.bedY = bedY;
-		this.bedZ = bedZ;
-		this.bedPitch = bedPitch;
-		this.frontDoorX = frontDoorX;
-		this.frontDoorY = frontDoorY;
-		this.frontDoorZ = frontDoorZ;
-		this.rearDoorX = rearDoorX;
-		this.rearDoorY = rearDoorY;
-		this.rearDoorZ = rearDoorZ;
-		this.leverX = leverX;
-		this.leverY = leverY;
-		this.leverZ = leverZ;
-		this.chestX = chestX;
-		this.chestY = chestY;
-		this.chestZ = chestZ;
-		this.myroleSignX = myroleSignX;
-		this.myroleSignY = myroleSignY;
-		this.myroleSignZ = myroleSignZ;
-		this.namePlateX = namePlateX;
-		this.namePlateY = namePlateY;
-		this.namePlateZ = namePlateZ;
-		this.voteSignX = voteSignX;
-		this.voteSignY = voteSignY;
-		this.voteSignZ = voteSignZ;
-		this.votePosX = votePosX;
-		this.votePosY = votePosY;
-		this.votePosZ = votePosZ;
-	}
-}
-

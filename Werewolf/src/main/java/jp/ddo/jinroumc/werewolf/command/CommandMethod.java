@@ -516,7 +516,7 @@ public class CommandMethod {
 			pl.sendMessage(C.red+"Error: 人狼ゲームの状態が準備中か募集中のときしか使えないコマンドです。");
 			return;
 		}
-		if(vil.getTotalRoleNumInRule() > vil.getJoiningPlayerNum()
+		if(vil.getTotalRoleNumInRuleExceptMurabito() > vil.getJoiningPlayerNum()
 				|| vil.jinrouNum*2+vil.youkoNum+2 > vil.getJoiningPlayerNum()){
 			pl.sendMessage(C.red+"Error: 参加人数が足りません。配役の数を減らしてください。");
 			return;
@@ -525,7 +525,7 @@ public class CommandMethod {
 				vil.getSettedRoleNum(VillageRole.uranaishi)
 				+vil.getSettedRoleNum(VillageRole.reibaishi)
 				+vil.getSettedRoleNum(VillageRole.kariudo)
-				&& vil.getJoiningPlayerNum()-vil.getTotalRoleNumInRule()
+				&& vil.getJoiningPlayerNum()-vil.getTotalRoleNumInRuleExceptMurabito()
 				<= vil.getSettedRoleNum(VillageRole.murabito)){
 			pl.sendMessage(C.red+"Error: 第一犠牲者が人間以外になってしまいます。人間の配役を解除してください。");
 			return;
@@ -748,7 +748,7 @@ public class CommandMethod {
 		}
 		Village vil = VillageUtil.getVillage(pl);
 		VillagePlayer vp = vil.getPlayer(pl);
-		if(!vp.alive || vil.status!=VillageStatus.ongoing){
+		if(!vp.joining || vil.status!=VillageStatus.ongoing){
 			pl.sendMessage(C.red+"Error: ゲーム参加中にしか使えないコマンドです。");
 			return;
 		}
@@ -857,7 +857,7 @@ public class CommandMethod {
 			pl.sendMessage(C.red+"Error: 今夜はすでに一人噛んでいます。");
 			return;
 		}
-		if(!vil.isBitablePlayer(target)){
+		if(!vil.isAlivePlayerExceptJinrou(target)){
 			pl.sendMessage(C.red+"Error: "+target+" というプレイヤーは指定できません。");
 			return;
 		}

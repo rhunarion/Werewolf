@@ -156,7 +156,7 @@ public class WwTabCompleter implements TabCompleter {
 				compList.add("Mr.Firvic");
 				return compList;
 			}else{
-				return getPartialMatches(args, vil.getBitablePlayerNameList());
+				return getPartialMatches(args, vil.getAlivePlayerNameListExceptJinrou());
 			}
 		}
 

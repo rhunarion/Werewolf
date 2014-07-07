@@ -24,6 +24,12 @@ import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.events.ListenerPriority;
+import com.comphenix.protocol.events.PacketAdapter;
+import com.comphenix.protocol.events.PacketEvent;
+
 public class GameEvent implements Listener {
 
 	@EventHandler
@@ -35,10 +41,13 @@ public class GameEvent implements Listener {
 				event.setCancelled(true);
 				return;
 			}
-
 			Player pl = (Player) attacker;
 			Village vil = VillageUtil.getVillage(pl);
 			VillagePlayer attackerVp = vil.getPlayer(pl); 
+			if(!attackerVp.alive && vil.status==VillageStatus.ongoing){
+				event.setCancelled(true);
+				return;
+			}
 	
 			Entity defender = event.getEntity();
 			VillagePlayer defenderVp = null;
@@ -175,31 +184,22 @@ public class GameEvent implements Listener {
 	}
 
 	public static void removeNightSound(JavaPlugin plugin){
-/*		ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(plugin,
+		ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(plugin,
 			ListenerPriority.NORMAL, PacketType.Play.Server.WORLD_EVENT) {
 				@Override
 				public void onPacketSending(PacketEvent event) {
-					System.out.println(""+event.getPacket().getStrings().size());
-					System.out.println(""+event.getPacket().getStrings().readSafely(0));
-
-					
-					
-					Player pl = event.getPlayer();
-					if(!VillageUtil.isInVillage(pl))
-							return;
-					
-					//Village vil = VillageUtil.getVillage(pl);
-					//VillagePlayer vp = vil.getPlayer(pl); 
-
-					
-					
-					String soundName = event.getPacket().getStrings().read(0);
+					System.out.println(event.getPacket().getStrings().size());
+					System.out.println(event.getPacket().getStrings().readSafely(0));
+					System.out.println(event.getPacket().getStrings().readSafely(1));
+					System.out.println(event.getPacket().getStrings().readSafely(2));
+					System.out.println(event.getPacket().getStrings().readSafely(3));
+					/*String soundName = event.getPacket().getStrings().read(0);
 					if (soundName.equals("random.door_open")
 							|| soundName.equals("random.door_close")) {
-						event.setCancelled(true);int i;
-					}
+						event.setCancelled(true);
+					}*/
 				}
 			}
-		);*/
+		);
 	}
 }

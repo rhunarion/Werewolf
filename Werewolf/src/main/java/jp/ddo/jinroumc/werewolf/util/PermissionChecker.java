@@ -94,7 +94,7 @@ public class PermissionChecker {
 			cmdList.add("shout");
 		if(vp.alive && vil.status==VillageStatus.ongoing && vil.time!=VillageTime.night)
 			cmdList.add("co");
-		if(vp.alive && vil.status==VillageStatus.ongoing)
+		if(vp.joining && vil.status==VillageStatus.ongoing)
 			cmdList.add("myRole");
 		if(vp.alive
 				&& vil.status==VillageStatus.ongoing && (vil.time==VillageTime.day || vil.time==VillageTime.revote))

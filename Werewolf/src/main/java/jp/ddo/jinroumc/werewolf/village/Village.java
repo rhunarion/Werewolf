@@ -120,11 +120,12 @@ public class Village extends VillageTimer {
 	}
 	
 	private void rewriteScoreboard(){
-		for(VillagePlayer vp : getDeadPlayerList()){
-			if(scoreboard.getPlayers().contains(Bukkit.getOfflinePlayer(vp.getColorName()))){
+		for(VillagePlayer vp : getAlivePlayerList())
+			objective.getScore(Bukkit.getOfflinePlayer(vp.getColorName())).setScore(0);
+
+		for(VillagePlayer vp : getJoiningPlayerListExceptAlive())
+			if(scoreboard.getPlayers().contains(Bukkit.getOfflinePlayer(vp.getColorName())))
 				vp.strikeThroughPlayerName();
-			}
-		}
 	}
 
 	public void gamePreparing(){
@@ -163,7 +164,7 @@ public class Village extends VillageTimer {
 		sendToVillage(C.green+"平和だった村の様子がおかしい…。今夜は何か起きそうな気がする…。");
 		for(VillagePlayer vp : getAlivePlayerListExceptNPC())
 			vp.showMyRole();
-		for(VillagePlayer vp : getGhostPlayerList())
+		for(VillagePlayer vp : getPlayerListExceptAliveWhileOngoing())
 			vp.addGhostTeam();
 
 		nightTime();
@@ -179,7 +180,7 @@ public class Village extends VillageTimer {
 		for(VillagePlayer vp : getAliveNPCList())
 			vp.setFenceAroundBed();
 
-   		for(VillagePlayer vp : getJinrouList())
+   		for(VillagePlayer vp : getAliveJinrouList())
    			vp.disguiseZombie();
    			
 		if(day!=0){
@@ -223,9 +224,9 @@ public class Village extends VillageTimer {
 		for(VillagePlayer vp : getAliveNPCList())
 			vp.removeFenceAroundBed();
 		
-		for(VillagePlayer vp : getJinrouList())
+		for(VillagePlayer vp : getAliveJinrouList())
 			vp.undisguise();
-		for(VillagePlayer vp : getYoukoList())
+		for(VillagePlayer vp : getAliveYoukoList())
 			vp.undisguise();
 
 		sendToVillage(C.green+"////////// " 

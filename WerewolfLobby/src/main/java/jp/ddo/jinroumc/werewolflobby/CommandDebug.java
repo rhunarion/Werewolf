@@ -27,7 +27,7 @@ public class CommandDebug implements CommandExecutor {
 			return true;
 		}
 		
-		if(args[0].equalsIgnoreCase("chat")){
+		if(args[0].equalsIgnoreCase("shout")){
 			if(args.length==2)
 				for(Player pl : Bukkit.getOnlinePlayers())
 					pl.sendMessage(C.red+"[Admin] "+args[1]);
@@ -66,7 +66,7 @@ public class CommandDebug implements CommandExecutor {
 		
 		if(args[0].equalsIgnoreCase("rebuild")){
 			if(args.length==1){
-				sender.sendMessage(C.gold+"全ての村をリビルドします。");
+				sender.sendMessage(C.gold+"全ての村を再生成します。");
 				List<Village> vilList = VillageUtil.getVillageList();
 				for(int i=0; i<vilList.size(); i++)
 					vilList.get(i).rebuildVillage();
@@ -74,7 +74,7 @@ public class CommandDebug implements CommandExecutor {
 			}else if(args.length==2){
 				if(VillageUtil.isVillageName(args[1])){
 					if(VillageUtil.isVillageName(args[1])){
-						sender.sendMessage(C.yellow+args[1]+C.gold+" をリビルドします。");
+						sender.sendMessage(C.yellow+args[1]+C.gold+" を再生成します。");
 						Village vil = VillageUtil.getVillage(args[1]);
 						vil.rebuildVillage();
 						return true;
@@ -86,25 +86,6 @@ public class CommandDebug implements CommandExecutor {
 		}
 		
 		if(args[0].equalsIgnoreCase("g")){
-
-			
-/*			Location loc = pl.getLocation();
-			loc.setZ(loc.getZ()-3);
-			
-			//pl.playSound(loc, Sound.GHAST_SCREAM2, 1f, 1.5f);
-			//pl.playSound(loc, Sound.ENDERMAN_DEATH, 1f, 0.5f);
-			//pl.playSound(loc, Sound.WOLF_HURT, 1f, 0f);
-			
-			/*Player pl = (Player) sender;
-			Village vil = VillageUtil.getVillage(pl);
-			ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(vil.plugin,
-				ListenerPriority.NORMAL, PacketType.Play.Server.NAMED_SOUND_EFFECT){
-				@Override
-				public void onPacketSending(PacketEvent event) {
-					System.out.println("あいうえお: named sound");
-				}
-			});
-			
 			/*Location loc = new Location(Bukkit.getWorld("default_village"),23, 65, -4);
 			
 			Sign sign = (Sign) loc.getBlock().getState();

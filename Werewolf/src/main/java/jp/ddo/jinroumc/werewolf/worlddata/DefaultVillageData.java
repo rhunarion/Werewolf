@@ -61,13 +61,13 @@ public class DefaultVillageData extends Village {
 	public Location getHome(VillagePlayer vp){
 		World world = Bukkit.getWorld(villageName);
 		
-		HashMap<ChatColor, DefVilHouse> houseMap = DefaultVillageHouse.getHouseMap();
-		DefVilHouse house = houseMap.get(vp.color);
+		HashMap<ChatColor, DefaultVillageHouseCore> houseMap = DefaultVillageHouse.getHouseMap();
+		DefaultVillageHouseCore house = houseMap.get(vp.color);
 		return new Location(world, house.bedX+0.5, house.bedY+0.563, house.bedZ+0.5, house.bedPitch, 0);
 	}
 	
 	public void writeSign(){
-		for(DefVilHouse house : DefaultVillageHouse.getHouseMap().values()){
+		for(DefaultVillageHouseCore house : DefaultVillageHouse.getHouseMap().values()){
 			if(getAlivePlayerByColor(house.color)==null)
 				continue;
 			
@@ -90,7 +90,7 @@ public class DefaultVillageData extends Village {
 	public void eraseSign(){
 		World world = Bukkit.getWorld(villageName);
 		
-		for(DefVilHouse house : DefaultVillageHouse.getHouseMap().values()){
+		for(DefaultVillageHouseCore house : DefaultVillageHouse.getHouseMap().values()){
 			Sign voteSign = (Sign) world.getBlockAt(house.voteSignX, house.voteSignY, house.voteSignZ).getState();
 			for(int i=0; i<4; i++)
 				voteSign.setLine(i, "");
@@ -106,7 +106,7 @@ public class DefaultVillageData extends Village {
 	public void changeHouseEffect(){
 		World world = Bukkit.getWorld(villageName);
 		
-		for(DefVilHouse house : DefaultVillageHouse.getHouseMap().values()){
+		for(DefaultVillageHouseCore house : DefaultVillageHouse.getHouseMap().values()){
 
 			BlockState frontDoor = world.getBlockAt(house.frontDoorX, house.frontDoorY, house.frontDoorZ).getState();
 			((Openable) frontDoor.getData()).setOpen(false);

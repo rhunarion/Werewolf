@@ -14,6 +14,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
@@ -23,6 +24,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import de.robingrether.idisguise.api.DisguiseAPI;
 import de.robingrether.idisguise.disguise.DisguiseType;
@@ -125,7 +127,7 @@ public class VillagePlayer extends VillagePlayerCore {
 		String rule = "";
 		rule += C.gold+"=="+C.yellow+"村の説明:"+C.gold+village.description;
 		rule += "=="+C.yellow+"配役:"
-				+C.gold+"村人"+(village.maxNum-village.getTotalRoleNumInRule())+"人、"
+				+C.gold+"村人"+(village.maxNum-village.getTotalRoleNumInRuleExceptMurabito())+"人、"
 				+"占い師"+village.uranaiNum+"人、霊媒師"+village.reibaiNum+"人、"
 				+"狩人"+village.kariudoNum+"人、人狼"+village.jinrouNum+"人、"
 				+"狂人"+village.kyoujinNum+"人、妖狐"+village.youkoNum+"人、"
@@ -239,7 +241,7 @@ public class VillagePlayer extends VillagePlayerCore {
 		
 		for(VillagePlayer alive : village.getAlivePlayerListExceptNPC())
 			alive.getPlayer().hidePlayer(pl);
-		for(VillagePlayer ghost : village.getGhostPlayerList())
+		for(VillagePlayer ghost : village.getPlayerListExceptAliveWhileOngoing())
 			ghost.getPlayer().showPlayer(pl);
 		for(VillagePlayer pc : village.getPlayerListExceptNPC())
 			pl.showPlayer(pc.getPlayer());
@@ -360,36 +362,128 @@ public class VillagePlayer extends VillagePlayerCore {
 		guardPlayer = target;
 	}
 	
-	public void bitePlayer(VillagePlayer target){
+	public void bitePlayer(final VillagePlayer target){
 		village.tryBiting = true;
 		for(VillagePlayer kariudo : village.getKariudoList()){
 			if(kariudo.guardPlayer==target){
 				village.sendToVillage(C.green+"どこからか矢を放つ音と、狼の悲鳴が聞こえてきました。");
-				for(VillagePlayer jinrou : village.getJinrouListExceptNPC())
+				for(VillagePlayer jinrou : village.getAliveJinrouListExceptNPC())
 					jinrou.sendMessage(color+getName()+C.gold+" さんが "+target.color+target.getName()
 							+C.gold+" さんを噛み殺そうとしましたが、 "
 							+C.aqua+"狩人"+C.gold+" に護衛されていたようです。");
+				
+				Location loc = null;
+				for(VillagePlayer bitable : village.getPlayerListExceptAliveJinrouAndNPC()){
+					if(bitable==target)
+						continue;
+					loc = new Location(Bukkit.getWorld(village.villageName), 0, 64, 0);
+					bitable.playSoundAtModifiedPoint(loc, Sound.SHOOT_ARROW, 1f);
+				}
+				Bukkit.getScheduler().runTaskLater(village.plugin, new BukkitRunnable(){
+					@Override
+					public void run(){
+						for(VillagePlayer bitable : village.getPlayerListExceptAliveJinrouAndNPC()){
+							if(bitable==target)
+								continue;
+							Location loc = new Location(Bukkit.getWorld(village.villageName), 0, 64, 0);
+							bitable.playSoundAtModifiedPoint(loc, Sound.WOLF_HURT, 0f);
+						}
+					}
+				}, 10);
+				
+				if(target.connection)
+					loc = target.getPlayer().getLocation();
+				else
+					loc = target.villagerEntity.getLocation();
+				for(VillagePlayer jinrou : village.getAliveJinrouListExceptNPC())
+					jinrou.playSoundAtModifiedPoint(loc, Sound.SHOOT_ARROW, 1f);
+				if(target.connection)
+					target.playSoundAtModifiedPoint(loc, Sound.SHOOT_ARROW, 1f);
+				
+				final VillagePlayer bitingPlayer = this;
+				final Location bitingLoc;
+				if(connection)
+					bitingLoc = getPlayer().getLocation();
+				else
+					bitingLoc = loc;
+				Bukkit.getScheduler().runTaskLater(village.plugin, new BukkitRunnable(){
+					@Override
+					public void run(){
+						for(VillagePlayer jinrou : village.getAliveJinrouListExceptNPC())
+							jinrou.playSoundAtModifiedPoint(bitingLoc, Sound.WOLF_HURT, 0f);
+						if(target.connection)
+							target.playSoundAtModifiedPoint(bitingLoc, Sound.WOLF_HURT, 0f);
+						
+						bitingPlayer.giveDeathDamage();
+					}
+				}, 10);
+
 				return;
 			}
 		}
 		if(target.role==VillageRole.youko){
 			village.sendToVillage(C.green+"どこからか狐の悲鳴が聞こえてきました。");
 			target.disguiseBlaze();
-			for(VillagePlayer jinrou : village.getJinrouListExceptNPC())
+			for(VillagePlayer jinrou : village.getAliveJinrouListExceptNPC())
 				jinrou.sendMessage(color+getName()+C.gold+" さんが "+target.color+target.getName()
 						+C.gold+" さんを噛み殺そうとしましたが、 "
 						+C.yellow+"妖狐"+C.gold+" が人間に化けていたようです。");
+
+			Location loc = null;
+			for(VillagePlayer bitable : village.getPlayerListExceptAliveJinrouAndNPC()){
+				if(bitable==target)
+					continue;
+				loc = new Location(Bukkit.getWorld(village.villageName), 0, 64, 0);
+				bitable.playSoundAtModifiedPoint(loc, Sound.GHAST_SCREAM2, 1.5f);
+			}
+			if(target.connection)
+				loc = target.getPlayer().getLocation();
+			else
+				loc = target.villagerEntity.getLocation();
+			for(VillagePlayer jinrou : village.getAliveJinrouListExceptNPC())
+				jinrou.playSoundAtModifiedPoint(loc, Sound.GHAST_SCREAM2, 1.5f);
+			if(target.connection)
+				target.playSoundAtModifiedPoint(loc, Sound.GHAST_SCREAM2, 1.5f);
+			
 			return;
 		}
+		
 		village.bittenPlayer = target;
 		village.sendToVillage(C.green+"どこからか人間の断末魔の叫びが聞こえてきました。");
 		target.kill();
 		target.giveDeathDamage();
 		if(target.connection)
 			target.sendMessage(C.gold+"あなたは人狼に噛み殺されました。");
-		for(VillagePlayer jinrou : village.getJinrouListExceptNPC())
+		for(VillagePlayer jinrou : village.getAliveJinrouListExceptNPC())
 			jinrou.sendMessage(color+getName()+C.gold+" さんが "+target.color+target.getName()
 						+C.gold+" さんを噛み殺しました。");
+
+		Location loc = null;
+		for(VillagePlayer bitable : village.getPlayerListExceptAliveJinrouAndNPC()){
+			loc = new Location(Bukkit.getWorld(village.villageName), 0, 64, 0);
+			bitable.playSoundAtModifiedPoint(loc,Sound.ENDERMAN_DEATH, 0.5f);
+		}
+		if(target.connection)
+			loc = target.getPlayer().getLocation();
+		else
+			loc = target.villagerEntity.getLocation();
+		for(VillagePlayer jinrou : village.getAliveJinrouListExceptNPC())
+			jinrou.playSoundAtModifiedPoint(loc, Sound.ENDERMAN_DEATH, 0.5f);
+		if(target.connection)
+			target.playSoundAtModifiedPoint(loc, Sound.ENDERMAN_DEATH, 0.5f);
+	}
+	
+	public void playSoundAtModifiedPoint(Location soundLoc, Sound sound, float pitch){
+		Location playerLoc = getPlayer().getLocation();
+		double diffX = soundLoc.getX()-playerLoc.getX();
+		double diffZ = soundLoc.getZ()-playerLoc.getZ();
+		double diff = Math.sqrt(Math.pow(diffX, 2) + Math.pow(diffZ, 2));
+
+		if(diff>12.0){
+			soundLoc.setX(playerLoc.getX()+10*diffX/diff);
+			soundLoc.setZ(playerLoc.getZ()+10*diffZ/diff);
+		}
+		getPlayer().playSound(soundLoc, sound, 0.5f, pitch);
 	}
 	
 	public void changeStatusOnGameFinish(){
