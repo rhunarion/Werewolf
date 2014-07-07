@@ -167,7 +167,7 @@ public class VillageUtil {
 		if(vil.status==VillageStatus.empty && !(vp.getName().matches("p\\d+")))
 			BarAPI.setMessage(pl, C.yellow+vil.title+C.white
 								+" ("+vil.villageName+") <空き状態>");
-		if(vil.status==VillageStatus.ongoing)
+		if(vil.status==VillageStatus.ongoing && !vp.alive)
 			vp.addGhostTeam();
 		if(vil.status==VillageStatus.finishing)
 			vp.changeStatusOnGameFinish();
@@ -210,9 +210,22 @@ public class VillageUtil {
 	}
 	
 	public static void addPlayer(Player pl, Village vil){
-		for(VillagePlayer vp : vil.getPlayerListExceptNPC())
-			if(vp.getPlayer()==pl)
+		for(VillagePlayer vp : vil.playerList){
+			if(vp.getName().equals("."+pl.getName()) && vp.alive){
+				vil.scoreboard.resetScores(Bukkit.getOfflinePlayer(vp.getColorName()));
+				vp.player = (OfflinePlayer) pl;
+				vp.connection = true;
+				vp.teleportToHome();
+				vp.villagerEntity.remove();
+				vp.villagerEntity = null;
+				vp.removeFenceAroundBed();
+				vil.objective.getScore(Bukkit.getOfflinePlayer(vp.getColorName())).setScore(1);
+				vil.objective.getScore(Bukkit.getOfflinePlayer(vp.getColorName())).setScore(0);
+				vil.sendToVillage(C.yellow+pl.getName()+C.gold+" さんが "
+						+C.yellow+vil.title+C.gold+" ("+vil.villageName+") に帰ってきました。");
 				return;
+			}
+		}
 		
 		vil.playerList.add(new VillagePlayer(pl));
 		if(vil.status!=VillageStatus.ongoing)
