@@ -164,7 +164,7 @@ public class VillageUtil {
 		pl.setScoreboard(VillageUtil.getVillage(pl).scoreboard);
 		
 		VillagePlayer vp = vil.getPlayer(pl);
-		if(vil.status==VillageStatus.empty && !(vp.getName().matches("p\\d+")))
+		if(vil.status==VillageStatus.empty && !(vp.getName().contains(".")))
 			BarAPI.setMessage(pl, C.yellow+vil.title+C.white
 								+" ("+vil.villageName+") <空き状態>");
 		if(vil.status==VillageStatus.ongoing && !vp.alive)

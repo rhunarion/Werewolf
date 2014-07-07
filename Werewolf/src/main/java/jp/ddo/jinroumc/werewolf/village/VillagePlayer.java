@@ -230,7 +230,7 @@ public class VillagePlayer extends VillagePlayerCore {
 	}
 	
 	public void addGhostTeam(){
-		if(getName().matches("p\\d+"))
+		if(getName().contains("."))
 			return;
 		
 		Player pl = getPlayer();
@@ -248,7 +248,7 @@ public class VillagePlayer extends VillagePlayerCore {
 	}
 	
 	public void addInvisibleEffect(){
-		if(getName().matches("p\\d+"))
+		if(getName().contains("."))
 			return;
 		
 		Player pl = getPlayer();
@@ -561,7 +561,7 @@ public class VillagePlayer extends VillagePlayerCore {
 	}
 	
 	public void disguiseZombie(){
-		if(getName().matches("p\\d+"))
+		if(getName().contains("."))
 			return;
 
 		if(connection){
@@ -574,7 +574,7 @@ public class VillagePlayer extends VillagePlayerCore {
 	}
 	
 	public void disguiseBlaze(){
-		if(getName().matches("p\\d+"))
+		if(getName().contains("."))
 			return;
 
 		if(connection){
@@ -589,7 +589,7 @@ public class VillagePlayer extends VillagePlayerCore {
 	}
 	
 	public void undisguise(){
-		if(getName().matches("p\\d+"))
+		if(getName().contains("."))
 			return;
 
 		DisguiseAPI api = Bukkit.getServer().getServicesManager().getRegistration(DisguiseAPI.class).getProvider();

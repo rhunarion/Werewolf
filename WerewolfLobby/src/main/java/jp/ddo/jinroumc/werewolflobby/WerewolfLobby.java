@@ -1,5 +1,9 @@
 package jp.ddo.jinroumc.werewolflobby;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 import jp.ddo.jinroumc.werewolf.enumconstant.VillageStatus;
 import jp.ddo.jinroumc.werewolf.util.C;
 import jp.ddo.jinroumc.werewolf.village.Village;
@@ -36,6 +40,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class WerewolfLobby extends JavaPlugin implements Listener {
 	public static int rewriteSignID = -1;
+	public static int sendTipsID = -1;
 
 	@Override
 	public void onEnable(){
@@ -43,11 +48,13 @@ public class WerewolfLobby extends JavaPlugin implements Listener {
 		getCommand("debug").setExecutor(new CommandDebug());
 		
 		rewriteSign();
+		sendTips();
 	}
 	
 	@Override
 	public void onDisable(){
 		stopRewriteSign();
+		stopSendTips();
 		Bukkit.getScheduler().cancelAllTasks();
 	}
 	
@@ -280,6 +287,38 @@ public class WerewolfLobby extends JavaPlugin implements Listener {
 		if(rewriteSignID!=-1){
 			Bukkit.getScheduler().cancelTask(rewriteSignID);
 			rewriteSignID = -1;
+		}
+	}
+	
+	public void sendTips(){
+		List<String> tipsContainer = new ArrayList<String>();
+		tipsContainer.add(C.d_gray+"[TIPS] 公式 Wiki - http://jinroumc.wiki.fc2.com");
+		tipsContainer.add(C.d_gray+"[TIPS] 不具合を発見した場合は、公式 Wiki にて報告していただけませんか。");
+		tipsContainer.add(C.d_gray+"[TIPS] 村ワールドのどこかに人狼の住処があります。そこには貴重な…。");
+		tipsContainer.add(C.d_gray+"[TIPS] ルール設定で「配役リクエストあり」に設定することができます。");
+		tipsContainer.add(C.d_gray+"[TIPS] チャットメッセージに「\\」を入力すると改行できます。");
+		tipsContainer.add(C.d_gray+"[TIPS] 移動できなくなったときは /home とコマンドしてください。");
+		tipsContainer.add(C.d_gray+"[TIPS] /help コマンドで今使えるコマンドのヘルプを見ることができます。");
+		tipsContainer.add(C.d_gray+"[TIPS] /co コマンドで色付きの文字で発言することができます。");
+		tipsContainer.add(C.d_gray+"[TIPS] /whisp コマンドで特定のプレイヤーとのみ会話することができます。");
+		
+		final List<String> tips = tipsContainer;
+		
+		sendTipsID = Bukkit.getScheduler().runTaskTimer(this, new BukkitRunnable(){
+			Random rnd = new Random();
+			
+			@Override
+			public void run(){
+				for(Player pl : Bukkit.getServer().getOnlinePlayers())
+					pl.sendMessage(tips.get(rnd.nextInt(tips.size())));
+			}
+		}, 0, 5*60*20).getTaskId(); 
+	}
+	
+	private static void stopSendTips(){
+		if(sendTipsID!=-1){
+			Bukkit.getScheduler().cancelTask(sendTipsID);
+			sendTipsID = -1;
 		}
 	}
 }

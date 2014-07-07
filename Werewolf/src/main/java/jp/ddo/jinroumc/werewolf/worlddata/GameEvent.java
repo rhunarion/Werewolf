@@ -198,6 +198,20 @@ public class GameEvent implements Listener {
 				}
 			}
 		);
+		ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(plugin,
+				ListenerPriority.NORMAL, PacketType.Play.Server.NAMED_SOUND_EFFECT) {
+					@Override
+					public void onPacketSending(PacketEvent event) {
+						System.out.println(event.getPacket().getStrings().size());
+						System.out.println(event.getPacket().getStrings().readSafely(0));
+						/*String soundName = event.getPacket().getStrings().read(0);
+						if (soundName.equals("random.door_open")
+								|| soundName.equals("random.door_close")) {
+							event.setCancelled(true);
+						}*/
+					}
+				}
+			);
 	}
 	
 	public static void removePacketAdapter(){

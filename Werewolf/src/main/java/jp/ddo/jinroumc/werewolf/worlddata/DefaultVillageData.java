@@ -307,6 +307,6 @@ public class DefaultVillageData extends Village {
 					}
 				}
 			}
-		}, 1, 1).getTaskId();
+		}, 0, 1).getTaskId();
 	}
 }

@@ -38,7 +38,7 @@ public class VillageTimer extends VillageCore {
 				
 				if(seconds>=0){
 					for(VillagePlayer vp : vil.getPlayerListExceptNPC())
-						if(vp.player.isOnline() && !(vp.getName().matches("p\\d+")))
+						if(vp.player.isOnline() && !(vp.getName().contains(".")))
 							if(seconds>30)
 								BarAPI.setMessage(vp.getPlayer(), C.yellow+vil.title+C.white
 													+" ("+vil.villageName+") "+message+time, percent);
@@ -69,7 +69,7 @@ public class VillageTimer extends VillageCore {
 					vil.afterTimer();
 				}
 			}
-		}, 20, 20).getTaskId();
+		}, 0, 20).getTaskId();
 	}
 	
 	public void stopTimer(){
