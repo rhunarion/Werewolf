@@ -183,16 +183,13 @@ public class GameEvent implements Listener {
 		}
 	}
 
-	public static void removeNightSound(JavaPlugin plugin){
+	public static void removeNightEffect(JavaPlugin plugin){
 		ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(plugin,
 			ListenerPriority.NORMAL, PacketType.Play.Server.WORLD_EVENT) {
 				@Override
 				public void onPacketSending(PacketEvent event) {
 					System.out.println(event.getPacket().getStrings().size());
-					System.out.println(event.getPacket().getStrings().readSafely(0));
-					System.out.println(event.getPacket().getStrings().readSafely(1));
-					System.out.println(event.getPacket().getStrings().readSafely(2));
-					System.out.println(event.getPacket().getStrings().readSafely(3));
+					System.out.println(event.getPacket().toString());
 					/*String soundName = event.getPacket().getStrings().read(0);
 					if (soundName.equals("random.door_open")
 							|| soundName.equals("random.door_close")) {
@@ -201,5 +198,9 @@ public class GameEvent implements Listener {
 				}
 			}
 		);
+	}
+	
+	public static void removePacketAdapter(){
+		int i;
 	}
 }

@@ -13,11 +13,6 @@ import org.bukkit.Difficulty;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
 
-import com.comphenix.protocol.PacketType;
-import com.comphenix.protocol.ProtocolLibrary;
-import com.comphenix.protocol.events.ListenerPriority;
-import com.comphenix.protocol.events.PacketAdapter;
-
 import de.robingrether.idisguise.sound.SoundSystem;
 
 public class Werewolf extends JavaPlugin {
@@ -26,7 +21,7 @@ public class Werewolf extends JavaPlugin {
 		getServer().getPluginManager().registerEvents(new EventListener(this), this);
 		getServer().getPluginManager().registerEvents(new GameEvent(), this);
 		getServer().getPluginManager().registerEvents(new DefaultVillageEvent(), this);
-		GameEvent.removeNightSound(this);
+		GameEvent.removeNightEffect(this);
 		getCommand("ww").setExecutor(new WwCommandExecutor());
 		getCommand("ww").setTabCompleter(new WwTabCompleter());
 
@@ -68,8 +63,7 @@ public class Werewolf extends JavaPlugin {
 			vil.stopDoTaskLater();
 			vil.stopAsyncRebuild();
 		}
-		int i;
-		//ProtocolLibrary.getProtocolManager().removePacketListener();
+		GameEvent.removePacketAdapter();
 	}
 }
 
