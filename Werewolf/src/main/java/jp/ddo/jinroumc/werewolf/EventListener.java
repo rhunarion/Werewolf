@@ -128,7 +128,7 @@ public class EventListener implements Listener {
 					event.setCancelled(true);
 		}
 	}
-
+	
 	@EventHandler(priority = EventPriority.HIGH)
 	public void onPlayerMoveInCreativeMode(PlayerMoveEvent event){
 		if(VillageUtil.isInVillage(event.getPlayer())

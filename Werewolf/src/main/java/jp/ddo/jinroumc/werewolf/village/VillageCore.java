@@ -258,6 +258,14 @@ public class VillageCore {
 		return plList;
 	}
 	
+	public List<VillagePlayer> getAlivePlayerListExceptJinrouAndNpc(){
+		List<VillagePlayer> plList = new ArrayList<VillagePlayer>();
+		for(VillagePlayer vp : playerList)
+			if(vp.alive && vp.role!=VillageRole.jinrou && vp.connection)
+				plList.add(vp);
+		return plList;
+	}
+	
 	public List<VillagePlayer> getUranaishiList(){
 		List<VillagePlayer> plList = new ArrayList<VillagePlayer>();
 		for(VillagePlayer vp : playerList)

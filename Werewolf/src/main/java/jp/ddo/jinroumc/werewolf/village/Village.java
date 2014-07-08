@@ -182,7 +182,10 @@ public class Village extends VillageTimer {
 
    		for(VillagePlayer vp : getAliveJinrouList())
    			vp.disguiseZombie();
-   			
+   		for(VillagePlayer vp : getAlivePlayerListExceptJinrouAndNpc())
+   			for(VillagePlayer alive : getAlivePlayerListExceptNpc())
+   				vp.getPlayer().hidePlayer(alive.getPlayer());
+   				
 		if(day!=0){
 			sendToVillage(C.green+"////////// " 
 							+C.aqua+""+day+"日目夜"+C.green+" になりました。 //////////");
@@ -224,11 +227,6 @@ public class Village extends VillageTimer {
 		for(VillagePlayer vp : getAliveNpcList())
 			vp.removeFenceAroundBed();
 		
-		for(VillagePlayer vp : getAliveJinrouList())
-			vp.undisguise();
-		for(VillagePlayer vp : getAliveYoukoList())
-			vp.undisguise();
-
 		sendToVillage(C.green+"////////// " 
 								+C.aqua+""+day+"日目朝"+C.green+" になりました。 //////////");
 		if(bittenPlayer==null && cursedPlayerList.size()==0){
@@ -387,6 +385,16 @@ public class Village extends VillageTimer {
 					cursed.sendMessage(C.gold+"あなたは占い師に呪い殺されました。");
 			}
 		}
+		if(time==VillageTime.night){
+			for(VillagePlayer vp : getAliveJinrouList())
+				vp.undisguise();
+			for(VillagePlayer vp : getAliveYoukoList())
+				vp.undisguise();
+	   		for(VillagePlayer vp : getAlivePlayerListExceptJinrouAndNpc())
+	   			for(VillagePlayer alive : getAlivePlayerListExceptNpc())
+	   				vp.getPlayer().showPlayer(alive.getPlayer());
+		}
+
 		rewriteScoreboard();
 		
 		int human = 0;

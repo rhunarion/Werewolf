@@ -32,6 +32,9 @@ import com.comphenix.protocol.events.PacketEvent;
 public class GameEvent implements Listener {
 	private static PacketAdapter doorAdapter;
 	private static PacketAdapter voiceAdapter;
+	private static PacketAdapter entitySpawnAdapter;
+	private static PacketAdapter entityMoveAdapter;
+	private static PacketAdapter entityTeleportAdapter;
 	
 	@EventHandler
 	public void onPlayerAttack(EntityDamageByEntityEvent event){
@@ -204,13 +207,56 @@ public class GameEvent implements Listener {
 						}
 					}
 				};
-		
+		entitySpawnAdapter = new PacketAdapter(plugin,
+				ListenerPriority.NORMAL, PacketType.Play.Server.SPAWN_ENTITY_LIVING) {
+					@Override
+					public void onPacketSending(PacketEvent event) {
+						if(VillageUtil.isInVillage(event.getPlayer())){
+							Village vil = VillageUtil.getVillage(event.getPlayer());
+							if(vil.time==VillageTime.night)
+								event.getPacket();
+						}
+					}
+				};
+/*		entityMoveAdapter = new PacketAdapter(plugin,
+				ListenerPriority.NORMAL, PacketType.Play.Server.REL_ENTITY_MOVE) {
+					@Override
+					public void onPacketSending(PacketEvent event) {
+						if(VillageUtil.isInVillage(event.getPlayer())){
+							Village vil = VillageUtil.getVillage(event.getPlayer());
+							for(Entity entity : Bukkit.getWorld(vil.villageName).getEntities())
+								if(entity.getEntityId()==event.getPacket().getIntegers().read(0)
+									&& entity.getType()==EntityType.VILLAGER)
+									event.setCancelled(true);
+						}
+					}
+				};
+		entityTeleportAdapter = new PacketAdapter(plugin,
+				ListenerPriority.NORMAL, PacketType.Play.Server.ENTITY_TELEPORT) {
+					@Override
+					public void onPacketSending(PacketEvent event) {
+						if(VillageUtil.isInVillage(event.getPlayer())){
+							Village vil = VillageUtil.getVillage(event.getPlayer());
+							for(Entity entity : Bukkit.getWorld(vil.villageName).getEntities())
+								if(entity.getEntityId()==event.getPacket().getIntegers().read(0)
+									&& entity.getType()==EntityType.VILLAGER)
+									event.setCancelled(true);
+						}
+					}
+				};*/
+	
 		ProtocolLibrary.getProtocolManager().addPacketListener(doorAdapter);
 		ProtocolLibrary.getProtocolManager().addPacketListener(voiceAdapter);
+		ProtocolLibrary.getProtocolManager().addPacketListener(entitySpawnAdapter);
+		ProtocolLibrary.getProtocolManager().addPacketListener(entityMoveAdapter);
+		ProtocolLibrary.getProtocolManager().addPacketListener(entityTeleportAdapter);
 	}
 	
 	public static void removePacketAdapter(){
 		ProtocolLibrary.getProtocolManager().removePacketListener(doorAdapter);
 		ProtocolLibrary.getProtocolManager().removePacketListener(voiceAdapter);
+		ProtocolLibrary.getProtocolManager().removePacketListener(entitySpawnAdapter);
+		ProtocolLibrary.getProtocolManager().removePacketListener(entityMoveAdapter);
+		ProtocolLibrary.getProtocolManager().removePacketListener(entityTeleportAdapter);
 	}
 }
