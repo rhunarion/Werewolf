@@ -19,7 +19,6 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -92,7 +91,7 @@ public class GameEvent implements Listener {
 			final Village vil = VillageUtil.getVillage(loc.getWorld().getName());
 			if(vil.status!=VillageStatus.ongoing
 					|| vil.time!=VillageTime.execution
-					|| !((DefaultVillageData) vil).isInsideScaffold(loc)){
+					|| !((DefaultVillage) vil).isInsideScaffold(loc)){
 				for(VillagePlayer npc : vil.getNpcList()){
 					if(npc.villagerEntity==entity
 							&& (vil.status!=VillageStatus.ongoing || npc.alive)){
@@ -123,7 +122,7 @@ public class GameEvent implements Listener {
 			vil.doTaskLaterId = Bukkit.getScheduler().runTaskLater(vil.plugin, new BukkitRunnable(){
 				@Override
 				public void run(){
-					((DefaultVillageData) vil).postExecution();
+					((DefaultVillage) vil).postExecution();
 					vil.checkResult();
 					vil.doTaskLaterId = -1;
 				}
@@ -174,17 +173,6 @@ public class GameEvent implements Listener {
 		}
 	}
 	
-	@EventHandler
-	public void onGhostInteract(PlayerInteractEvent event){
-		if(VillageUtil.isInVillage(event.getPlayer())){
-			Player pl = event.getPlayer();
-			Village vil = VillageUtil.getVillage(pl);
-			VillagePlayer vp = vil.getPlayer(pl);
-			if(!vp.alive && vil.status==VillageStatus.ongoing)
-				event.setCancelled(true);
-		}
-	}
-
 	public static void removeNightEffect(JavaPlugin plugin){
 		doorAdapter = new PacketAdapter(plugin,
 				ListenerPriority.NORMAL, PacketType.Play.Server.WORLD_EVENT) {

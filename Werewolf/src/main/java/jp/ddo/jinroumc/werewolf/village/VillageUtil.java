@@ -11,7 +11,7 @@ import jp.ddo.jinroumc.werewolf.enumconstant.VillageStatus;
 import jp.ddo.jinroumc.werewolf.util.C;
 import jp.ddo.jinroumc.werewolf.util.LobbyData;
 import jp.ddo.jinroumc.werewolf.util.VillageManual;
-import jp.ddo.jinroumc.werewolf.worlddata.DefaultVillageData;
+import jp.ddo.jinroumc.werewolf.worlddata.DefaultVillage;
 
 import me.confuser.barapi.BarAPI;
 
@@ -34,7 +34,7 @@ public class VillageUtil {
 		for(String vt : villageType){
 			List<String> villageName = config.getStringList("villageName."+vt);
 			for(String vn : villageName){
-				villageList.add(new DefaultVillageData(vn, vt, plugin));
+				villageList.add(new DefaultVillage(vn, vt, plugin));
 			}
 		}
 	}
@@ -147,7 +147,7 @@ public class VillageUtil {
 	}
 
 	public static void teleportToVillage(Player pl, Village vil){
-		Location loc = ((DefaultVillageData) vil).getSpawnLocation();
+		Location loc = ((DefaultVillage) vil).getSpawnLocation();
 		pl.teleport(loc);
 		pl.setBedSpawnLocation(loc, true);
 	}

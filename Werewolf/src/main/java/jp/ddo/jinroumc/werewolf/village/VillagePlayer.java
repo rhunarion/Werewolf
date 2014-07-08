@@ -8,7 +8,7 @@ import jp.ddo.jinroumc.werewolf.enumconstant.VillageStatus;
 import jp.ddo.jinroumc.werewolf.enumconstant.VillageTime;
 import jp.ddo.jinroumc.werewolf.util.C;
 import jp.ddo.jinroumc.werewolf.util.PluginChecker;
-import jp.ddo.jinroumc.werewolf.worlddata.DefaultVillageData;
+import jp.ddo.jinroumc.werewolf.worlddata.DefaultVillage;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -42,23 +42,23 @@ public class VillagePlayer extends VillagePlayerCore {
 	}
 	
 	public void teleportToConfigRoom(){
-		getPlayer().teleport(((DefaultVillageData) village).getConfigRoom());
+		getPlayer().teleport(((DefaultVillage) village).getConfigRoom());
 	}
 	
 	public void teleportToScaffold(){
 		if(connection)
-			getPlayer().teleport(((DefaultVillageData) village).getScaffold());
+			getPlayer().teleport(((DefaultVillage) village).getScaffold());
 		else
-			villagerEntity.teleport(((DefaultVillageData) village).getScaffold());
+			villagerEntity.teleport(((DefaultVillage) village).getScaffold());
 	}
 	
 	public void teleportToHome(){
 		if(!alive || village.status!=VillageStatus.ongoing)
 			VillageUtil.teleportToVillage(getPlayer(), village);
 		else if(alive && connection)
-			getPlayer().teleport(((DefaultVillageData) village).getHome(this));
+			getPlayer().teleport(((DefaultVillage) village).getHome(this));
 		else
-			villagerEntity.teleport(((DefaultVillageData) village).getHome(this));
+			villagerEntity.teleport(((DefaultVillage) village).getHome(this));
 	}
 
 	public void giveUpGame(){
@@ -93,8 +93,8 @@ public class VillagePlayer extends VillagePlayerCore {
 				village.gameFinishing();
 			}else{
 				Collections.shuffle(vpList);
-				removeGM();
-				vpList.get(0).setGM();
+				removeGm();
+				vpList.get(0).setGm();
 			}
 		}
 		
@@ -106,7 +106,7 @@ public class VillagePlayer extends VillagePlayerCore {
 		}
 	}
 	
-	public void setGM(){
+	public void setGm(){
 		gameMaster = true;
 		if(alive && village.status==VillageStatus.ongoing)
 			village.sendToVillage(color+getName()+C.gold+" さんがゲームマスターになりました。");
@@ -114,7 +114,7 @@ public class VillagePlayer extends VillagePlayerCore {
 			village.sendToVillage(C.yellow+getName()+C.gold+" さんがゲームマスターになりました。");
 	}
 	
-	public void removeGM(){
+	public void removeGm(){
 		gameMaster = false;
 		if(alive && village.status==VillageStatus.ongoing)
 			village.sendToVillage(color+getName()+C.gold+" さんがゲームマスターではなくなりました。");
@@ -520,10 +520,10 @@ public class VillagePlayer extends VillagePlayerCore {
 		if(role==VillageRole.jinrou
 				&& village.status==VillageStatus.ongoing && village.time==VillageTime.night){
 			villagerEntity = (LivingEntity) Bukkit.getWorld(village.villageName)
-					.spawnEntity(((DefaultVillageData) village).getHome(this), EntityType.ZOMBIE);
+					.spawnEntity(((DefaultVillage) village).getHome(this), EntityType.ZOMBIE);
 		}else{
 			villagerEntity = (LivingEntity) Bukkit.getWorld(village.villageName)
-					.spawnEntity(((DefaultVillageData) village).getHome(this), EntityType.VILLAGER);
+					.spawnEntity(((DefaultVillage) village).getHome(this), EntityType.VILLAGER);
 			villagerEntity.setCustomName(getName());
 			villagerEntity.setCustomNameVisible(true);
 			((Villager) villagerEntity).setProfession(proffession);
@@ -531,7 +531,7 @@ public class VillagePlayer extends VillagePlayerCore {
 	}
 	
 	public void setFenceAroundBed(){
-		Location home = ((DefaultVillageData) village).getHome(this);
+		Location home = ((DefaultVillage) village).getHome(this);
 		World world = home.getWorld();
 		int x = home.getX()>=0 ? (int) home.getX() : (int) home.getX()-1;
 		int y = (int) home.getY()+2;
@@ -556,7 +556,7 @@ public class VillagePlayer extends VillagePlayerCore {
 	}
 	
 	public void removeFenceAroundBed(){
-		Location home = ((DefaultVillageData) village).getHome(this);
+		Location home = ((DefaultVillage) village).getHome(this);
 		World world = home.getWorld();
 		int x = home.getX()>=0 ? (int) home.getX() : (int) home.getX()-1;
 		int y = (int) home.getY()+2;

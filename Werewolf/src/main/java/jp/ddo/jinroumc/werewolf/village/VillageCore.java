@@ -330,7 +330,7 @@ public class VillageCore {
 		return plList;
 	}
 	
-	public List<String> getPlayerNameListExceptGMandNpc(){
+	public List<String> getPlayerNameListExceptGmAndNpc(){
 		List<String> plList = new ArrayList<String>();
 		for(VillagePlayer vp : playerList)
 			if(!vp.gameMaster && vp.connection)
@@ -395,8 +395,8 @@ public class VillageCore {
 		return plList;
 	}
 	
-	public boolean isPlayerExceptGMandNpc(String plName){
-		for(String pn : getPlayerNameListExceptGMandNpc()){
+	public boolean isPlayerExceptGmAndNpc(String plName){
+		for(String pn : getPlayerNameListExceptGmAndNpc()){
 			if(pn.equals(plName))
 				return true;
 		}

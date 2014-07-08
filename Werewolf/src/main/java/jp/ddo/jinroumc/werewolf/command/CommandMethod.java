@@ -12,7 +12,7 @@ import jp.ddo.jinroumc.werewolf.util.PluginChecker;
 import jp.ddo.jinroumc.werewolf.village.Village;
 import jp.ddo.jinroumc.werewolf.village.VillagePlayer;
 import jp.ddo.jinroumc.werewolf.village.VillageUtil;
-import jp.ddo.jinroumc.werewolf.worlddata.DefaultVillageData;
+import jp.ddo.jinroumc.werewolf.worlddata.DefaultVillage;
 
 import org.bukkit.entity.Player;
 
@@ -211,7 +211,7 @@ public class CommandMethod {
 				}
 				VillagePlayer vp = vil.getPlayer(pl);
 				pl.sendMessage(C.yellow+vil.title+C.gold+" ("+vil.villageName+") で人狼ゲームの準備を開始します。");
-				vp.setGM();
+				vp.setGm();
 				vp.joinGame();
 				vil.gamePreparing();
 				return;
@@ -224,7 +224,7 @@ public class CommandMethod {
 				VillageUtil.onPlayerEnter(pl, vil);
 				pl.sendMessage(C.yellow+vil.title+C.gold+" ("+vil.villageName+") で人狼ゲームの準備を開始します。");
 				VillagePlayer vp = vil.getPlayer(pl);
-				vp.setGM();
+				vp.setGm();
 				vp.joinGame();
 				vil.gamePreparing();
 				return;
@@ -296,7 +296,7 @@ public class CommandMethod {
 		vil.resetTimer();
 	}
 	
-	public static void giveGM(Player pl, String target){
+	public static void giveGm(Player pl, String target){
 		if(!VillageUtil.isInVillage(pl)){
 			pl.sendMessage(C.red+"Error: 村ワールドの中でしか使えないコマンドです。");
 			return;
@@ -307,14 +307,14 @@ public class CommandMethod {
 			pl.sendMessage(C.red+"Error: ゲームマスターしか使えないコマンドです。");
 			return;
 		}
-		if(!vil.isPlayerExceptGMandNpc(target)){
+		if(!vil.isPlayerExceptGmAndNpc(target)){
 			pl.sendMessage(C.red+"Error: "+target+" というプレイヤーは指定できません。");
 			return;
 		}
 		
 		VillagePlayer tarvp = vil.getPlayer(target);
-		vp.removeGM();
-		tarvp.setGM();
+		vp.removeGm();
+		tarvp.setGm();
 	}
 	
 	public static void configRoom(Player pl){
@@ -577,7 +577,7 @@ public class CommandMethod {
 			vil.stopDoTaskLater();
 			vil.executedPlayer.kill();
 			
-			((DefaultVillageData) vil).postExecution();
+			((DefaultVillage) vil).postExecution();
 			vil.checkResult();
 			return;
 		}
@@ -596,7 +596,7 @@ public class CommandMethod {
 			pl.sendMessage(C.red+"Error: ゲームマスターしか使えないコマンドです。");
 			return;
 		}
-		if(!vil.isPlayerExceptGMandNpc(target)){
+		if(!vil.isPlayerExceptGmAndNpc(target)){
 			pl.sendMessage(C.red+"Error: "+target+" というプレイヤーは指定できません。");
 			return;
 		}

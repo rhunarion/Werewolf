@@ -111,7 +111,7 @@ public class WwCommandExecutor implements CommandExecutor {
 		//giveGM command
 		if(args[0].equalsIgnoreCase("giveGM")){
 			if(args.length!=2) CommandHelp.usageError(pl, "giveGM");
-			else CommandMethod.giveGM(pl, args[1]);
+			else CommandMethod.giveGm(pl, args[1]);
 			return true;
 		}
 		

@@ -13,7 +13,7 @@ import jp.ddo.jinroumc.werewolf.enumconstant.VillageTime;
 import jp.ddo.jinroumc.werewolf.util.C;
 import jp.ddo.jinroumc.werewolf.util.PluginChecker;
 import jp.ddo.jinroumc.werewolf.util.SendMessage;
-import jp.ddo.jinroumc.werewolf.worlddata.DefaultVillageData;
+import jp.ddo.jinroumc.werewolf.worlddata.DefaultVillage;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -155,7 +155,7 @@ public class Village extends VillageTimer {
 		stopAsyncRebuild();
 		for(VillagePlayer vp : getJoiningPlayerList())
 			vp.alive = true;
-		((DefaultVillageData) this).writeSign();
+		((DefaultVillage) this).writeSign();
 		
 		sendToVillage(C.green+"/////////////////////////////////");
 		sendToVillage(C.green+"/////      "+C.aqua
@@ -174,7 +174,7 @@ public class Village extends VillageTimer {
 		setTimer("<"+day+"日目夜>  ："+(day+1)+"日目朝まで ", nightTime);
 		Bukkit.getWorld(villageName).setTime(18000);
 		
-		((DefaultVillageData) this).changeHouseEffect();
+		((DefaultVillage) this).changeHouseEffect();
 		for(VillagePlayer vp : getAlivePlayerList())
 			vp.teleportToHome();
 		for(VillagePlayer vp : getAliveNpcList())
@@ -218,7 +218,7 @@ public class Village extends VillageTimer {
 		setTimer("<"+day+"日目昼>  ：処刑まで ", dayTime);
 		Bukkit.getWorld(villageName).setTime(6000);
 
-		((DefaultVillageData) this).changeHouseEffect();
+		((DefaultVillage) this).changeHouseEffect();
 		for(VillagePlayer vp : getAlivePlayerList())
 			vp.teleportToHome();
 		for(VillagePlayer vp : getAliveNpcList())
@@ -312,6 +312,10 @@ public class Village extends VillageTimer {
 				if(maxVotedPlayer.numBeingVoted < votedPlayerList.get(i).numBeingVoted)
 					maxVotedPlayer = votedPlayerList.get(i);
 		}else{
+			if(revoteNum==currentVoteNum){
+				gameFinishing();
+				return;
+			}
 			revote();
 			return;
 		}
@@ -334,7 +338,7 @@ public class Village extends VillageTimer {
 				+maxVotedPlayer.getName()+C.green+" さんを処刑することに決まりました。");
 		executedPlayer = maxVotedPlayer;
 		maxVotedPlayer.teleportToScaffold();
-		((DefaultVillageData) this).preExecution();
+		((DefaultVillage) this).preExecution();
 		
 		final Village vil = this;
 		final VillagePlayer playerToBeExecuted = maxVotedPlayer;
@@ -348,7 +352,7 @@ public class Village extends VillageTimer {
 	}
 	
 	public void execution(VillagePlayer playerToBeExecuted){
-		((DefaultVillageData) this).execution();
+		((DefaultVillage) this).execution();
 	}
 	
 	public void revote(){
@@ -449,7 +453,7 @@ public class Village extends VillageTimer {
 						+VillageUtil.getVillageRoleInJapanese(vp.role)+C.gold+" でした。");
 			}
 		}
-		((DefaultVillageData) this).finishFirework();
+		((DefaultVillage) this).finishFirework();
 		status = VillageStatus.finishing;
 		for(VillagePlayer vp : getPlayerListExceptNpc())
 			vp.changeStatusOnGameFinish();
@@ -467,7 +471,7 @@ public class Village extends VillageTimer {
 			VillageUtil.onPlayerLeave(pl);
 		}
 		
-		VillageUtil.getVillageList().add(new DefaultVillageData(villageName, villageType, plugin));
+		VillageUtil.getVillageList().add(new DefaultVillage(villageName, villageType, plugin));
 		Iterator<Village> itr = VillageUtil.getVillageList().iterator(); 
 		while(itr.hasNext()){
 			if(itr.next()==this){
@@ -481,7 +485,7 @@ public class Village extends VillageTimer {
 				entity.remove();
 		Village newVil = VillageUtil.getVillage(villageName);
 		newVil.getPlayer("Mr.Firvic").spawnVillager();
-		((DefaultVillageData) newVil).eraseSign();
-		((DefaultVillageData) newVil).copyOriginal();
+		((DefaultVillage) newVil).eraseSign();
+		((DefaultVillage) newVil).copyOriginal();
 	}
 }

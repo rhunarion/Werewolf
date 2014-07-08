@@ -17,7 +17,6 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockBurnEvent;
@@ -29,7 +28,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class DefaultVillageEvent implements Listener {
 
-	@EventHandler(priority = EventPriority.LOW)
+	@EventHandler
 	public void onPlayerInteract(PlayerInteractEvent event){
 		if(VillageUtil.isInVillage(event.getPlayer())){
 			Player pl = event.getPlayer();
@@ -39,6 +38,11 @@ public class DefaultVillageEvent implements Listener {
 			
 			if(bl==null)
 				return;
+
+			int x = bl.getX();
+			int y = bl.getY();
+			int z = bl.getZ();
+
 			if(clickSign(pl, bl, 23, 64, 4, "join"))
 				return;
 			if(clickSign(pl, bl, 23, 64, 5, "unjoin"))
@@ -133,34 +137,39 @@ public class DefaultVillageEvent implements Listener {
 			if(clickSign(pl, bl, -3, 43, -4, "chrule permitbite false"))
 				return;
 			
-			for(DefaultVillageHouseCore house : DefaultVillageHouse.getHouseMap().values())
-				if(clickSign(pl, bl, house.myroleSignX, house.myroleSignY, house.myroleSignZ, "myrole"))
+			if((bl.getX()==0 && bl.getY()==43 && bl.getZ()==6 && bl.getType()==Material.CHEST)
+						|| (x==1 && y==43 && z==6) || (x==1 && y==43 && z==5)
+						|| (x==-1 && y==43 && z==6) || (x==-1 && y==43 && z==5)
+						|| (x==-4 && y==43 && z==4) || (x==-3 && y==43 && z==4))
 					return;
 			
-			
-			if(vp.alive && vil.status==VillageStatus.ongoing)
-				for(DefaultVillageHouseCore house : DefaultVillageHouse.getHouseMap().values())
-					if(vil.getAlivePlayerByColor(house.color)!=null && vp.color!=house.color
-							&& clickSign(pl, bl, house.voteSignX, house.voteSignY, house.voteSignZ,
-									"vote "+vil.getAlivePlayerByColor(house.color).getName()))
-						return;
-						
+			if(!vp.alive && vil.status==VillageStatus.ongoing)
+				event.setCancelled(true);
+
 			if(bl.getType()==Material.CHEST
-					&& !(bl.getX()==0 && bl.getY()==43 && bl.getZ()==6)
 					&& (vil.status==VillageStatus.empty
 					|| vil.status==VillageStatus.preparing
 					|| vil.status==VillageStatus.recruiting)){
 				event.setCancelled(true);
 				return;
 			}
-			if(vil.status==VillageStatus.ongoing){
-				for(DefaultVillageHouseCore house : DefaultVillageHouse.getHouseMap().values()){
-					if(bl.getX()==house.chestX && bl.getY()==house.chestY && bl.getZ()==house.chestZ
-							&& vp.color!=house.color){
-						pl.sendMessage(C.red+"他のプレイヤーのチェストを開けることはできません。");
+
+			for(DefaultVillageHouseCore house : DefaultVillageHouse.getHouseMap().values())
+				if(clickSign(pl, bl, house.myroleSignX, house.myroleSignY, house.myroleSignZ, "myrole"))
+					return;
+
+			for(DefaultVillageHouseCore house : DefaultVillageHouse.getHouseMap().values())
+				if(vil.getAlivePlayerByColor(house.color)!=null && vp.color!=house.color
+						&& clickSign(pl, bl, house.voteSignX, house.voteSignY, house.voteSignZ,
+								"vote "+vil.getAlivePlayerByColor(house.color).getName()))
+					return;
+						
+			for(DefaultVillageHouseCore house : DefaultVillageHouse.getHouseMap().values()){
+				if(bl.getX()==house.chestX && bl.getY()==house.chestY && bl.getZ()==house.chestZ
+						&& vp.color!=house.color){
+					pl.sendMessage(C.red+"他のプレイヤーのチェストを開けることはできません。");
 						event.setCancelled(true);
-					}					
-				}
+				}					
 			}
 		}
 	}
@@ -170,6 +179,7 @@ public class DefaultVillageEvent implements Listener {
 		if(VillageUtil.isInVillage(event.getPlayer())){
 			Player pl = event.getPlayer();
 			Block bl = event.getBlock();
+			
 			if(bl.getX()==1 && bl.getY()==43 && bl.getZ()==5
 					&& bl.getType()==Material.WALL_SIGN){
 				String[] titleList = event.getLines();
@@ -186,6 +196,7 @@ public class DefaultVillageEvent implements Listener {
 				for(int i=0; i<descList.length; i++)
 					desc += descList[i];
 				pl.performCommand("chrule description "+desc);
+				return;
 			}
 			if(bl.getX()==-3 && bl.getY()==43 && bl.getZ()==4
 					&& bl.getType()==Material.WALL_SIGN){
@@ -194,6 +205,7 @@ public class DefaultVillageEvent implements Listener {
 				for(int i=0; i<pwList.length; i++)
 					pw += pwList[i];
 				pl.performCommand("chrule setpassword "+pw);
+				return;
 			}
 			
 		}
@@ -256,9 +268,15 @@ public class DefaultVillageEvent implements Listener {
 			Player pl = event.getPlayer();
 			Village vil = VillageUtil.getVillage(pl);
 			VillagePlayer vp = vil.getPlayer(pl);
-			int x = event.getBlock().getX();
-			int y = event.getBlock().getY();
-			int z = event.getBlock().getZ();
+			Block bl = event.getBlock();
+			int x = bl.getX();
+			int y = bl.getY();
+			int z = bl.getZ();
+			
+			if((x==1 && y==43 && z==5 && bl.getType()==Material.WALL_SIGN)
+					|| (x==-1 && y==43 && z==5 && bl.getType()==Material.WALL_SIGN)
+					|| (x==-3 && y==43 && z==4 && bl.getType()==Material.WALL_SIGN))
+				return;
 			
 			if(vil.status==VillageStatus.empty
 					|| (vil.status==VillageStatus.preparing && !vp.joining)
@@ -311,9 +329,15 @@ public class DefaultVillageEvent implements Listener {
 			Player pl = event.getPlayer();
 			Village vil = VillageUtil.getVillage(pl);
 			VillagePlayer vp = vil.getPlayer(pl);
-			int x = event.getBlock().getX();
-			int y = event.getBlock().getY();
-			int z = event.getBlock().getZ();
+			Block bl = event.getBlock();
+			int x = bl.getX();
+			int y = bl.getY();
+			int z = bl.getZ();
+			
+			if((x==1 && y==43 && z==5 && bl.getType()==Material.WALL_SIGN)
+					|| (x==-1 && y==43 && z==5 && bl.getType()==Material.WALL_SIGN)
+					|| (x==-3 && y==43 && z==4 && bl.getType()==Material.WALL_SIGN))
+				return;
 			
 			if(vil.status==VillageStatus.empty
 					|| (vil.status==VillageStatus.preparing && !vp.joining)

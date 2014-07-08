@@ -81,7 +81,7 @@ public class WwTabCompleter implements TabCompleter {
 
 		if(args.length==2 && args[0].equalsIgnoreCase("giveGM")
 				&& (vp.gameMaster))
-			return getPartialMatches(args, vil.getPlayerNameListExceptGMandNpc());
+			return getPartialMatches(args, vil.getPlayerNameListExceptGmAndNpc());
 
 		if(args.length==2 && args[0].equalsIgnoreCase("chRule")
 				&& (vp.gameMaster && vil.status!=VillageStatus.finishing))
@@ -118,7 +118,7 @@ public class WwTabCompleter implements TabCompleter {
 
 		if(args.length==2 && args[0].equalsIgnoreCase("kick")
 				&& (vp.gameMaster))
-			return getPartialMatches(args, vil.getPlayerNameListExceptGMandNpc());
+			return getPartialMatches(args, vil.getPlayerNameListExceptGmAndNpc());
 
 		if(args.length==2 && args[0].equalsIgnoreCase("unkick")
 				&& (vp.gameMaster))
