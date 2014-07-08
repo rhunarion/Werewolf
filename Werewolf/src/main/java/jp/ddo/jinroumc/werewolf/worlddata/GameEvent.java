@@ -1,5 +1,7 @@
 package jp.ddo.jinroumc.werewolf.worlddata;
 
+import java.util.HashMap;
+
 import jp.ddo.jinroumc.werewolf.enumconstant.VillageRole;
 import jp.ddo.jinroumc.werewolf.enumconstant.VillageStatus;
 import jp.ddo.jinroumc.werewolf.enumconstant.VillageTime;
@@ -9,6 +11,7 @@ import jp.ddo.jinroumc.werewolf.village.VillagePlayer;
 import jp.ddo.jinroumc.werewolf.village.VillageUtil;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -212,13 +215,30 @@ public class GameEvent implements Listener {
 					@Override
 					public void onPacketSending(PacketEvent event) {
 						if(VillageUtil.isInVillage(event.getPlayer())){
+							Player pl = event.getPlayer();
 							Village vil = VillageUtil.getVillage(event.getPlayer());
-							if(vil.time==VillageTime.night)
-								event.getPacket();
+
+							if(vil.status==VillageStatus.ongoing && vil.time==VillageTime.night){
+								VillagePlayer vp = vil.getPlayer(pl);
+								
+								if(vp.alive && vp.role!=VillageRole.jinrou){
+									HashMap<ChatColor, DefaultVillageHouseCore> houseMap = DefaultVillageHouse.getHouseMap();
+									double x = (double) event.getPacket().getIntegers().read(2) / 32;
+									double y = (double) event.getPacket().getIntegers().read(3) / 32;
+									double z = (double) event.getPacket().getIntegers().read(4) / 32;
+									if(x<houseMap.get(vp.color).westPlane+0.5
+											|| houseMap.get(vp.color).eastPlane+0.5<x
+											|| y<houseMap.get(vp.color).bottomPlane+0.5
+											|| houseMap.get(vp.color).topPlane+0.5<y
+											|| z<houseMap.get(vp.color).northPlane+0.5
+											|| houseMap.get(vp.color).southPlane+0.5<z)
+										event.setCancelled(true);
+								}
+							}
 						}
 					}
 				};
-/*		entityMoveAdapter = new PacketAdapter(plugin,
+		entityMoveAdapter = new PacketAdapter(plugin,
 				ListenerPriority.NORMAL, PacketType.Play.Server.REL_ENTITY_MOVE) {
 					@Override
 					public void onPacketSending(PacketEvent event) {
@@ -227,7 +247,7 @@ public class GameEvent implements Listener {
 							for(Entity entity : Bukkit.getWorld(vil.villageName).getEntities())
 								if(entity.getEntityId()==event.getPacket().getIntegers().read(0)
 									&& entity.getType()==EntityType.VILLAGER)
-									event.setCancelled(true);
+									;//event.setCancelled(true);
 						}
 					}
 				};
@@ -240,10 +260,10 @@ public class GameEvent implements Listener {
 							for(Entity entity : Bukkit.getWorld(vil.villageName).getEntities())
 								if(entity.getEntityId()==event.getPacket().getIntegers().read(0)
 									&& entity.getType()==EntityType.VILLAGER)
-									event.setCancelled(true);
+									;//event.setCancelled(true);
 						}
 					}
-				};*/
+				};
 	
 		ProtocolLibrary.getProtocolManager().addPacketListener(doorAdapter);
 		ProtocolLibrary.getProtocolManager().addPacketListener(voiceAdapter);
