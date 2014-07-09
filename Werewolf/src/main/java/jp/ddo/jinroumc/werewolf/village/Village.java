@@ -182,8 +182,6 @@ public class Village extends VillageTimer {
    			vp.villagerEntity.setCustomName(null);
    			vp.villagerEntity.setCustomNameVisible(false);
 		}
-   		for(VillagePlayer vp : getAliveJinrouList())
-   			vp.disguiseZombie();
    		for(VillagePlayer vp : getAlivePlayerListExceptJinrouAndNpc())
    			for(VillagePlayer alive : getAlivePlayerListExceptNpc())
    				vp.getPlayer().hidePlayer(alive.getPlayer());
@@ -217,6 +215,9 @@ public class Village extends VillageTimer {
 				}
 			}
 		}
+		
+   		for(VillagePlayer vp : getAliveJinrouList())
+   			vp.disguiseZombie();
 	}
 
 	public void dayTime(){

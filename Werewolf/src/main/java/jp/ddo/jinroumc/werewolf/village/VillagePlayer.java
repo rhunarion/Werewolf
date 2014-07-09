@@ -286,10 +286,9 @@ public class VillagePlayer extends VillagePlayerCore {
 	
 	public void sendMessageWithShout(String message){
 		String[] splitList = message.split("\\\\", -1);
-		for(String split : splitList){
+		for(String split : splitList)
 			for(VillagePlayer vp : village.getPlayerListExceptNpc())
 				vp.sendMessage(C.d_aqua+"["+getName()+" with shout] "+split);
-		}
 	}
 
 	public void sendMessageWithCO(String message){
@@ -595,6 +594,7 @@ public class VillagePlayer extends VillagePlayerCore {
 		if(connection){
 			DisguiseAPI api = Bukkit.getServer().getServicesManager().getRegistration(DisguiseAPI.class).getProvider();
 			api.disguiseToAll(getPlayer(), new MobDisguise(DisguiseType.ZOMBIE, true));
+			sendMessage(C.red+"人狼"+C.gold+" (ゾンビ) の姿に変身しました。");
 		}else{
 			villagerEntity.remove();
 			spawnVillager();
@@ -608,6 +608,7 @@ public class VillagePlayer extends VillagePlayerCore {
 		if(connection){
 			DisguiseAPI api = Bukkit.getServer().getServicesManager().getRegistration(DisguiseAPI.class).getProvider();
 			api.disguiseToAll(getPlayer(), new MobDisguise(DisguiseType.BLAZE, true));
+			sendMessage(C.yellow+"妖狐"+C.gold+" (ブレイズ) の姿に変身しました。");
 		}else{
 			Location loc = villagerEntity.getLocation();
 			villagerEntity.remove();
@@ -622,8 +623,10 @@ public class VillagePlayer extends VillagePlayerCore {
 
 		DisguiseAPI api = Bukkit.getServer().getServicesManager().getRegistration(DisguiseAPI.class).getProvider();
 		if(connection){
-			if(api.isDisguised(getPlayer()))
+			if(api.isDisguised(getPlayer())){
 				api.undisguiseToAll(getPlayer());
+				sendMessage(C.gold+"元の姿に戻りました。");
+			}
 		}else{
 			if(villagerEntity.getType()==EntityType.VILLAGER)
 				return;

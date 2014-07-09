@@ -28,10 +28,13 @@ public class CommandDebug implements CommandExecutor {
 		}
 		
 		if(args[0].equalsIgnoreCase("shout")){
-			if(args.length==2)
-				for(Player pl : Bukkit.getOnlinePlayers())
-					pl.sendMessage(C.red+"[Admin] "+args[1]);
-			return true;
+			if(args.length==2){
+				String[] splitList = args[1].split("\\\\", -1);
+				for(String split : splitList)
+					for(Player pl : Bukkit.getOnlinePlayers())
+						pl.sendMessage(C.red+"[Admin] "+split);
+				return true;
+			}
 		}
 		
 		if(args[0].equalsIgnoreCase("tp")){
