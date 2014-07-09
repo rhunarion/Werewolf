@@ -516,6 +516,9 @@ public class VillagePlayer extends VillagePlayerCore {
 	}
 
 	public void spawnVillager(){
+		if(village.status==VillageStatus.ongoing && !alive)
+			return;			// for bug in interval between vp.kill and EntityDeathEvent
+		
 		if(role==VillageRole.jinrou
 				&& village.status==VillageStatus.ongoing && village.time==VillageTime.night){
 			villagerEntity = (LivingEntity) Bukkit.getWorld(village.villageName)

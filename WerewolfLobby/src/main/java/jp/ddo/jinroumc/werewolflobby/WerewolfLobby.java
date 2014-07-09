@@ -78,15 +78,13 @@ public class WerewolfLobby extends JavaPlugin implements Listener {
 		pl.getInventory().addItem(getManual());
 		if(!pl.getName().contains("."))
 			pl.getInventory().setHeldItemSlot(0);
-		if(event.getPlayer().getWorld().getName().equalsIgnoreCase("world"))
-			VillageUtil.teleportToLobby(event.getPlayer());
+		VillageUtil.teleportToLobby(event.getPlayer());
 		event.setJoinMessage(C.yellow+event.getPlayer().getName()+C.gold+" さんがログインしました。");
 	}
 
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerLogin(PlayerLoginEvent event){
-		if(event.getPlayer().getWorld().getName().equalsIgnoreCase("world"))
-			VillageUtil.teleportToLobby(event.getPlayer());
+		VillageUtil.teleportToLobby(event.getPlayer());
 	}
 	
 	@EventHandler

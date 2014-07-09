@@ -479,6 +479,7 @@ public class Village extends VillageTimer {
 		sendToVillage(C.gold+"お疲れ様でした。この村は再生成されます。");
 		stopTimer();
 		stopDoTaskLater();
+		stopAsyncRebuild();
 		for(VillagePlayer vp : getPlayerListExceptNpc()){
 			Player pl = vp.getPlayer();
 			VillageUtil.teleportToLobby(pl);
