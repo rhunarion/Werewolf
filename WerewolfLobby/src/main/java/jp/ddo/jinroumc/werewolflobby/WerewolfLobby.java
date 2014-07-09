@@ -318,6 +318,7 @@ public class WerewolfLobby extends JavaPlugin implements Listener {
 		tipsContainer.add(C.d_gray+"[TIPS] /help コマンドで今使えるコマンドのヘルプを見ることができます。");
 		tipsContainer.add(C.d_gray+"[TIPS] /co コマンドで色付きの文字で発言することができます。");
 		tipsContainer.add(C.d_gray+"[TIPS] /whisp コマンドで特定のプレイヤーとのみ会話することができます。");
+		tipsContainer.add(C.d_gray+"[TIPS] GMコマンド /skip でゲームを強制的に進行することができます。");
 		
 		final List<String> tips = tipsContainer;
 		
