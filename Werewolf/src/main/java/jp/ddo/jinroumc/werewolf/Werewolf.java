@@ -13,8 +13,6 @@ import org.bukkit.Difficulty;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
 
-import de.robingrether.idisguise.sound.SoundSystem;
-
 public class Werewolf extends JavaPlugin {
 	@Override
 	public void onEnable(){
@@ -45,6 +43,9 @@ public class Werewolf extends JavaPlugin {
 			Bukkit.getWorld(vil.villageName).setGameRuleValue("doDaylightCycle", "false");
 		}
 
+		for(String vilName : VillageUtil.getVillageNameList())
+			VillageUtil.getVillage(vilName).rebuildVillage();
+
 		LobbyData.initLobbyLocation(getConfig());
 		for(Player pl : Bukkit.getOnlinePlayers()){
 			if(VillageUtil.isInVillage(pl)){
@@ -52,8 +53,6 @@ public class Werewolf extends JavaPlugin {
 				VillageUtil.onPlayerLeave(pl);
 			}
 		}
-		
-		SoundSystem.setEnabled(false);
 	}
 	
 	@Override

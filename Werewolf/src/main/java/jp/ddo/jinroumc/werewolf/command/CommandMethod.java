@@ -670,6 +670,12 @@ public class CommandMethod {
 		}
 		Village vil = VillageUtil.getVillage(pl);
 		VillagePlayer vp = vil.getPlayer(pl);
+		if(vil.status==VillageStatus.ongoing && vil.time==VillageTime.execution
+				&& vil.executedPlayer==vp && vp.alive){
+			pl.sendMessage(C.red+"Error: 処刑者は使えないコマンドです。");
+			return;
+		}
+		
 		
 		vp.teleportToHome();
 		if(vp.alive && vil.status==VillageStatus.ongoing)

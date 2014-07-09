@@ -1,7 +1,5 @@
 package jp.ddo.jinroumc.werewolflobby;
 
-import java.util.List;
-
 import jp.ddo.jinroumc.werewolf.command.CommandMethod;
 import jp.ddo.jinroumc.werewolf.util.C;
 import jp.ddo.jinroumc.werewolf.util.PluginChecker;
@@ -55,6 +53,13 @@ public class CommandDebug implements CommandExecutor {
 			}
 		}
 		
+		if(args[0].equalsIgnoreCase("showPlayers")){
+			sender.sendMessage(C.gold+"全てのプレイヤーの現在いるワールドを表示します。");
+			for(Player pl : Bukkit.getOnlinePlayers())
+				sender.sendMessage(C.gold+pl.getName()+" : "+pl.getLocation().getWorld().getName());
+			return true;
+		}
+		
 		if(args[0].equalsIgnoreCase("disallowMakeVil")){
 			CommandMethod.allowMakeVil = false;
 			sender.sendMessage(C.yellow+"/"+PluginChecker.getWw()+"makevil"+C.gold+" コマンドの使用を禁止します。");
@@ -70,9 +75,8 @@ public class CommandDebug implements CommandExecutor {
 		if(args[0].equalsIgnoreCase("rebuild")){
 			if(args.length==1){
 				sender.sendMessage(C.gold+"全ての村を再生成します。");
-				List<Village> vilList = VillageUtil.getVillageList();
-				for(int i=0; i<vilList.size(); i++)
-					vilList.get(i).rebuildVillage();
+				for(String vilName : VillageUtil.getVillageNameList())
+					VillageUtil.getVillage(vilName).rebuildVillage();
 				return true;
 			}else if(args.length==2){
 				if(VillageUtil.isVillageName(args[1])){

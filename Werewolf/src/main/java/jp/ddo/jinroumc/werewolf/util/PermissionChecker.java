@@ -85,7 +85,8 @@ public class PermissionChecker {
 			cmdList.add("unkick");
 		if(vp.gameMaster && vil.status==VillageStatus.ongoing)
 			cmdList.add("kill");
-		if(true)
+		if(vil.status!=VillageStatus.ongoing || vil.time!=VillageTime.execution
+				|| vil.executedPlayer!=vp || !vp.alive)
 			cmdList.add("home");
 		if(vp.alive && vil.permitWhisp
 				&& vil.status==VillageStatus.ongoing && vil.time!=VillageTime.night)

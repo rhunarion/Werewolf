@@ -38,13 +38,14 @@ public class GameEvent implements Listener {
 		
 		if(VillageUtil.isVillageName(event.getDamager().getWorld().getName())){
 			Entity attacker = event.getDamager();
+			Village vil = VillageUtil.getVillage(event.getDamager().getWorld().getName());
 			if(!(attacker instanceof Player)){
-				event.setCancelled(true);
+				for(VillagePlayer vp : vil.getAliveNpcList())
+					if(vp.villagerEntity==attacker)
+						event.setCancelled(true);
 				return;
 			}
-			Player pl = (Player) attacker;
-			Village vil = VillageUtil.getVillage(pl);
-			VillagePlayer attackerVp = vil.getPlayer(pl); 
+			VillagePlayer attackerVp = vil.getPlayer((Player) attacker); 
 			if(!attackerVp.alive && vil.status==VillageStatus.ongoing){
 				event.setCancelled(true);
 				return;

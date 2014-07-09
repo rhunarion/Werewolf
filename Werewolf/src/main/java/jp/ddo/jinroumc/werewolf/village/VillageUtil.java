@@ -221,7 +221,10 @@ public class VillageUtil {
 			pl.setAllowFlight(false);
 		}
 		pl.getInventory().clear();
+		pl.getInventory().setArmorContents(null);
 		pl.getInventory().addItem(VillageManual.getManual());
+		if(!pl.getName().contains("."))
+			pl.getInventory().setHeldItemSlot(0);
 		
 		DisguiseAPI api = Bukkit.getServer().getServicesManager().getRegistration(DisguiseAPI.class).getProvider();
 		if(api.isDisguised(pl))

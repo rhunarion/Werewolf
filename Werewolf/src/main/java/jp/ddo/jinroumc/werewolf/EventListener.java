@@ -45,13 +45,13 @@ public class EventListener implements Listener {
 		this.plugin = plugin;
 	}
 	
-	@EventHandler
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerJoin(PlayerJoinEvent event){
 		if(VillageUtil.isInVillage(event.getPlayer()))
 			VillageUtil.teleportToLobby(event.getPlayer());
 	}
 	
-	@EventHandler
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerLogin(PlayerLoginEvent event){
 		if(VillageUtil.isInVillage(event.getPlayer()))
 			VillageUtil.teleportToLobby(event.getPlayer());

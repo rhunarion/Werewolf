@@ -6,6 +6,7 @@ import java.util.Random;
 
 import jp.ddo.jinroumc.werewolf.enumconstant.VillageStatus;
 import jp.ddo.jinroumc.werewolf.util.C;
+import jp.ddo.jinroumc.werewolf.util.PluginChecker;
 import jp.ddo.jinroumc.werewolf.village.Village;
 import jp.ddo.jinroumc.werewolf.village.VillageUtil;
 
@@ -22,6 +23,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -30,6 +32,7 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerKickEvent;
+import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.server.ServerListPingEvent;
 import org.bukkit.inventory.ItemStack;
@@ -58,7 +61,7 @@ public class WerewolfLobby extends JavaPlugin implements Listener {
 		Bukkit.getScheduler().cancelAllTasks();
 	}
 	
-	@EventHandler(priority = EventPriority.LOW)
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerJoin(PlayerJoinEvent event){
 		Player pl = event.getPlayer();
 		pl.sendMessage(C.gold+"////////// "+C.yellow+"Minecraft 人狼サーバー"
@@ -66,13 +69,26 @@ public class WerewolfLobby extends JavaPlugin implements Listener {
 		pl.sendMessage(C.gold+"看板をクリックすれば村ワールドへ移動できます。"
 				+"ゲームに参加するには村ワールドへ移動後、"
 				+"スポーン地点両脇にあるコマンド掲示板をクリックします。");
+		pl.sendMessage(C.gold+"不自然な位置に初期スポーンした場合は、"
+				+C.yellow+"/"+PluginChecker.getWw()+"lobby"
+				+C.gold+"と コマンドしてください。");
 		
 		pl.getInventory().clear();
+		pl.getInventory().setArmorContents(null);
 		pl.getInventory().addItem(getManual());
-		
+		if(!pl.getName().contains("."))
+			pl.getInventory().setHeldItemSlot(0);
+		if(event.getPlayer().getWorld().getName().equalsIgnoreCase("world"))
+			VillageUtil.teleportToLobby(event.getPlayer());
 		event.setJoinMessage(C.yellow+event.getPlayer().getName()+C.gold+" さんがログインしました。");
 	}
 
+	@EventHandler(priority = EventPriority.HIGHEST)
+	public void onPlayerLogin(PlayerLoginEvent event){
+		if(event.getPlayer().getWorld().getName().equalsIgnoreCase("world"))
+			VillageUtil.teleportToLobby(event.getPlayer());
+	}
+	
 	@EventHandler
 	public void onPlayerLogout(PlayerQuitEvent event){
 		event.setQuitMessage(null);
@@ -96,17 +112,17 @@ public class WerewolfLobby extends JavaPlugin implements Listener {
 		
 			if(bl==null)
 				return;
-			if(clickSign(pl, bl, 2, 65, 3, "entervil vil0"))
+			if(clickSign(event, pl, bl, 2, 65, 3, "entervil vil0"))
 				return;
-			if(clickSign(pl, bl, 1, 65, 3, "entervil vil1"))
+			if(clickSign(event, pl, bl, 1, 65, 3, "entervil vil1"))
 				return;
-			if(clickSign(pl, bl, 0, 65, 3, "entervil vil2"))
+			if(clickSign(event, pl, bl, 0, 65, 3, "entervil vil2"))
 				return;
-			if(clickSign(pl, bl, -1, 65, 3, "entervil vil3"))
+			if(clickSign(event, pl, bl, -1, 65, 3, "entervil vil3"))
 				return;
-			if(clickSign(pl, bl, -2, 65, 3, "entervil vil4"))
+			if(clickSign(event, pl, bl, -2, 65, 3, "entervil vil4"))
 				return;
-			if(clickSign(pl, bl, -4, 65, 3, "makevil"))
+			if(clickSign(event, pl, bl, -4, 65, 3, "makevil"))
 				return;
 		}
 	}
@@ -153,8 +169,9 @@ public class WerewolfLobby extends JavaPlugin implements Listener {
 		event.setMotd(C.gold+"Minecraft 人狼サーバー【jinrou-mc.ddo.jp】");
 	}
 
-	private boolean clickSign(Player pl, Block block, int x, int y, int z, String command){
-		if(block.getX()==x && block.getY()==y && block.getZ()==z){
+	private boolean clickSign(PlayerInteractEvent event, Player pl, Block block, int x, int y, int z, String command){
+		if(event.getAction()==Action.LEFT_CLICK_BLOCK
+				&& block.getX()==x && block.getY()==y && block.getZ()==z){
 			pl.performCommand(command);
 			return true;
 		}
@@ -256,20 +273,22 @@ public class WerewolfLobby extends JavaPlugin implements Listener {
 		case finishing: status = "終了中"; break;
 		}
 		
-		int num = 0;
+		int participantNum = 0;
 		switch(vil.status){
-		case preparing: num = vil.getJoiningPlayerNum(); break;
-		case recruiting: num = vil.getJoiningPlayerNum(); break;
-		case ongoing: num = vil.getAlivePlayerNum(); break;
+		case preparing: participantNum = vil.getJoiningPlayerNum(); break;
+		case recruiting: participantNum = vil.getJoiningPlayerNum(); break;
+		case ongoing: participantNum = vil.getAlivePlayerNum(); break;
 		}
+		int maxParticipantNum = vil.maxNum;
+		int allPlayerNum = vil.getPlayerListExceptNpc().size();
 
-		sign.setLine(0, vil.villageName);
+		sign.setLine(0, vil.villageName+" ("+allPlayerNum+"人)");
 		sign.setLine(1, title);
 		sign.setLine(2, desc);
 		if(vil.status==VillageStatus.empty || vil.status==VillageStatus.finishing)
 			sign.setLine(3, status);
 		else
-			sign.setLine(3, status+" "+num+"/"+vil.maxNum);
+			sign.setLine(3, status+" "+participantNum+"/"+maxParticipantNum);
 		sign.update();
 		
 		Location loc = sign.getLocation();
