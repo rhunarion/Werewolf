@@ -522,8 +522,13 @@ public class VillagePlayer extends VillagePlayerCore {
 			villagerEntity = (LivingEntity) Bukkit.getWorld(village.villageName)
 					.spawnEntity(((DefaultVillage) village).getHome(this), EntityType.ZOMBIE);
 		}else{
-			villagerEntity = (LivingEntity) Bukkit.getWorld(village.villageName)
-					.spawnEntity(((DefaultVillage) village).getHome(this), EntityType.VILLAGER);
+			if(village.status==VillageStatus.ongoing && village.time==VillageTime.execution
+					&& village.executedPlayer==this)
+				villagerEntity = (LivingEntity) Bukkit.getWorld(village.villageName)
+						.spawnEntity(((DefaultVillage) village).getScaffold(), EntityType.VILLAGER);
+			else
+				villagerEntity = (LivingEntity) Bukkit.getWorld(village.villageName)
+						.spawnEntity(((DefaultVillage) village).getHome(this), EntityType.VILLAGER);
 			villagerEntity.setCustomName(getName());
 			villagerEntity.setCustomNameVisible(true);
 			((Villager) villagerEntity).setProfession(proffession);

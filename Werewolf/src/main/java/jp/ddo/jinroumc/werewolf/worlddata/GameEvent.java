@@ -226,13 +226,14 @@ public class GameEvent implements Listener {
 									double x = (double) event.getPacket().getIntegers().read(2) / 32;
 									double y = (double) event.getPacket().getIntegers().read(3) / 32;
 									double z = (double) event.getPacket().getIntegers().read(4) / 32;
+									System.out.println("x:"+x+"   y:"+y+"   z:"+z);
 									if(x<houseMap.get(vp.color).westPlane+0.5
 											|| houseMap.get(vp.color).eastPlane+0.5<x
 											|| y<houseMap.get(vp.color).bottomPlane+0.5
 											|| houseMap.get(vp.color).topPlane+0.5<y
 											|| z<houseMap.get(vp.color).northPlane+0.5
 											|| houseMap.get(vp.color).southPlane+0.5<z)
-										event.setCancelled(true);
+										;//event.setCancelled(true);
 								}
 							}
 						}
@@ -243,11 +244,26 @@ public class GameEvent implements Listener {
 					@Override
 					public void onPacketSending(PacketEvent event) {
 						if(VillageUtil.isInVillage(event.getPlayer())){
+							Player pl = event.getPlayer();
 							Village vil = VillageUtil.getVillage(event.getPlayer());
-							for(Entity entity : Bukkit.getWorld(vil.villageName).getEntities())
-								if(entity.getEntityId()==event.getPacket().getIntegers().read(0)
-									&& entity.getType()==EntityType.VILLAGER)
-									;//event.setCancelled(true);
+
+							if(vil.status==VillageStatus.ongoing && vil.time==VillageTime.night){
+								VillagePlayer vp = vil.getPlayer(pl);
+								
+								if(vp.alive && vp.role!=VillageRole.jinrou){
+/*									HashMap<ChatColor, DefaultVillageHouseCore> houseMap = DefaultVillageHouse.getHouseMap();
+									double x = (double) event.getPacket().getIntegers().read(2) / 32;
+									double y = (double) event.getPacket().getIntegers().read(3) / 32;
+									double z = (double) event.getPacket().getIntegers().read(4) / 32;
+									if(x<houseMap.get(vp.color).westPlane+0.5
+											|| houseMap.get(vp.color).eastPlane+0.5<x
+											|| y<houseMap.get(vp.color).bottomPlane+0.5
+											|| houseMap.get(vp.color).topPlane+0.5<y
+											|| z<houseMap.get(vp.color).northPlane+0.5
+											|| houseMap.get(vp.color).southPlane+0.5<z)
+										;//event.setCancelled(true);
+*/								}
+							}
 						}
 					}
 				};
@@ -256,11 +272,26 @@ public class GameEvent implements Listener {
 					@Override
 					public void onPacketSending(PacketEvent event) {
 						if(VillageUtil.isInVillage(event.getPlayer())){
+							Player pl = event.getPlayer();
 							Village vil = VillageUtil.getVillage(event.getPlayer());
-							for(Entity entity : Bukkit.getWorld(vil.villageName).getEntities())
-								if(entity.getEntityId()==event.getPacket().getIntegers().read(0)
-									&& entity.getType()==EntityType.VILLAGER)
-									;//event.setCancelled(true);
+
+							if(vil.status==VillageStatus.ongoing && vil.time==VillageTime.night){
+								VillagePlayer vp = vil.getPlayer(pl);
+								
+								if(vp.alive && vp.role!=VillageRole.jinrou){
+									HashMap<ChatColor, DefaultVillageHouseCore> houseMap = DefaultVillageHouse.getHouseMap();
+									double x = (double) event.getPacket().getIntegers().read(1) / 32;
+									double y = (double) event.getPacket().getIntegers().read(2) / 32;
+									double z = (double) event.getPacket().getIntegers().read(3) / 32;
+									if(x<houseMap.get(vp.color).westPlane+0.5
+											|| houseMap.get(vp.color).eastPlane+0.5<x
+											|| y<houseMap.get(vp.color).bottomPlane+0.5
+											|| houseMap.get(vp.color).topPlane+0.5<y
+											|| z<houseMap.get(vp.color).northPlane+0.5
+											|| houseMap.get(vp.color).southPlane+0.5<z)
+										;//event.setCancelled(true);
+								}
+							}
 						}
 					}
 				};

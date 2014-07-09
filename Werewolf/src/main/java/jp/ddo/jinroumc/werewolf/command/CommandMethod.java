@@ -421,7 +421,7 @@ public class CommandMethod {
 			pl.sendMessage(C.red+"Error: 人狼ゲームの状態が準備中か募集中のときしか使えないコマンドです。");
 			return;
 		}
-		if(!VillageUtil.isVillageRole(role)){
+		if(!VillageUtil.isVillageRoleExceptNone(role)){
 			pl.sendMessage(C.red+"Error: "+role+" という配役は指定できません。");
 			return;
 		}
@@ -498,7 +498,10 @@ public class CommandMethod {
 		}
 		VillageRole vr = VillageUtil.getVillageRoleByString(role);
 		vp.setRequestedRole(vr);
-		pl.sendMessage(C.gold+VillageUtil.getVillageRoleInJapanese(vr)+" の配役を希望しました。");
+		if(vr==VillageRole.none)
+			pl.sendMessage(C.gold+"配役の "+C.yellow+"希望なし"+C.gold+" に設定されました。");
+		else
+			pl.sendMessage(VillageUtil.getVillageRoleInJapanese(vr)+C.gold+" の配役を希望しました。");
 	}
 	
 	public static void startGame(Player pl){

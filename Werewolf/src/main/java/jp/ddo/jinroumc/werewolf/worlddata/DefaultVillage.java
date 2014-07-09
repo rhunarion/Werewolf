@@ -83,7 +83,6 @@ public class DefaultVillage extends Village {
 			namePlate.setLine(1, vp.color+vp.getName());
 			namePlate.setLine(2, "さんの家");
 			namePlate.update();
-			System.out.println("aあいうえお4");
 		}
 	}
 	
@@ -178,7 +177,8 @@ public class DefaultVillage extends Village {
 		final Location[] loc = {new Location(world, 8, 68, 8),
 								new Location(world, -8, 68, 8),
 								new Location(world, -8, 68, -8),
-								new Location(world, 8, 68, -8)};
+								new Location(world, 8, 68, -8),
+								new Location(world, 0, 68, 0)};
 		
 		Firework firework = world.spawn(loc[0], Firework.class);
 		FireworkMeta meta = firework.getFireworkMeta();
@@ -208,7 +208,6 @@ public class DefaultVillage extends Village {
 		
 		Bukkit.getScheduler().runTaskLater(vil.plugin, new BukkitRunnable(){
 			public void run(){
-				effect.flicker(true);
 				Firework firework = world.spawn(loc[3], Firework.class);
 				FireworkMeta meta = firework.getFireworkMeta();
 				meta.addEffect(effect.build());
@@ -216,6 +215,17 @@ public class DefaultVillage extends Village {
 				firework.setFireworkMeta(meta);
 			}
 		}, 15);
+		
+		Bukkit.getScheduler().runTaskLater(vil.plugin, new BukkitRunnable(){
+			public void run(){
+				effect.flicker(true);
+				Firework firework = world.spawn(loc[4], Firework.class);
+				FireworkMeta meta = firework.getFireworkMeta();
+				meta.addEffect(effect.build());
+				meta.setPower(1);
+				firework.setFireworkMeta(meta);
+			}
+		}, 20);
 	}
 
 	@SuppressWarnings("deprecation")

@@ -104,7 +104,7 @@ public class WwTabCompleter implements TabCompleter {
 		if(args.length==3 && args[0].equalsIgnoreCase("setRole")
 				&& (vp.gameMaster
 						&& (vil.status==VillageStatus.preparing || vil.status==VillageStatus.recruiting)))
-			return getPartialMatches(args, VillageUtil.getRoleList());
+			return getPartialMatches(args, VillageUtil.getRoleListExceptNone());
 
 		if(args.length==2 && args[0].equalsIgnoreCase("unsetRole")
 				&& (vp.gameMaster

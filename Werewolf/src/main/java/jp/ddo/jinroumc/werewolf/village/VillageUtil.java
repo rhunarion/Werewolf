@@ -61,6 +61,7 @@ public class VillageUtil {
 	public static VillageRole getVillageRoleByString(String role){
 		role = role.toLowerCase();
 		switch(role){
+		case "none": return VillageRole.none;
 		case "murabito": return VillageRole.murabito;
 		case "uranaishi": return VillageRole.uranaishi;
 		case "reibaishi": return VillageRole.reibaishi;
@@ -114,6 +115,17 @@ public class VillageUtil {
 		return false;
 	}
 	
+	public static boolean isVillageRoleExceptNone(String role){
+		if(role.equalsIgnoreCase("none"))
+			return false;
+		
+		VillageRole vilRole = getVillageRoleByString(role);
+		for(VillageRole vr : VillageRole.values())
+			if(vr==vilRole)
+				return true;
+		return false;
+	}
+	
 	public static boolean isVillageRole(String role){
 		VillageRole vilRole = getVillageRoleByString(role);
 		for(VillageRole vr : VillageRole.values())
@@ -138,6 +150,13 @@ public class VillageUtil {
 	}
 	
 	public static List<String> getRoleList(){
+		List<String> roleList = new ArrayList<String>();
+		for(VillageRole vr : VillageRole.values())
+			roleList.add(vr.toString());
+		return roleList;
+	}
+
+	public static List<String> getRoleListExceptNone(){
 		List<String> roleList = new ArrayList<String>();
 		for(VillageRole vr : VillageRole.values()){
 			if(vr==VillageRole.none) continue;
