@@ -177,9 +177,11 @@ public class Village extends VillageTimer {
 		((DefaultVillage) this).changeHouseEffect();
 		for(VillagePlayer vp : getAlivePlayerList())
 			vp.teleportToHome();
-		for(VillagePlayer vp : getAliveNpcList())
+		for(VillagePlayer vp : getAliveNpcList()){
 			vp.setFenceAroundBed();
-
+   			vp.villagerEntity.setCustomName(null);
+   			vp.villagerEntity.setCustomNameVisible(false);
+		}
    		for(VillagePlayer vp : getAliveJinrouList())
    			vp.disguiseZombie();
    		for(VillagePlayer vp : getAlivePlayerListExceptJinrouAndNpc())
@@ -221,11 +223,8 @@ public class Village extends VillageTimer {
 		setTimer("<"+day+"日目昼>  ：処刑まで ", dayTime);
 		Bukkit.getWorld(villageName).setTime(6000);
 
-		((DefaultVillage) this).changeHouseEffect();
 		for(VillagePlayer vp : getAlivePlayerList())
 			vp.teleportToHome();
-		for(VillagePlayer vp : getAliveNpcList())
-			vp.removeFenceAroundBed();
 		
 		sendToVillage(C.green+"////////// " 
 								+C.aqua+""+day+"日目朝"+C.green+" になりました。 //////////");
@@ -386,6 +385,12 @@ public class Village extends VillageTimer {
 			}
 		}
 		if(time==VillageTime.night){
+			((DefaultVillage) this).changeHouseEffect();
+			for(VillagePlayer vp : getAliveNpcList()){
+				vp.removeFenceAroundBed();
+	   			vp.villagerEntity.setCustomName(vp.getName());
+	   			vp.villagerEntity.setCustomNameVisible(true);
+			}
 			for(VillagePlayer vp : getAliveJinrouList())
 				vp.undisguise();
 			for(VillagePlayer vp : getAliveYoukoList())

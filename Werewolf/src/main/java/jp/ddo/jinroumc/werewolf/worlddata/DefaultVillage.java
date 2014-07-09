@@ -315,10 +315,13 @@ public class DefaultVillage extends Village {
 							x = -38;
 							y--;
 							if(y<55){
-								for(Entity entity : modifiedVillage.getEntities())
-									if(!(entity instanceof Player)
-											&& !entity.getType().equals(EntityType.VILLAGER))
-										entity.remove();
+								for(Entity entity : modifiedVillage.getEntities()){
+									if(entity instanceof Player)
+										continue;
+									if(entity==vil.getPlayer("Mr.Firvic").villagerEntity)
+											continue;
+									entity.remove();
+								}
 								for(int j=0; j<4; j++)
 									Bukkit.getWorld(vil.villageName).spawnEntity(new Location
 											(Bukkit.getWorld(vil.villageName), -32.5, 56.0, 12.5), EntityType.WOLF);

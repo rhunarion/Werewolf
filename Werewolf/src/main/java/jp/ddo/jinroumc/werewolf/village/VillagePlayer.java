@@ -529,8 +529,11 @@ public class VillagePlayer extends VillagePlayerCore {
 			else
 				villagerEntity = (LivingEntity) Bukkit.getWorld(village.villageName)
 						.spawnEntity(((DefaultVillage) village).getHome(this), EntityType.VILLAGER);
-			villagerEntity.setCustomName(getName());
-			villagerEntity.setCustomNameVisible(true);
+			
+			if(village.status!=VillageStatus.ongoing || village.time!=VillageTime.night){
+				villagerEntity.setCustomName(getName());
+				villagerEntity.setCustomNameVisible(true);
+			}
 			((Villager) villagerEntity).setProfession(proffession);
 		}
 	}
