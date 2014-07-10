@@ -1,6 +1,6 @@
 name: WerewolfLobby
 version: 0.0.1
-main: jp.dip.jinroumc.werewolflobby.WerewolfLobby
+main: jp.ddo.jinroumc.werewolflobby.WerewolfLobby
 
 commands:
   debug:

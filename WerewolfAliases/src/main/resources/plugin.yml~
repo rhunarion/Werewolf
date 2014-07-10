@@ -1,6 +1,6 @@
 name: WerewolfAliases
 version: 0.0.1
-main: jp.dip.jinroumc.werewolfaliases.WerewolfAliases
+main: jp.ddo.jinroumc.werewolfaliases.WerewolfAliases
 
 commands:
   help:

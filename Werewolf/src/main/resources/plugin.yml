@@ -1,6 +1,6 @@
 name: Werewolf
 version: 0.0.1
-main: jp.ddo.jinroumc.werewolf.Werewolf
+main: jp.dip.jinroumc.werewolf.Werewolf
 
 commands:
   ww:
