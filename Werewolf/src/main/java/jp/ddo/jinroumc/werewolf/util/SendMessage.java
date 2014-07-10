@@ -42,8 +42,10 @@ public class SendMessage {
 	}
 	
 	public static void sendToServer(String message){
-		for(Player pl : Bukkit.getOnlinePlayers())
-			pl.sendMessage(message);
+		String[] splitList = message.split("\\\\", -1);
+		for(String split : splitList)
+			for(Player pl : Bukkit.getOnlinePlayers())
+				pl.sendMessage(split);
 	}
 	
 	public static void sendToLobbyByPlayer(Player sender, String message){

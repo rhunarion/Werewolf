@@ -25,7 +25,6 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
@@ -45,16 +44,12 @@ public class EventListener implements Listener {
 		this.plugin = plugin;
 	}
 	
-	@EventHandler(priority = EventPriority.HIGHEST)
+	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent event){
-		if(VillageUtil.isInVillage(event.getPlayer()))
+		if(VillageUtil.isInVillage(event.getPlayer())){
 			VillageUtil.teleportToLobby(event.getPlayer());
-	}
-	
-	@EventHandler(priority = EventPriority.HIGHEST)
-	public void onPlayerLogin(PlayerLoginEvent event){
-		if(VillageUtil.isInVillage(event.getPlayer()))
-			VillageUtil.teleportToLobby(event.getPlayer());
+			System.out.println(event.getPlayer().getName()+" teleport to Lobby in VillageJoinEvent");
+		}
 	}
 	
 	@EventHandler
@@ -65,6 +60,9 @@ public class EventListener implements Listener {
 	
 	@EventHandler
 	public void onChat(AsyncPlayerChatEvent event){
+		String world = " (in "+event.getPlayer().getWorld().getName()+")";
+		System.out.println(event.getPlayer().getName()+" chat: "+event.getMessage()+world);
+
 		if(VillageUtil.isInVillage(event.getPlayer()))
 			SendMessage.splitUnspecifiedMessage(event.getPlayer(), event.getMessage());
 		else

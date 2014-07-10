@@ -14,6 +14,16 @@ import org.bukkit.entity.Player;
 public class WwCommandExecutor implements CommandExecutor {
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String cmdLabel, String[] args){
+		//console log
+		String str = args.length>0 ? " "+args[0] : "";
+		for(int i=1; i<args.length; i++)
+			str += " "+args[i];
+		String world = "";
+		if(sender instanceof Player)
+			world = " (in "+((Player) sender).getWorld().getName()+")";
+		System.out.println(sender.getName()+" issued ww command: /"+cmd.getName()+str+world);
+
+		
 		//for console command
 		if(args.length==0){
 			CommandHelp.help(sender);

@@ -29,10 +29,10 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerKickEvent;
-import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.server.ServerListPingEvent;
 import org.bukkit.inventory.ItemStack;
@@ -61,8 +61,8 @@ public class WerewolfLobby extends JavaPlugin implements Listener {
 		Bukkit.getScheduler().cancelAllTasks();
 	}
 	
-	@EventHandler(priority = EventPriority.HIGHEST)
-	public void onPlayerJoin(PlayerJoinEvent event){
+	@EventHandler(priority = EventPriority.HIGH)
+	public void onPlayerJoin(final PlayerJoinEvent event){
 		Player pl = event.getPlayer();
 		pl.sendMessage(C.gold+"////////// "+C.yellow+"Minecraft 人狼サーバー"
 				+C.gold+" へようこそ！ //////////" );
@@ -78,13 +78,25 @@ public class WerewolfLobby extends JavaPlugin implements Listener {
 		pl.getInventory().addItem(getManual());
 		if(!pl.getName().contains("."))
 			pl.getInventory().setHeldItemSlot(0);
-		VillageUtil.teleportToLobby(event.getPlayer());
 		event.setJoinMessage(C.yellow+event.getPlayer().getName()+C.gold+" さんがログインしました。");
+
+		VillageUtil.teleportToLobby(event.getPlayer());
+		System.out.println(event.getPlayer().getName()+" teleport to Lobby in LobbyJoinEvent");
 	}
 
-	@EventHandler(priority = EventPriority.HIGHEST)
-	public void onPlayerLogin(PlayerLoginEvent event){
-		VillageUtil.teleportToLobby(event.getPlayer());
+	@EventHandler
+	public void onPlayerPreLogin(final AsyncPlayerPreLoginEvent event){
+		Bukkit.getScheduler().runTaskLater(this, new BukkitRunnable(){
+			@Override
+			public void run(){
+				Player pl = Bukkit.getPlayer(event.getName());
+				if(pl!=null){
+					Location loc = pl.getLocation();
+					System.out.println(event.getName()+" spawn at (["+pl.getWorld().getName()+"] "
+							+loc.getX()+", "+loc.getY()+", "+loc.getZ()+")");
+				}
+			}
+		}, 4);
 	}
 	
 	@EventHandler

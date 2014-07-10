@@ -4,29 +4,29 @@ main: jp.ddo.jinroumc.werewolfaliases.WerewolfAliases
 
 commands:
   help:
-  enterVil:
-  leaveVil:
+  entervil:
+  leavevil:
   lobby:
-  showVil:
-  showPlayers:
-  makeVil:
-  startRec:
-  stopRec:
-  resetTimer:
-  giveGM:
-  configRoom:
-  chRule:
+  showvil:
+  showplayers:
+  makevil:
+  startrec:
+  stoprec:
+  resettimer:
+  givegm:
+  configroom:
+  chrule:
   
-  showRule:
-  shoutRule:
+  showrule:
+  shoutrule:
   join:
   unjoin:
-  setRole:
-  unsetRole:
-  requestRole:
+  setrole:
+  unsetrole:
+  requestrole:
   
-  startGame:
-  finishGame:
+  startgame:
+  finishgame:
   skip:
   kick:
   unkick:
@@ -41,6 +41,3 @@ commands:
   uranai:
   guard:
   bite:
-  
-  
-  
