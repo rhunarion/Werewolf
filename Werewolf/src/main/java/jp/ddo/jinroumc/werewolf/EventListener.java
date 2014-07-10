@@ -45,10 +45,18 @@ public class EventListener implements Listener {
 	}
 	
 	@EventHandler
-	public void onPlayerJoin(PlayerJoinEvent event){
+	public void onPlayerJoin(final PlayerJoinEvent event){
 		if(VillageUtil.isInVillage(event.getPlayer())){
-			VillageUtil.teleportToLobby(event.getPlayer());
-			System.out.println(event.getPlayer().getName()+" teleport to Lobby in VillageJoinEvent");
+			Bukkit.getScheduler().runTaskLater(plugin, new BukkitRunnable(){
+				@Override
+				public void run(){
+					Player pl = Bukkit.getPlayer(event.getPlayer().getName());
+					if(pl!=null){
+						VillageUtil.teleportToLobby(event.getPlayer());
+						System.out.println(event.getPlayer().getName()+" teleport to Lobby in VillageJoinEvent");
+					}
+				}
+			}, 2);
 		}
 	}
 	

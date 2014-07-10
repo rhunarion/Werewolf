@@ -29,7 +29,6 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerKickEvent;
@@ -80,25 +79,27 @@ public class WerewolfLobby extends JavaPlugin implements Listener {
 			pl.getInventory().setHeldItemSlot(0);
 		event.setJoinMessage(C.yellow+event.getPlayer().getName()+C.gold+" さんがログインしました。");
 
-		VillageUtil.teleportToLobby(event.getPlayer());
-		System.out.println(event.getPlayer().getName()+" teleport to Lobby in LobbyJoinEvent");
-	}
-
-	@EventHandler
-	public void onPlayerPreLogin(final AsyncPlayerPreLoginEvent event){
 		Bukkit.getScheduler().runTaskLater(this, new BukkitRunnable(){
 			@Override
 			public void run(){
-				Player pl = Bukkit.getPlayer(event.getName());
+				Player pl = Bukkit.getPlayer(event.getPlayer().getName());
 				if(pl!=null){
-					Location loc = pl.getLocation();
-					System.out.println(event.getName()+" spawn at (["+pl.getWorld().getName()+"] "
-							+loc.getX()+", "+loc.getY()+", "+loc.getZ()+")");
+					VillageUtil.teleportToLobby(event.getPlayer());
+					System.out.println(event.getPlayer().getName()+" teleport to Lobby in LobbyJoinEvent");
 				}
 			}
 		}, 4);
+		
+		Bukkit.getScheduler().runTaskLater(this, new BukkitRunnable(){
+			@Override
+			public void run(){
+				Location loc = event.getPlayer().getLocation();
+				System.out.println(event.getPlayer().getName()+" spawn at (["+loc.getWorld().getName()+"] "
+							+loc.getX()+", "+loc.getY()+", "+loc.getZ()+")");
+			}
+		}, 6);
 	}
-	
+
 	@EventHandler
 	public void onPlayerLogout(PlayerQuitEvent event){
 		event.setQuitMessage(null);
