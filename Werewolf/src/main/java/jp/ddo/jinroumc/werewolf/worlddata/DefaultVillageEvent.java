@@ -44,98 +44,98 @@ public class DefaultVillageEvent implements Listener {
 			int y = bl.getY();
 			int z = bl.getZ();
 
-			if(clickSign(event, pl, bl, 23, 64, 4, "join"))
+			if(clickSign(event, pl, bl, 23, 64, 4, "ww join"))
 				return;
-			if(clickSign(event, pl, bl, 23, 64, 5, "unjoin"))
+			if(clickSign(event, pl, bl, 23, 64, 5, "ww unjoin"))
 				return;
-			if(clickSign(event, pl, bl, 23, 64, 6, "showrule"))
+			if(clickSign(event, pl, bl, 23, 64, 6, "ww showrule"))
 				return;
-			if(clickSign(event, pl, bl, 23, 64, 7, "showplayers"))
+			if(clickSign(event, pl, bl, 23, 64, 7, "ww showplayers"))
 				return;
-			if(clickSign(event, pl, bl, 23, 65, 6, "showvil"))
+			if(clickSign(event, pl, bl, 23, 65, 6, "ww showvil"))
 				return;
-			if(clickSign(event, pl, bl, 23, 65, 7, "leavevil"))
+			if(clickSign(event, pl, bl, 23, 65, 7, "ww leavevil"))
 				return;
-			if(clickSign(event, pl, bl, 23, 65, 4, "help"))
-				return;
-			
-			if(clickSign(event, pl, bl, 23, 64, -4, "makevil"))
-				return;
-			if(clickSign(event, pl, bl, 23, 64, -5, "startrec"))
-				return;
-			if(clickSign(event, pl, bl, 23, 65, -5, "resettimer"))
-				return;
-			if(clickSign(event, pl, bl, 23, 64, -6, "startgame"))
-				return;
-			if(clickSign(event, pl, bl, 23, 65, -6, "skip"))
-				return;
-			if(clickSign(event, pl, bl, 23, 65, -4, "configroom"))
+			if(clickSign(event, pl, bl, 23, 65, 4, "ww help"))
 				return;
 			
-			if(clickSign(event, pl, bl, 0, 44, -6, "home"))
+			if(clickSign(event, pl, bl, 23, 64, -4, "ww makevil"))
 				return;
-			if(clickSign(event, pl, bl, 3, 43, 5, "showrule"))
+			if(clickSign(event, pl, bl, 23, 64, -5, "ww startrec"))
 				return;
-			if(clickSign(event, pl, bl, 3, 44, -3, "chrule maxnum "+(vil.maxNum+1)))
+			if(clickSign(event, pl, bl, 23, 65, -5, "ww resettimer"))
 				return;
-			if(clickSign(event, pl, bl, 3, 43, -3, "chrule maxnum "+(vil.maxNum-1)))
+			if(clickSign(event, pl, bl, 23, 64, -6, "ww startgame"))
 				return;
-			if(clickSign(event, pl, bl, 3, 44, -2, "chrule uranainum "+(vil.uranaiNum+1)))
+			if(clickSign(event, pl, bl, 23, 65, -6, "ww skip"))
 				return;
-			if(clickSign(event, pl, bl, 3, 43, -2, "chrule uranainum "+(vil.uranaiNum-1)))
+			if(clickSign(event, pl, bl, 23, 65, -4, "ww configroom"))
 				return;
-			if(clickSign(event, pl, bl, 3, 44, -1, "chrule reibainum "+(vil.reibaiNum+1)))
+			
+			if(clickSign(event, pl, bl, 0, 44, -6, "ww home"))
 				return;
-			if(clickSign(event, pl, bl, 3, 43, -1, "chrule reibainum "+(vil.reibaiNum-1)))
+			if(clickSign(event, pl, bl, 3, 43, 5, "ww showrule"))
 				return;
-			if(clickSign(event, pl, bl, 3, 44, 0, "chrule kariudonum "+(vil.kariudoNum+1)))
+			if(clickSign(event, pl, bl, 3, 44, -3, "ww chrule maxnum "+(vil.maxNum+1)))
 				return;
-			if(clickSign(event, pl, bl, 3, 43, 0, "chrule kariudonum "+(vil.kariudoNum-1)))
+			if(clickSign(event, pl, bl, 3, 43, -3, "ww chrule maxnum "+(vil.maxNum-1)))
 				return;
-			if(clickSign(event, pl, bl, 3, 44, 1, "chrule jinrounum "+(vil.jinrouNum+1)))
+			if(clickSign(event, pl, bl, 3, 44, -2, "ww chrule uranainum "+(vil.uranaiNum+1)))
 				return;
-			if(clickSign(event, pl, bl, 3, 43, 1, "chrule jinrounum "+(vil.jinrouNum-1)))
+			if(clickSign(event, pl, bl, 3, 43, -2, "ww chrule uranainum "+(vil.uranaiNum-1)))
 				return;
-			if(clickSign(event, pl, bl, 3, 44, 2, "chrule kyoujinnum "+(vil.kyoujinNum+1)))
+			if(clickSign(event, pl, bl, 3, 44, -1, "ww chrule reibainum "+(vil.reibaiNum+1)))
 				return;
-			if(clickSign(event, pl, bl, 3, 43, 2, "chrule kyoujinnum "+(vil.kyoujinNum-1)))
+			if(clickSign(event, pl, bl, 3, 43, -1, "ww chrule reibainum "+(vil.reibaiNum-1)))
 				return;
-			if(clickSign(event, pl, bl, 3, 44, 3, "chrule youkonum "+(vil.youkoNum+1)))
+			if(clickSign(event, pl, bl, 3, 44, 0, "ww chrule kariudonum "+(vil.kariudoNum+1)))
 				return;
-			if(clickSign(event, pl, bl, 3, 43, 3, "chrule youkonum "+(vil.youkoNum-1)))
+			if(clickSign(event, pl, bl, 3, 43, 0, "ww chrule kariudonum "+(vil.kariudoNum-1)))
+				return;
+			if(clickSign(event, pl, bl, 3, 44, 1, "ww chrule jinrounum "+(vil.jinrouNum+1)))
+				return;
+			if(clickSign(event, pl, bl, 3, 43, 1, "ww chrule jinrounum "+(vil.jinrouNum-1)))
+				return;
+			if(clickSign(event, pl, bl, 3, 44, 2, "ww chrule kyoujinnum "+(vil.kyoujinNum+1)))
+				return;
+			if(clickSign(event, pl, bl, 3, 43, 2, "ww chrule kyoujinnum "+(vil.kyoujinNum-1)))
+				return;
+			if(clickSign(event, pl, bl, 3, 44, 3, "ww chrule youkonum "+(vil.youkoNum+1)))
+				return;
+			if(clickSign(event, pl, bl, 3, 43, 3, "ww chrule youkonum "+(vil.youkoNum-1)))
 				return;
 
-			if(clickSign(event, pl, bl, -3, 44, 3, "chrule daytime "+(vil.dayTime+60)))
+			if(clickSign(event, pl, bl, -3, 44, 3, "ww chrule daytime "+(vil.dayTime+60)))
 				return;
-			if(clickSign(event, pl, bl, -3, 43, 3, "chrule daytime "+(vil.dayTime-60)))
+			if(clickSign(event, pl, bl, -3, 43, 3, "ww chrule daytime "+(vil.dayTime-60)))
 				return;
-			if(clickSign(event, pl, bl, -3, 44, 2, "chrule nighttime "+(vil.nightTime+60)))
+			if(clickSign(event, pl, bl, -3, 44, 2, "ww chrule nighttime "+(vil.nightTime+60)))
 				return;
-			if(clickSign(event, pl, bl, -3, 43, 2, "chrule nighttime "+(vil.nightTime-60)))
+			if(clickSign(event, pl, bl, -3, 43, 2, "ww chrule nighttime "+(vil.nightTime-60)))
 				return;
-			if(clickSign(event, pl, bl, -3, 44, 1, "chrule requestrole true"))
+			if(clickSign(event, pl, bl, -3, 44, 1, "ww chrule requestrole true"))
 				return;
-			if(clickSign(event, pl, bl, -3, 43, 1, "chrule requestrole false"))
+			if(clickSign(event, pl, bl, -3, 43, 1, "ww chrule requestrole false"))
 				return;
-			if(clickSign(event, pl, bl, -3, 44, 0, "chrule randomvote true"))
+			if(clickSign(event, pl, bl, -3, 44, 0, "ww chrule randomvote true"))
 				return;
-			if(clickSign(event, pl, bl, -3, 43, 0, "chrule randomvote false"))
+			if(clickSign(event, pl, bl, -3, 43, 0, "ww chrule randomvote false"))
 				return;
-			if(clickSign(event, pl, bl, -3, 44, -1, "chrule revotenum "+(vil.revoteNum+1)))
+			if(clickSign(event, pl, bl, -3, 44, -1, "ww chrule revotenum "+(vil.revoteNum+1)))
 				return;
-			if(clickSign(event, pl, bl, -3, 43, -1, "chrule revotenum "+(vil.revoteNum-1)))
+			if(clickSign(event, pl, bl, -3, 43, -1, "ww chrule revotenum "+(vil.revoteNum-1)))
 				return;
-			if(clickSign(event, pl, bl, -3, 44, -2, "chrule permitwhisp true"))
+			if(clickSign(event, pl, bl, -3, 44, -2, "ww chrule permitwhisp true"))
 				return;
-			if(clickSign(event, pl, bl, -3, 43, -2, "chrule permitwhisp false"))
+			if(clickSign(event, pl, bl, -3, 43, -2, "ww chrule permitwhisp false"))
 				return;
-			if(clickSign(event, pl, bl, -3, 44, -3, "chrule reishiallplayers true"))
+			if(clickSign(event, pl, bl, -3, 44, -3, "ww chrule reishiallplayers true"))
 				return;
-			if(clickSign(event, pl, bl, -3, 43, -3, "chrule reishiallplayers false"))
+			if(clickSign(event, pl, bl, -3, 43, -3, "ww chrule reishiallplayers false"))
 				return;
-			if(clickSign(event, pl, bl, -3, 44, -4, "chrule permitbite true"))
+			if(clickSign(event, pl, bl, -3, 44, -4, "ww chrule permitbite true"))
 				return;
-			if(clickSign(event, pl, bl, -3, 43, -4, "chrule permitbite false"))
+			if(clickSign(event, pl, bl, -3, 43, -4, "ww chrule permitbite false"))
 				return;
 			
 			if((x==0 && y==43 && z==6)
@@ -144,25 +144,25 @@ public class DefaultVillageEvent implements Listener {
 						|| (x==-4 && y==43 && z==4) || (x==-3 && y==43 && z==4))
 					return;
 			
-			if(!vp.alive && vil.status==VillageStatus.ongoing)
+			if(!vp.alive && vil.status==VillageStatus.ONGOING)
 				event.setCancelled(true);
 
 			if(bl.getType()==Material.CHEST
-					&& (vil.status==VillageStatus.empty
-					|| vil.status==VillageStatus.preparing
-					|| vil.status==VillageStatus.recruiting)){
+					&& (vil.status==VillageStatus.EMPTY
+					|| vil.status==VillageStatus.PREPARING
+					|| vil.status==VillageStatus.RECRUITING)){
 				event.setCancelled(true);
 				return;
 			}
 
 			for(DefaultVillageHouseCore house : DefaultVillageHouse.getHouseMap().values())
-				if(clickSign(event, pl, bl, house.myroleSignX, house.myroleSignY, house.myroleSignZ, "myrole"))
+				if(clickSign(event, pl, bl, house.myroleSignX, house.myroleSignY, house.myroleSignZ, "ww myrole"))
 					return;
 
 			for(DefaultVillageHouseCore house : DefaultVillageHouse.getHouseMap().values())
 				if(vil.getAlivePlayerByColor(house.color)!=null && vp.color!=house.color
 						&& clickSign(event, pl, bl, house.voteSignX, house.voteSignY, house.voteSignZ,
-								"vote "+vil.getAlivePlayerByColor(house.color).getName()))
+								"ww vote "+vil.getAlivePlayerByColor(house.color).getName()))
 					return;
 						
 			for(DefaultVillageHouseCore house : DefaultVillageHouse.getHouseMap().values()){
@@ -241,7 +241,7 @@ public class DefaultVillageEvent implements Listener {
 			if((-22.0<to.getX() && to.getX()<-16.0
 					&& 63.0<to.getY()
 					&& -4.0<to.getZ() && to.getZ()<5.0)
-					&& (vil.status!=VillageStatus.ongoing || vil.time!=VillageTime.execution 
+					&& (vil.status!=VillageStatus.ONGOING || vil.time!=VillageTime.EXECUTION 
 					|| vp!=vil.executedPlayer || !vp.alive)){
 				pl.sendMessage(C.red+"Error: ここから先へは移動することはできません。");
 				event.setCancelled(true);
@@ -250,15 +250,15 @@ public class DefaultVillageEvent implements Listener {
 			
 			if((to.getX()<-20.5 || -17.5<to.getX()
 					|| to.getZ()<-2.5 || 3.5<to.getZ())
-					&& vil.status==VillageStatus.ongoing && vil.time==VillageTime.execution 
+					&& vil.status==VillageStatus.ONGOING && vil.time==VillageTime.EXECUTION 
 					&& vp==vil.executedPlayer && vp.alive){
 				pl.sendMessage(C.red+"Error: ここから先へは移動することはできません。");
 				event.setCancelled(true);
 				return;
 			}
 
-			if(vp.alive && vp.role!=VillageRole.jinrou
-					&& vil.status==VillageStatus.ongoing && vil.time==VillageTime.night){
+			if(vp.alive && vp.role!=VillageRole.JINROU
+					&& vil.status==VillageStatus.ONGOING && vil.time==VillageTime.NIGHT){
 				HashMap<ChatColor, DefaultVillageHouseCore> houseMap = DefaultVillageHouse.getHouseMap();
 				DefaultVillageHouseCore house = houseMap.get(vp.color);
 				if((house.bedPitch==90 && (to.getX()<house.frontDoorX+0.5 || house.rearDoorX+0.5<to.getX()))
@@ -289,10 +289,10 @@ public class DefaultVillageEvent implements Listener {
 					|| (x==-3 && y==43 && z==4 && bl.getType()==Material.WALL_SIGN))
 				return;
 			
-			if(vil.status==VillageStatus.empty
-					|| (vil.status==VillageStatus.preparing && !vp.joining)
-					|| (vil.status==VillageStatus.recruiting && !vp.joining)
-					|| (vil.status==VillageStatus.ongoing && !vp.alive)){
+			if(vil.status==VillageStatus.EMPTY
+					|| (vil.status==VillageStatus.PREPARING && !vp.joining)
+					|| (vil.status==VillageStatus.RECRUITING && !vp.joining)
+					|| (vil.status==VillageStatus.ONGOING && !vp.alive)){
 				event.setCancelled(true); return; }
 			
 			if(x<=-39 || 39<=x || y<=47 || 80<=y || z<=-39 || 39<=z){
@@ -350,10 +350,10 @@ public class DefaultVillageEvent implements Listener {
 					|| (x==-3 && y==43 && z==4 && bl.getType()==Material.WALL_SIGN))
 				return;
 			
-			if(vil.status==VillageStatus.empty
-					|| (vil.status==VillageStatus.preparing && !vp.joining)
-					|| (vil.status==VillageStatus.recruiting && !vp.joining)
-					|| (vil.status==VillageStatus.ongoing && !vp.alive)){
+			if(vil.status==VillageStatus.EMPTY
+					|| (vil.status==VillageStatus.PREPARING && !vp.joining)
+					|| (vil.status==VillageStatus.RECRUITING && !vp.joining)
+					|| (vil.status==VillageStatus.ONGOING && !vp.alive)){
 				event.setCancelled(true); updateInventory(pl, vil); return; }
 			
 			if(x<=-39 || 39<=x || y<=47 || 80<=y || z<=-39 || 39<=z){

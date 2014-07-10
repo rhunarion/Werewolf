@@ -53,7 +53,7 @@ public class VillagePlayer extends VillagePlayerCore {
 	}
 	
 	public void teleportToHome(){
-		if(!alive || village.status!=VillageStatus.ongoing)
+		if(!alive || village.status!=VillageStatus.ONGOING)
 			VillageUtil.teleportToVillage(getPlayer(), village);
 		else if(alive && connection)
 			getPlayer().teleport(((DefaultVillage) village).getHome(this));
@@ -64,7 +64,7 @@ public class VillagePlayer extends VillagePlayerCore {
 	public void giveUpGame(){
 		connection = false;
 
-		if(joining && village.status==VillageStatus.ongoing){
+		if(joining && village.status==VillageStatus.ONGOING){
 			if(alive){
 				village.sendToVillage(color+getName()
 						+C.gold+" さんがゲームを放棄して去っていきました。");
@@ -72,7 +72,7 @@ public class VillagePlayer extends VillagePlayerCore {
 
 				player = Bukkit.getOfflinePlayer("."+getName());
 				spawnVillager();
-				if(village.status==VillageStatus.ongoing && village.time==VillageTime.night)
+				if(village.status==VillageStatus.ONGOING && village.time==VillageTime.NIGHT)
 					setFenceAroundBed();
 				
 				village.objective.getScore(Bukkit.getOfflinePlayer(getColorName())).setScore(1);
@@ -85,7 +85,7 @@ public class VillagePlayer extends VillagePlayerCore {
 			}
 		}
 
-		if(gameMaster && village.status!=VillageStatus.finishing){
+		if(gameMaster && village.status!=VillageStatus.FINISHING){
 			List<VillagePlayer> vpList = village.getAlivePlayerListExceptNpc();
 			
 			if(vpList.size()==0){
@@ -98,17 +98,17 @@ public class VillagePlayer extends VillagePlayerCore {
 			}
 		}
 		
-		if(village.status==VillageStatus.preparing || village.status==VillageStatus.recruiting){
+		if(village.status==VillageStatus.PREPARING || village.status==VillageStatus.RECRUITING){
 			village.scoreboard.resetScores(player);
 			VillageUtil.removePlayer(player, village);
-		}else if(village.status==VillageStatus.finishing){
+		}else if(village.status==VillageStatus.FINISHING){
 			VillageUtil.removePlayer(player, village);
 		}
 	}
 	
 	public void setGm(){
 		gameMaster = true;
-		if(alive && village.status==VillageStatus.ongoing)
+		if(alive && village.status==VillageStatus.ONGOING)
 			village.sendToVillage(color+getName()+C.gold+" さんがゲームマスターになりました。");
 		else
 			village.sendToVillage(C.yellow+getName()+C.gold+" さんがゲームマスターになりました。");
@@ -116,7 +116,7 @@ public class VillagePlayer extends VillagePlayerCore {
 	
 	public void removeGm(){
 		gameMaster = false;
-		if(alive && village.status==VillageStatus.ongoing)
+		if(alive && village.status==VillageStatus.ONGOING)
 			village.sendToVillage(color+getName()+C.gold+" さんがゲームマスターではなくなりました。");
 		else
 			village.sendToVillage(C.yellow+getName()+C.gold+" さんがゲームマスターではなくなりました。");
@@ -158,8 +158,8 @@ public class VillagePlayer extends VillagePlayerCore {
 	
 	public void unjoinGame(){
 		joining=false;
-		role=VillageRole.none;
-		roleRequested=VillageRole.none;
+		role=VillageRole.NONE;
+		roleRequested=VillageRole.NONE;
 		village.scoreboard.resetScores(player);
 		village.sendToVillage(C.yellow+getName()+C.gold+" さんがゲームへの参加を辞めました。");
 	}
@@ -169,7 +169,7 @@ public class VillagePlayer extends VillagePlayerCore {
 	}
 	
 	public void unsetRole(){
-		role = VillageRole.none;
+		role = VillageRole.NONE;
 	}
 	
 	public void setRequestedRole(VillageRole role){
@@ -299,7 +299,7 @@ public class VillagePlayer extends VillagePlayerCore {
 		}
 		
 		if(alive
-				&& village.status==VillageStatus.ongoing && village.time==VillageTime.day){
+				&& village.status==VillageStatus.ONGOING && village.time==VillageTime.NOON){
 			int score = village.objective.getScore(Bukkit.getOfflinePlayer(getColorName())).getScore();
 			score ++;
 			village.objective.getScore(Bukkit.getOfflinePlayer(getColorName())).setScore(score);
@@ -307,32 +307,32 @@ public class VillagePlayer extends VillagePlayerCore {
 	}
 
 	public void showMyRole(){
-		if(role==VillageRole.murabito){
-			sendMessage(C.gold+"あなたは "+VillageUtil.getVillageRoleInJapanese(VillageRole.murabito)
+		if(role==VillageRole.MURABITO){
+			sendMessage(C.gold+"あなたは "+VillageUtil.getVillageRoleInJapanese(VillageRole.MURABITO)
 								+C.gold+" です。");
 			sendMessage(C.gold+"村に紛れ込んだ人狼をすべて見つけ出し、村人チームを勝利に導きましょう。");
 		}
-		else if(role==VillageRole.uranaishi){
-			sendMessage(C.gold+"あなたは "+VillageUtil.getVillageRoleInJapanese(VillageRole.uranaishi)
+		else if(role==VillageRole.URANAISHI){
+			sendMessage(C.gold+"あなたは "+VillageUtil.getVillageRoleInJapanese(VillageRole.URANAISHI)
 								+C.gold+" です。");
 			sendMessage(C.yellow+"/"+PluginChecker.getWw()+"uranai <player>"
 							+C.gold+" とコマンドすることで夜に指定したプレイヤーを一人だけ占うことができます。");
 		}
-		else if(role==VillageRole.reibaishi){
-			sendMessage(C.gold+"あなたは "+VillageUtil.getVillageRoleInJapanese(VillageRole.reibaishi)
+		else if(role==VillageRole.REIBAISHI){
+			sendMessage(C.gold+"あなたは "+VillageUtil.getVillageRoleInJapanese(VillageRole.REIBAISHI)
 								+C.gold+" です。");
 			sendMessage(C.gold+"命を落としたプレイヤーの正体を知ることができます。");
 		}
-		else if(role==VillageRole.kariudo){
-			sendMessage(C.gold+"あなたは "+VillageUtil.getVillageRoleInJapanese(VillageRole.kariudo)
+		else if(role==VillageRole.KARIUDO){
+			sendMessage(C.gold+"あなたは "+VillageUtil.getVillageRoleInJapanese(VillageRole.KARIUDO)
 								+C.gold+" です。");
 			sendMessage(C.yellow+"/"+PluginChecker.getWw()+"guard <player>"
 							+C.gold+" とコマンドすることで昼に指定したプレイヤーを一人だけ人狼から護衛することができます。");
 		}
-		else if(role==VillageRole.jinrou){
-			sendMessage(C.gold+"あなたは "+VillageUtil.getVillageRoleInJapanese(VillageRole.jinrou)
+		else if(role==VillageRole.JINROU){
+			sendMessage(C.gold+"あなたは "+VillageUtil.getVillageRoleInJapanese(VillageRole.JINROU)
 								+C.gold+" です。");
-			if(village.getSettedRoleNum(VillageRole.jinrou)>=2){
+			if(village.getSettedRoleNum(VillageRole.JINROU)>=2){
 				String message = "";
 				message += C.gold+"この村の人狼は "+C.d_red+village.getJinrouList().get(0).getName();
 				for(int i=1; i<village.getJinrouList().size(); i++)
@@ -345,15 +345,15 @@ public class VillagePlayer extends VillagePlayerCore {
 			else
 				sendMessage(C.gold+"夜に村人を一人噛み殺すことができます。");
 		}
-		else if(role==VillageRole.kyoujin){
-			sendMessage(C.gold+"あなたは "+VillageUtil.getVillageRoleInJapanese(VillageRole.kyoujin)
+		else if(role==VillageRole.KYOUJIN){
+			sendMessage(C.gold+"あなたは "+VillageUtil.getVillageRoleInJapanese(VillageRole.KYOUJIN)
 								+C.gold+" です。");
 			sendMessage(C.gold+"村人を混乱させ、人狼チームを勝利に導きましょう");
 		}
-		else if(role==VillageRole.youko){
-			sendMessage(C.gold+"あなたは "+VillageUtil.getVillageRoleInJapanese(VillageRole.youko)
+		else if(role==VillageRole.YOUKO){
+			sendMessage(C.gold+"あなたは "+VillageUtil.getVillageRoleInJapanese(VillageRole.YOUKO)
 								+C.gold+" です。");
-			if(village.getSettedRoleNum(VillageRole.youko)>=2){
+			if(village.getSettedRoleNum(VillageRole.YOUKO)>=2){
 				String message = "";
 				message += C.gold+"この村の妖狐は "+C.yellow+village.getYoukoList().get(0).getName();
 				for(int i=1; i<village.getYoukoList().size(); i++)
@@ -372,7 +372,7 @@ public class VillagePlayer extends VillagePlayerCore {
 		sendMessage(C.green+"占いを行った結果 "+target.color+target.getName()+C.green+" さんの正体は "
 				+VillageUtil.getTrueRole(target)+C.green+" だとわかりました。");
 		tryUranai = true;
-		if(target.role==VillageRole.youko){
+		if(target.role==VillageRole.YOUKO){
 			village.cursedPlayerList.add(target);
 		}
 	}
@@ -440,7 +440,7 @@ public class VillagePlayer extends VillagePlayerCore {
 				return;
 			}
 		}
-		if(target.role==VillageRole.youko){
+		if(target.role==VillageRole.YOUKO){
 			village.sendToVillage(C.green+"どこからか狐の悲鳴が聞こえてきました。");
 			target.disguiseBlaze();
 			for(VillagePlayer jinrou : village.getAliveJinrouListExceptNpc())
@@ -516,15 +516,15 @@ public class VillagePlayer extends VillagePlayerCore {
 	}
 
 	public void spawnVillager(){
-		if(village.status==VillageStatus.ongoing && !alive)
+		if(village.status==VillageStatus.ONGOING && !alive)
 			return;			// for bug in interval between vp.kill and EntityDeathEvent
 		
-		if(role==VillageRole.jinrou
-				&& village.status==VillageStatus.ongoing && village.time==VillageTime.night){
+		if(role==VillageRole.JINROU
+				&& village.status==VillageStatus.ONGOING && village.time==VillageTime.NIGHT){
 			villagerEntity = (LivingEntity) Bukkit.getWorld(village.villageName)
 					.spawnEntity(((DefaultVillage) village).getHome(this), EntityType.ZOMBIE);
 		}else{
-			if(village.status==VillageStatus.ongoing && village.time==VillageTime.execution
+			if(village.status==VillageStatus.ONGOING && village.time==VillageTime.EXECUTION
 					&& village.executedPlayer==this)
 				villagerEntity = (LivingEntity) Bukkit.getWorld(village.villageName)
 						.spawnEntity(((DefaultVillage) village).getScaffold(), EntityType.VILLAGER);
@@ -532,7 +532,7 @@ public class VillagePlayer extends VillagePlayerCore {
 				villagerEntity = (LivingEntity) Bukkit.getWorld(village.villageName)
 						.spawnEntity(((DefaultVillage) village).getHome(this), EntityType.VILLAGER);
 			
-			if(village.status!=VillageStatus.ongoing || village.time!=VillageTime.night){
+			if(village.status!=VillageStatus.ONGOING || village.time!=VillageTime.NIGHT){
 				villagerEntity.setCustomName(getName());
 				villagerEntity.setCustomNameVisible(true);
 			}

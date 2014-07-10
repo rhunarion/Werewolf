@@ -72,11 +72,11 @@ public class WwTabCompleter implements TabCompleter {
 		VillagePlayer vp = vil.getPlayer(pl);
 		
 		if(args.length==2 && args[0].equalsIgnoreCase("enterVil")
-				&& (!vp.alive || vil.status!=VillageStatus.ongoing))
+				&& (!vp.alive || vil.status!=VillageStatus.ONGOING))
 			return getPartialMatches(args, VillageUtil.getVillageNameList());
 
 		if(args.length==2 && args[0].equalsIgnoreCase("makeVil")
-				&& (vil.status==VillageStatus.empty))
+				&& (vil.status==VillageStatus.EMPTY))
 			return getPartialMatches(args, VillageUtil.getVillageTypeList());
 
 		if(args.length==2 && args[0].equalsIgnoreCase("giveGM")
@@ -84,11 +84,11 @@ public class WwTabCompleter implements TabCompleter {
 			return getPartialMatches(args, vil.getPlayerNameListExceptGmAndNpc());
 
 		if(args.length==2 && args[0].equalsIgnoreCase("chRule")
-				&& (vp.gameMaster && vil.status!=VillageStatus.finishing))
+				&& (vp.gameMaster && vil.status!=VillageStatus.FINISHING))
 			return getPartialMatchesToLowerCase(args, CommandHelp.getRuleList());
 		
 		if(args.length==3 && args[0].equalsIgnoreCase("chRule")
-				&& (vp.gameMaster && vil.status!=VillageStatus.finishing)
+				&& (vp.gameMaster && vil.status!=VillageStatus.FINISHING)
 				&& (args[1].equalsIgnoreCase("requestRole")
 						|| args[1].equalsIgnoreCase("randomVote")
 						|| args[1].equalsIgnoreCase("permitWhisp")
@@ -98,22 +98,22 @@ public class WwTabCompleter implements TabCompleter {
 
 		if(args.length==2 && args[0].equalsIgnoreCase("setRole")
 				&& (vp.gameMaster
-						&& (vil.status==VillageStatus.preparing || vil.status==VillageStatus.recruiting)))
+						&& (vil.status==VillageStatus.PREPARING || vil.status==VillageStatus.RECRUITING)))
 			return getPartialMatches(args, vil.getJoiningPlayerNameList());
 
 		if(args.length==3 && args[0].equalsIgnoreCase("setRole")
 				&& (vp.gameMaster
-						&& (vil.status==VillageStatus.preparing || vil.status==VillageStatus.recruiting)))
+						&& (vil.status==VillageStatus.PREPARING || vil.status==VillageStatus.RECRUITING)))
 			return getPartialMatches(args, VillageUtil.getRoleListExceptNone());
 
 		if(args.length==2 && args[0].equalsIgnoreCase("unsetRole")
 				&& (vp.gameMaster
-						&& (vil.status==VillageStatus.preparing || vil.status==VillageStatus.recruiting)))
+						&& (vil.status==VillageStatus.PREPARING || vil.status==VillageStatus.RECRUITING)))
 			return getPartialMatches(args, vil.getJoiningPlayerNameList());
 
 		if(args.length==2 && args[0].equalsIgnoreCase("requestRole")
 				&& (vp.joining && vil.requestRole
-						&& (vil.status==VillageStatus.preparing || vil.status==VillageStatus.recruiting)))
+						&& (vil.status==VillageStatus.PREPARING || vil.status==VillageStatus.RECRUITING)))
 			return getPartialMatches(args, VillageUtil.getRoleList());
 
 		if(args.length==2 && args[0].equalsIgnoreCase("kick")
@@ -125,32 +125,32 @@ public class WwTabCompleter implements TabCompleter {
 			return getPartialMatches(args, vil.getKickedPlayerNameList());
 		
 		if(args.length==2 && args[0].equalsIgnoreCase("kill")
-				&& (vp.gameMaster && vil.status==VillageStatus.ongoing))
+				&& (vp.gameMaster && vil.status==VillageStatus.ONGOING))
 			return getPartialMatches(args, vil.getAlivePlayerNameList());
 		
 		if(args.length==2 && args[0].equalsIgnoreCase("whisp")
 				&& (vp.alive && vil.permitWhisp
-						&& vil.status==VillageStatus.ongoing && vil.time!=VillageTime.night))
+						&& vil.status==VillageStatus.ONGOING && vil.time!=VillageTime.NIGHT))
 			return getPartialMatches(args, vil.getAlivePlayerNameListExceptMyselfAndNpc(pl));
 		
 		if(args.length==2 && args[0].equalsIgnoreCase("vote")
 				&& (vp.alive
-						&& vil.status==VillageStatus.ongoing && (vil.time==VillageTime.day || vil.time==VillageTime.revote)))
+						&& vil.status==VillageStatus.ONGOING && (vil.time==VillageTime.NOON || vil.time==VillageTime.REVOTE)))
 			return getPartialMatches(args, vil.getAlivePlayerNameListExceptMyself(pl));
 		
 		if(args.length==2 && args[0].equalsIgnoreCase("uranai")
-				&& (vp.alive && vp.role==VillageRole.uranaishi && !vp.tryUranai
-						&& vil.status==VillageStatus.ongoing && vil.time==VillageTime.night))
+				&& (vp.alive && vp.role==VillageRole.URANAISHI && !vp.tryUranai
+						&& vil.status==VillageStatus.ONGOING && vil.time==VillageTime.NIGHT))
 			return getPartialMatches(args, vil.getAlivePlayerNameListExceptMyselfAddedBittenPlayer(pl));
 		
 		if(args.length==2 && args[0].equalsIgnoreCase("guard")
-				&& (vp.alive && vp.role==VillageRole.kariudo && vil.day!=0
-						&& vil.status==VillageStatus.ongoing && vil.time!=VillageTime.night))
+				&& (vp.alive && vp.role==VillageRole.KARIUDO && vil.day!=0
+						&& vil.status==VillageStatus.ONGOING && vil.time!=VillageTime.NIGHT))
 			return getPartialMatches(args, vil.getAlivePlayerNameListExceptMyself(pl));
 		
 		if(args.length==2 && args[0].equalsIgnoreCase("bite")
-				&& (vp.alive && vp.role==VillageRole.jinrou && !vil.tryBiting && vil.permitBite
-						&& vil.status==VillageStatus.ongoing && vil.time==VillageTime.night)){
+				&& (vp.alive && vp.role==VillageRole.JINROU && !vil.tryBiting && vil.permitBite
+						&& vil.status==VillageStatus.ONGOING && vil.time==VillageTime.NIGHT)){
 			if(vil.day==0){
 				List<String> compList = new ArrayList<String>();
 				compList.add("Mr.Firvic");

@@ -85,7 +85,7 @@ public class WerewolfLobby extends JavaPlugin implements Listener {
 				Player pl = Bukkit.getPlayer(event.getPlayer().getName());
 				if(pl!=null){
 					VillageUtil.teleportToLobby(event.getPlayer());
-					System.out.println(event.getPlayer().getName()+" teleport to Lobby in LobbyJoinEvent");
+					System.out.println("[Werewolf] "+event.getPlayer().getName()+" teleport to Lobby in LobbyJoinEvent");
 				}
 			}
 		}, 4);
@@ -94,7 +94,7 @@ public class WerewolfLobby extends JavaPlugin implements Listener {
 			@Override
 			public void run(){
 				Location loc = event.getPlayer().getLocation();
-				System.out.println(event.getPlayer().getName()+" spawn at (["+loc.getWorld().getName()+"] "
+				System.out.println("[Werewolf] "+event.getPlayer().getName()+" spawn at (["+loc.getWorld().getName()+"] "
 							+loc.getX()+", "+loc.getY()+", "+loc.getZ()+")");
 			}
 		}, 6);
@@ -123,17 +123,17 @@ public class WerewolfLobby extends JavaPlugin implements Listener {
 		
 			if(bl==null)
 				return;
-			if(clickSign(event, pl, bl, 2, 65, 3, "entervil vil0"))
+			if(clickSign(event, pl, bl, 2, 65, 3, "ww entervil vil0"))
 				return;
-			if(clickSign(event, pl, bl, 1, 65, 3, "entervil vil1"))
+			if(clickSign(event, pl, bl, 1, 65, 3, "ww entervil vil1"))
 				return;
-			if(clickSign(event, pl, bl, 0, 65, 3, "entervil vil2"))
+			if(clickSign(event, pl, bl, 0, 65, 3, "ww entervil vil2"))
 				return;
-			if(clickSign(event, pl, bl, -1, 65, 3, "entervil vil3"))
+			if(clickSign(event, pl, bl, -1, 65, 3, "ww entervil vil3"))
 				return;
-			if(clickSign(event, pl, bl, -2, 65, 3, "entervil vil4"))
+			if(clickSign(event, pl, bl, -2, 65, 3, "ww entervil vil4"))
 				return;
-			if(clickSign(event, pl, bl, -4, 65, 3, "makevil"))
+			if(clickSign(event, pl, bl, -4, 65, 3, "ww makevil"))
 				return;
 		}
 	}
@@ -247,7 +247,7 @@ public class WerewolfLobby extends JavaPlugin implements Listener {
 				BlockState state = lobby.getBlockAt(-4, 65, 5).getState();
 				Lever lever = (Lever) state.getData(); 
 				for(Village vil : VillageUtil.getVillageList()){
-					if(vil.status==VillageStatus.empty){
+					if(vil.status==VillageStatus.EMPTY){
 						lever.setPowered(true);
 						state.update();
 						return;
@@ -270,25 +270,25 @@ public class WerewolfLobby extends JavaPlugin implements Listener {
 		
 		String status = "";
 		switch(vil.status){
-		case empty: status = "空き状態"; break;
-		case preparing: status = "準備中"; break;
-		case recruiting: status = "募集中"; break;
-		case ongoing:
+		case EMPTY: status = "空き状態"; break;
+		case PREPARING: status = "準備中"; break;
+		case RECRUITING: status = "募集中"; break;
+		case ONGOING:
 			status = vil.day+"日目";
 			switch(vil.time){
-			case day: status += "昼"; break;
-			case execution: status += "夕方"; break;
-			case night: status += "夜"; break;
+			case NOON: status += "昼"; break;
+			case EXECUTION: status += "夕方"; break;
+			case NIGHT: status += "夜"; break;
 			}
 			break;
-		case finishing: status = "終了中"; break;
+		case FINISHING: status = "終了中"; break;
 		}
 		
 		int participantNum = 0;
 		switch(vil.status){
-		case preparing: participantNum = vil.getJoiningPlayerNum(); break;
-		case recruiting: participantNum = vil.getJoiningPlayerNum(); break;
-		case ongoing: participantNum = vil.getAlivePlayerNum(); break;
+		case PREPARING: participantNum = vil.getJoiningPlayerNum(); break;
+		case RECRUITING: participantNum = vil.getJoiningPlayerNum(); break;
+		case ONGOING: participantNum = vil.getAlivePlayerNum(); break;
 		}
 		int maxParticipantNum = vil.maxNum;
 		int allPlayerNum = vil.getPlayerListExceptNpc().size();
@@ -296,7 +296,7 @@ public class WerewolfLobby extends JavaPlugin implements Listener {
 		sign.setLine(0, vil.villageName+" ("+allPlayerNum+"人)");
 		sign.setLine(1, title);
 		sign.setLine(2, desc);
-		if(vil.status==VillageStatus.empty || vil.status==VillageStatus.finishing)
+		if(vil.status==VillageStatus.EMPTY || vil.status==VillageStatus.FINISHING)
 			sign.setLine(3, status);
 		else
 			sign.setLine(3, status+" "+participantNum+"/"+maxParticipantNum);
@@ -306,7 +306,7 @@ public class WerewolfLobby extends JavaPlugin implements Listener {
 		loc.setZ(loc.getZ()+2);
 		BlockState state = loc.getBlock().getState();
 		Lever lever = (Lever) state.getData();
-		if(vil.status==VillageStatus.recruiting && vil.getJoiningPlayerNum()<vil.maxNum)
+		if(vil.status==VillageStatus.RECRUITING && vil.getJoiningPlayerNum()<vil.maxNum)
 			lever.setPowered(true);
 		else
 			lever.setPowered(false);

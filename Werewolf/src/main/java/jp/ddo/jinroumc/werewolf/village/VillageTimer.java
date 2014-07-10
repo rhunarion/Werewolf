@@ -45,14 +45,14 @@ public class VillageTimer extends VillageCore {
 							else
 								BarAPI.setMessage(vp.getPlayer(), C.yellow+vil.title+C.white
 													+" ("+vil.villageName+") "+message+C.red+time, percent);
-					if(seconds==30 && vil.status==VillageStatus.ongoing && vil.time==VillageTime.day)
+					if(seconds==30 && vil.status==VillageStatus.ONGOING && vil.time==VillageTime.NOON)
 						for(VillagePlayer vp : vil.getAlivePlayerListExceptNpc())
 							if(vp.votedPlayer==null)
 								vp.sendMessage(C.gold+"あなたは未投票です。"
 										+"集会場の看板をクリックして、処刑までに投票を完了してください。");
 					if(seconds==initSeconds/rnd && !vil.tryBiting
-							&& vil.status==VillageStatus.ongoing
-							&& vil.day!=0 && vil.time==VillageTime.night
+							&& vil.status==VillageStatus.ONGOING
+							&& vil.day!=0 && vil.time==VillageTime.NIGHT
 							&& vil.getAliveJinrouListExceptNpc().size()==0){
 						List<VillagePlayer> bitableList = vil.getAlivePlayerListExceptJinrou();
 						Collections.shuffle(bitableList);
@@ -98,26 +98,26 @@ public class VillageTimer extends VillageCore {
 	public void resetTimer(){
 		stopTimer();
 		switch(status){
-		case preparing: setTimer("<準備中>  :募集開始まで ", 60); break;
-		case recruiting: setTimer("<募集中>  ：終了まで ", 900); break;
-		case finishing: setTimer("<終了中>  ：解散まで ", 300); break;
+		case PREPARING: setTimer("<準備中>  :募集開始まで ", 60); break;
+		case RECRUITING: setTimer("<募集中>  ：終了まで ", 900); break;
+		case FINISHING: setTimer("<終了中>  ：解散まで ", 300); break;
 		}
 	}
 	
 	public void afterTimer(){
 		Village vil = (Village) this;
 		
-		if(status==VillageStatus.preparing)
+		if(status==VillageStatus.PREPARING)
 			vil.gameRecruiting();
-		else if(status==VillageStatus.recruiting)
+		else if(status==VillageStatus.RECRUITING)
 			vil.gameFinishing();
-		else if(status==VillageStatus.ongoing && time==VillageTime.day)
+		else if(status==VillageStatus.ONGOING && time==VillageTime.NOON)
 			vil.totalizeVote();
-		else if(status==VillageStatus.ongoing && time==VillageTime.revote)
+		else if(status==VillageStatus.ONGOING && time==VillageTime.REVOTE)
 			vil.totalizeVote();
-		else if(status==VillageStatus.ongoing && time==VillageTime.night)
+		else if(status==VillageStatus.ONGOING && time==VillageTime.NIGHT)
 			vil.checkResult();
-		else if(status==VillageStatus.finishing)
+		else if(status==VillageStatus.FINISHING)
 			vil.rebuildVillage();
 	}
 	

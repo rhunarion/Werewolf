@@ -33,31 +33,31 @@ public class Village extends VillageTimer {
 		Collections.shuffle(vpList);
 		VillagePlayer fv = getPlayer("Mr.Firvic");
 
-		if(fv.role==VillageRole.none){
+		if(fv.role==VillageRole.NONE){
 			List<VillageRole> remainder = new ArrayList<VillageRole>();
-			for(int i=0; i<getRoleNumInRule(VillageRole.murabito)
-					- getSettedRoleNum(VillageRole.murabito); i++)
-				remainder.add(VillageRole.murabito);
-			for(int i=0; i<getRoleNumInRule(VillageRole.uranaishi)
-					- getSettedRoleNum(VillageRole.uranaishi); i++)
-				remainder.add(VillageRole.uranaishi);
-			for(int i=0; i<getRoleNumInRule(VillageRole.reibaishi)
-					- getSettedRoleNum(VillageRole.reibaishi); i++)
-				remainder.add(VillageRole.reibaishi);
-			for(int i=0; i<getRoleNumInRule(VillageRole.kariudo)
-					- getSettedRoleNum(VillageRole.kariudo); i++)
-				remainder.add(VillageRole.kariudo);
+			for(int i=0; i<getRoleNumInRule(VillageRole.MURABITO)
+					- getSettedRoleNum(VillageRole.MURABITO); i++)
+				remainder.add(VillageRole.MURABITO);
+			for(int i=0; i<getRoleNumInRule(VillageRole.URANAISHI)
+					- getSettedRoleNum(VillageRole.URANAISHI); i++)
+				remainder.add(VillageRole.URANAISHI);
+			for(int i=0; i<getRoleNumInRule(VillageRole.REIBAISHI)
+					- getSettedRoleNum(VillageRole.REIBAISHI); i++)
+				remainder.add(VillageRole.REIBAISHI);
+			for(int i=0; i<getRoleNumInRule(VillageRole.KARIUDO)
+					- getSettedRoleNum(VillageRole.KARIUDO); i++)
+				remainder.add(VillageRole.KARIUDO);
 			
 			Collections.shuffle(remainder);
 			fv.role = remainder.get(0);
 		}
 		for(VillageRole vr : VillageRole.values()){
-			if(vr==VillageRole.none) continue;
-			if(vr==VillageRole.murabito) continue;
+			if(vr==VillageRole.NONE) continue;
+			if(vr==VillageRole.MURABITO) continue;
 			int rlNum = getRoleNumInRule(vr) - getSettedRoleNum(vr);
 			if(requestRole && rlNum>0){
 				for(VillagePlayer vp : vpList){
-					if(vp.roleRequested==vr && vp.role==VillageRole.none){
+					if(vp.roleRequested==vr && vp.role==VillageRole.NONE){
 						vp.role = vr;
 						rlNum--;
 						if(rlNum==0) break;
@@ -66,12 +66,12 @@ public class Village extends VillageTimer {
 			}
 		}
 		for(VillageRole vr : VillageRole.values()){
-			if(vr==VillageRole.none) continue;
-			if(vr==VillageRole.murabito) continue;
+			if(vr==VillageRole.NONE) continue;
+			if(vr==VillageRole.MURABITO) continue;
 			int rlNum = getRoleNumInRule(vr) - getSettedRoleNum(vr);
 			if(rlNum>0){
 				for(VillagePlayer vp : vpList){
-					if(vp.role==VillageRole.none){
+					if(vp.role==VillageRole.NONE){
 						vp.role = vr;
 						rlNum--;
 						if(rlNum==0) break;
@@ -80,8 +80,8 @@ public class Village extends VillageTimer {
 			}
 		}
 		for(VillagePlayer vp : vpList)
-			if(vp.role==VillageRole.none)
-				vp.role = VillageRole.murabito;
+			if(vp.role==VillageRole.NONE)
+				vp.role = VillageRole.MURABITO;
 	}
 
 	private void assignColor(){
@@ -129,9 +129,8 @@ public class Village extends VillageTimer {
 	}
 
 	public void gamePreparing(){
-		if(status==VillageStatus.empty)
-			title = "みんなの人狼村";
-		status = VillageStatus.preparing;
+		System.out.println("[Werewolf] "+villageName+" start preparing.");
+		status = VillageStatus.PREPARING;
 		
 		setTimer("<準備中>  :募集開始まで ", 60);
 		sendToVillage(C.yellow+title
@@ -139,7 +138,8 @@ public class Village extends VillageTimer {
 	}
 	
 	public void gameRecruiting(){
-		status = VillageStatus.recruiting;
+		System.out.println("[Werewolf] "+villageName+" start recruiting.");
+		status = VillageStatus.RECRUITING;
 		
 		setTimer("<募集中>  ：終了まで ", 900);
 		SendMessage.sendToServer(C.yellow+title+C.gold
@@ -147,7 +147,8 @@ public class Village extends VillageTimer {
 	}
 	
 	public void gameStarting(){
-		status = VillageStatus.ongoing;
+		System.out.println("[Werewolf] "+villageName+" start game.");
+		status = VillageStatus.ONGOING;
 		maxNum = getJoiningPlayerNum();
 		assignRole();
 		assignColor();
@@ -171,6 +172,7 @@ public class Village extends VillageTimer {
 	}
 	
 	public void nightTime(){
+		System.out.println("[Werewolf] "+villageName+"'s time is night of day "+day+".");
 		setTimer("<"+day+"日目夜>  ："+(day+1)+"日目朝まで ", nightTime);
 		Bukkit.getWorld(villageName).setTime(18000);
 		
@@ -190,23 +192,23 @@ public class Village extends VillageTimer {
 			sendToVillage(C.green+"////////// " 
 							+C.aqua+""+day+"日目夜"+C.green+" になりました。 //////////");
 			for(VillagePlayer vp : getAlivePlayerListExceptNpc()){
-				if(vp.role==VillageRole.uranaishi){
+				if(vp.role==VillageRole.URANAISHI){
 					vp.sendMessage(C.yellow+"/"+PluginChecker.getWw()+"uranai <player>"
 							+C.gold+" とコマンドすることで夜に指定したプレイヤーを占うことができます。");
 				}
-				else if(vp.role==VillageRole.reibaishi){
+				else if(vp.role==VillageRole.REIBAISHI){
 					vp.sendMessage(C.green+"死者と会話し "
 							+executedPlayer.color+executedPlayer.getName()+C.green+" さんの正体は "
 							+VillageUtil.getTrueRole(executedPlayer)+C.green+" だとわかりました。");
 				}
-				else if(vp.role==VillageRole.kariudo){
+				else if(vp.role==VillageRole.KARIUDO){
 					if(vp.guardPlayer==null)
 						vp.sendMessage(C.gold+"今夜は誰も護衛しません。");
 					else
 						vp.sendMessage(vp.guardPlayer.color+vp.guardPlayer.getName()
 								+C.gold+" さんを人狼から護衛します。");
 				}
-				else if(vp.role==VillageRole.jinrou){
+				else if(vp.role==VillageRole.JINROU){
 					if(permitBite)
 						vp.sendMessage(C.yellow+"/"+PluginChecker.getWw()+"bite <player>"
 									+C.gold+" とコマンドすることで夜に村人を一人噛み殺すことができます。");
@@ -221,6 +223,7 @@ public class Village extends VillageTimer {
 	}
 
 	public void dayTime(){
+		System.out.println("[Werewolf] "+villageName+"'s time is noon of day "+day+".");
 		setTimer("<"+day+"日目昼>  ：処刑まで ", dayTime);
 		Bukkit.getWorld(villageName).setTime(6000);
 
@@ -242,7 +245,7 @@ public class Village extends VillageTimer {
 		}
 		
 		for(VillagePlayer vp : getAlivePlayerListExceptNpc()){
-			if(vp.role==VillageRole.reibaishi){
+			if(vp.role==VillageRole.REIBAISHI){
 				if(reishiAllPlayers){
 					if(bittenPlayer!=null)
 						vp.sendMessage(C.green+"死者と会話し "
@@ -255,7 +258,7 @@ public class Village extends VillageTimer {
 									+VillageUtil.getTrueRole(cursed)+C.green+" だとわかりました。");
 				}
 			}
-			else if(vp.role==VillageRole.kariudo){
+			else if(vp.role==VillageRole.KARIUDO){
 				vp.sendMessage(C.yellow+"/"+PluginChecker.getWw()+"guard <player>"
 						+C.gold+" とコマンドすることで指定したプレイヤーを一人だけ人狼から護衛することができます。");
 			}
@@ -331,7 +334,8 @@ public class Village extends VillageTimer {
 			}
 		}
 
-		time = VillageTime.execution;
+		System.out.println("[Werewolf] "+villageName+"'s time is execution of day "+day+".");
+		time = VillageTime.EXECUTION;
 		sendToVillage(C.green+"全員の投票の結果 "+maxVotedPlayer.color
 				+maxVotedPlayer.getName()+C.green+" さんを処刑することに決まりました。");
 		executedPlayer = maxVotedPlayer;
@@ -354,9 +358,10 @@ public class Village extends VillageTimer {
 	}
 	
 	public void revote(){
+		System.out.println("[Werewolf] "+villageName+"'s time is revote of day "+day+".");
 		setTimer("<"+day+"日目再投票>  ：処刑まで ", 30);
 
-		time = VillageTime.revote;
+		time = VillageTime.REVOTE;
 		currentVoteNum++;
 		for(VillagePlayer vp : getAlivePlayerList())
 			vp.numBeingVoted = 0;
@@ -385,7 +390,7 @@ public class Village extends VillageTimer {
 					cursed.sendMessage(C.gold+"あなたは占い師に呪い殺されました。");
 			}
 		}
-		if(time==VillageTime.night){
+		if(time==VillageTime.NIGHT){
 			((DefaultVillage) this).changeHouseEffect();
 			for(VillagePlayer vp : getAliveNpcList()){
 				vp.removeFenceAroundBed();
@@ -407,24 +412,24 @@ public class Village extends VillageTimer {
 		int jinrou = 0;
 		int youko = 0;
 		for(VillagePlayer vp : getAlivePlayerList()){
-			if(vp.role!=VillageRole.jinrou && vp.role!=VillageRole.youko) human++;
-			if(vp.role==VillageRole.jinrou) jinrou++;
-			if(vp.role==VillageRole.youko) youko++;
+			if(vp.role!=VillageRole.JINROU && vp.role!=VillageRole.YOUKO) human++;
+			if(vp.role==VillageRole.JINROU) jinrou++;
+			if(vp.role==VillageRole.YOUKO) youko++;
 		}
 		if(jinrou==0){
-			if(youko>0) result = VillageResult.youko;
-			else result = VillageResult.murabito;
+			if(youko>0) result = VillageResult.YOUKO;
+			else result = VillageResult.MURABITO;
 			gameFinishing();
 			return;
 		}else if(jinrou>=human){
-			if(youko>0) result = VillageResult.youko;
-			else result = VillageResult.jinrou;
+			if(youko>0) result = VillageResult.YOUKO;
+			else result = VillageResult.JINROU;
 			gameFinishing();
 			return;
 		}
 
-		if(time==VillageTime.execution){
-			time = VillageTime.night;
+		if(time==VillageTime.EXECUTION){
+			time = VillageTime.NIGHT;
 			bittenPlayer = null;
 			cursedPlayerList = new ArrayList<VillagePlayer>();
 			currentVoteNum = 0;
@@ -433,8 +438,8 @@ public class Village extends VillageTimer {
 				vp.votedPlayer = null;
 			}
 			nightTime();
-		}else if(time==VillageTime.night){
-			time = VillageTime.day;
+		}else if(time==VillageTime.NIGHT){
+			time = VillageTime.NOON;
 			day++;
 			executedPlayer = null;
 			for(VillagePlayer vp : getKariudoList())
@@ -447,17 +452,18 @@ public class Village extends VillageTimer {
 	}
 	
 	public void gameFinishing(){
+		System.out.println("[Werewolf] "+villageName+" finish game.");
 		Bukkit.getWorld(villageName).setTime(6000);
 		stopDoTaskLater();
 		setTimer("<終了中>  ：解散まで ", 300);
 
-		if(status==VillageStatus.ongoing){
+		if(status==VillageStatus.ONGOING){
 			String winner = "";
 			switch(result){
-			case draw: winner = "      引き分け！！       "; break;
-			case murabito: winner = C.aqua+"  村人チームの勝利！！  "; break;
-			case jinrou: winner = C.d_red+"  人狼チームの勝利！！  "; break;
-			case youko: winner = C.yellow+"  妖狐チームの勝利！！  "; break;
+			case DRAW: winner = "      引き分け！！       "; break;
+			case MURABITO: winner = C.aqua+"  村人チームの勝利！！  "; break;
+			case JINROU: winner = C.d_red+"  人狼チームの勝利！！  "; break;
+			case YOUKO: winner = C.yellow+"  妖狐チームの勝利！！  "; break;
 			}
 			sendToVillage(C.green+"/////////////////////////////////");
 			sendToVillage(C.green+"/////"+winner+C.green+"/////");
@@ -468,7 +474,7 @@ public class Village extends VillageTimer {
 			}
 		}
 		((DefaultVillage) this).finishFirework();
-		status = VillageStatus.finishing;
+		status = VillageStatus.FINISHING;
 		for(VillagePlayer vp : getPlayerListExceptNpc())
 			vp.changeStatusOnGameFinish();
 		for(VillagePlayer vp : getJoiningPlayerList())
@@ -476,6 +482,7 @@ public class Village extends VillageTimer {
 	}
 	
 	public void rebuildVillage(){
+		System.out.println("[Werewolf] "+villageName+" start rebuild.");
 		sendToVillage(C.gold+"お疲れ様でした。この村は再生成されます。");
 		stopTimer();
 		stopDoTaskLater();

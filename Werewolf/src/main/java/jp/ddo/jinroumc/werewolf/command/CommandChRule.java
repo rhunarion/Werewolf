@@ -22,13 +22,13 @@ public class CommandChRule {
 				pl.sendMessage(C.red+"Error: ゲームマスターしか使えないコマンドです。");
 				return;
 			}
-			if(vil.status==VillageStatus.finishing){
+			if(vil.status==VillageStatus.FINISHING){
 				pl.sendMessage(C.red+"Error: ゲーム終了中にルールを変更することはできません。");
 				return;
 			}
 			
 			if(arg.equalsIgnoreCase("maxNum")){
-				if(vil.status==VillageStatus.ongoing){
+				if(vil.status==VillageStatus.ONGOING){
 					pl.sendMessage(C.red+"Error: ゲーム進行中に最大人数の変更はできません。");
 					return;
 				}
@@ -62,7 +62,7 @@ public class CommandChRule {
 				return;
 			}
 			if(arg.equalsIgnoreCase("uranaiNum")){
-				if(vil.status==VillageStatus.ongoing){
+				if(vil.status==VillageStatus.ONGOING){
 					pl.sendMessage(C.red+"Error: ゲーム進行中に配役人数の変更はできません。");
 					return;
 				}
@@ -83,14 +83,14 @@ public class CommandChRule {
 				vil.uranaiNum = val;
 				vil.sendToVillage(C.gold+"占い師の人数が "+C.yellow
 												+vil.uranaiNum+"人"+C.gold+" に設定されました。");
-				if(vil.getSettedRoleNum(VillageRole.uranaishi)>val){
-					vil.unsetAllSettedRole(VillageRole.uranaishi);
+				if(vil.getSettedRoleNum(VillageRole.URANAISHI)>val){
+					vil.unsetAllSettedRole(VillageRole.URANAISHI);
 					pl.sendMessage(C.gold+"占い師に配役されていたプレイヤーの配役を解除します。");
 				}
 				return;
 			}
 			if(arg.equalsIgnoreCase("reibaiNum")){
-				if(vil.status==VillageStatus.ongoing){
+				if(vil.status==VillageStatus.ONGOING){
 					pl.sendMessage(C.red+"Error: ゲーム進行中に配役人数の変更はできません。");
 					return;
 				}
@@ -111,14 +111,14 @@ public class CommandChRule {
 				vil.reibaiNum = val;
 				vil.sendToVillage(C.gold+"霊媒師の人数が "+C.yellow
 												+vil.reibaiNum+"人"+C.gold+" に設定されました。");
-				if(vil.getSettedRoleNum(VillageRole.reibaishi)>val){
-					vil.unsetAllSettedRole(VillageRole.reibaishi);
+				if(vil.getSettedRoleNum(VillageRole.REIBAISHI)>val){
+					vil.unsetAllSettedRole(VillageRole.REIBAISHI);
 					pl.sendMessage(C.gold+"霊媒師に配役されていたプレイヤーの配役を解除します。");
 				}
 				return;
 			}
 			if(arg.equalsIgnoreCase("kariudoNum")){
-				if(vil.status==VillageStatus.ongoing){
+				if(vil.status==VillageStatus.ONGOING){
 					pl.sendMessage(C.red+"Error: ゲーム進行中に配役人数の変更はできません。");
 					return;
 				}
@@ -139,14 +139,14 @@ public class CommandChRule {
 				vil.kariudoNum = val;
 				vil.sendToVillage(C.gold+"狩人の人数が "+C.yellow
 												+vil.kariudoNum+"人"+C.gold+" に設定されました。");
-				if(vil.getSettedRoleNum(VillageRole.kariudo)>val){
-					vil.unsetAllSettedRole(VillageRole.kariudo);
+				if(vil.getSettedRoleNum(VillageRole.KARIUDO)>val){
+					vil.unsetAllSettedRole(VillageRole.KARIUDO);
 					pl.sendMessage(C.gold+"狩人に配役されていたプレイヤーの配役を解除します。");
 				}
 				return;
 			}
 			if(arg.equalsIgnoreCase("jinrouNum")){
-				if(vil.status==VillageStatus.ongoing){
+				if(vil.status==VillageStatus.ONGOING){
 					pl.sendMessage(C.red+"Error: ゲーム進行中に配役人数の変更はできません。");
 					return;
 				}
@@ -171,14 +171,14 @@ public class CommandChRule {
 				vil.jinrouNum = val;
 				vil.sendToVillage(C.gold+"人狼の人数が "+C.yellow
 												+vil.jinrouNum+"人"+C.gold+" に設定されました。");
-				if(vil.getSettedRoleNum(VillageRole.jinrou)>val){
-					vil.unsetAllSettedRole(VillageRole.jinrou);
+				if(vil.getSettedRoleNum(VillageRole.JINROU)>val){
+					vil.unsetAllSettedRole(VillageRole.JINROU);
 					pl.sendMessage(C.gold+"人狼に配役されていたプレイヤーの配役を解除します。");
 				}
 				return;
 			}
 			if(arg.equalsIgnoreCase("kyoujinNum")){
-				if(vil.status==VillageStatus.ongoing){
+				if(vil.status==VillageStatus.ONGOING){
 					pl.sendMessage(C.red+"Error: ゲーム進行中に配役人数の変更はできません。");
 					return;
 				}
@@ -199,14 +199,14 @@ public class CommandChRule {
 				vil.kyoujinNum = val;
 				vil.sendToVillage(C.gold+"狂人の人数が "+C.yellow
 												+vil.kyoujinNum+"人"+C.gold+" に設定されました。");
-				if(vil.getSettedRoleNum(VillageRole.kyoujin)>val){
-					vil.unsetAllSettedRole(VillageRole.kyoujin);
+				if(vil.getSettedRoleNum(VillageRole.KYOUJIN)>val){
+					vil.unsetAllSettedRole(VillageRole.KYOUJIN);
 					pl.sendMessage(C.gold+"狂人に配役されていたプレイヤーの配役を解除します。");
 				}
 				return;
 			}
 			if(arg.equalsIgnoreCase("youkoNum")){
-				if(vil.status==VillageStatus.ongoing){
+				if(vil.status==VillageStatus.ONGOING){
 					pl.sendMessage(C.red+"Error: ゲーム進行中に配役人数の変更はできません。");
 					return;
 				}
@@ -227,8 +227,8 @@ public class CommandChRule {
 				vil.youkoNum = val;
 				vil.sendToVillage(C.gold+"妖狐の人数が "+C.yellow
 												+vil.youkoNum+"人"+C.gold+" に設定されました。");
-				if(vil.getSettedRoleNum(VillageRole.youko)>val){
-					vil.unsetAllSettedRole(VillageRole.youko);
+				if(vil.getSettedRoleNum(VillageRole.YOUKO)>val){
+					vil.unsetAllSettedRole(VillageRole.YOUKO);
 					pl.sendMessage(C.gold+"妖狐に配役されていたプレイヤーの配役を解除します。");
 				}
 				return;
@@ -296,7 +296,7 @@ public class CommandChRule {
 				return;
 			}
 			if(arg.equalsIgnoreCase("requestRole")){
-				if(vil.status==VillageStatus.ongoing){
+				if(vil.status==VillageStatus.ONGOING){
 					pl.sendMessage(C.red+"Error: ゲーム進行中に配役リクエストの設定は変更できません。");
 					return;
 				}

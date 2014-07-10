@@ -21,7 +21,7 @@ public class WwCommandExecutor implements CommandExecutor {
 		String world = "";
 		if(sender instanceof Player)
 			world = " (in "+((Player) sender).getWorld().getName()+")";
-		System.out.println(sender.getName()+" issued ww command: /"+cmd.getName()+str+world);
+		System.out.println("[Werewolf] "+sender.getName()+" issued command: /"+cmd.getName()+str+world);
 
 		
 		//for console command

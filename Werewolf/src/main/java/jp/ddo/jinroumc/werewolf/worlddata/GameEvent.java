@@ -46,7 +46,7 @@ public class GameEvent implements Listener {
 				return;
 			}
 			VillagePlayer attackerVp = vil.getPlayer((Player) attacker); 
-			if(!attackerVp.alive && vil.status==VillageStatus.ongoing){
+			if(!attackerVp.alive && vil.status==VillageStatus.ONGOING){
 				event.setCancelled(true);
 				return;
 			}
@@ -64,9 +64,9 @@ public class GameEvent implements Listener {
 				return;
 			
 			if(attackerVp.alive && defenderVp.alive  
-					&& attackerVp.role==VillageRole.jinrou
-					&& defenderVp.role!=VillageRole.jinrou
-					&& vil.status==VillageStatus.ongoing && vil.time==VillageTime.night){
+					&& attackerVp.role==VillageRole.JINROU
+					&& defenderVp.role!=VillageRole.JINROU
+					&& vil.status==VillageStatus.ONGOING && vil.time==VillageTime.NIGHT){
 				
 				if(vil.tryBiting){
 					attackerVp.sendMessage(C.red+"Error: 今夜はすでに一人噛んでいます。");
@@ -90,12 +90,12 @@ public class GameEvent implements Listener {
 			Location loc = entity.getLocation();
 
 			final Village vil = VillageUtil.getVillage(loc.getWorld().getName());
-			if(vil.status!=VillageStatus.ongoing
-					|| vil.time!=VillageTime.execution
+			if(vil.status!=VillageStatus.ONGOING
+					|| vil.time!=VillageTime.EXECUTION
 					|| !((DefaultVillage) vil).isInsideScaffold(loc)){
 				for(VillagePlayer npc : vil.getNpcList()){
 					if(npc.villagerEntity==entity
-							&& (vil.status!=VillageStatus.ongoing || npc.alive)){
+							&& (vil.status!=VillageStatus.ONGOING || npc.alive)){
 						npc.spawnVillager();
 						return;
 					}
@@ -149,7 +149,7 @@ public class GameEvent implements Listener {
 			
 			Village vil = VillageUtil.getVillage(pl);
 			VillagePlayer vp = vil.getPlayer(pl);
-			if(!vp.alive && vil.status==VillageStatus.ongoing)
+			if(!vp.alive && vil.status==VillageStatus.ONGOING)
 				event.setCancelled(true);
 		}
 	}
@@ -161,7 +161,7 @@ public class GameEvent implements Listener {
 			
 			Village vil = VillageUtil.getVillage(pl);
 			VillagePlayer vp = vil.getPlayer(pl);
-			if(!vp.alive && vil.status==VillageStatus.ongoing)
+			if(!vp.alive && vil.status==VillageStatus.ONGOING)
 				event.setCancelled(true);
 	
 			Bukkit.getScheduler().runTaskLater(vil.plugin, new BukkitRunnable(){
@@ -182,7 +182,7 @@ public class GameEvent implements Listener {
 						if(VillageUtil.isInVillage(event.getPlayer())){
 							Village vil = VillageUtil.getVillage(event.getPlayer());
 							int soundId = event.getPacket().getIntegers().read(0);
-							if(vil.status==VillageStatus.ongoing && vil.time==VillageTime.night
+							if(vil.status==VillageStatus.ONGOING && vil.time==VillageTime.NIGHT
 								&& soundId==1003)
 									event.setCancelled(true);
 						}
@@ -196,7 +196,7 @@ public class GameEvent implements Listener {
 							Village vil = VillageUtil.getVillage(event.getPlayer());
 							String sound = event.getPacket().getStrings().read(0);
 							
-							if(vil.status==VillageStatus.ongoing && vil.time==VillageTime.night
+							if(vil.status==VillageStatus.ONGOING && vil.time==VillageTime.NIGHT
 									&& (sound.startsWith("mob.villager.")
 									|| sound.startsWith("mob.zombie.")
 									|| sound.startsWith("mob.blaze.")

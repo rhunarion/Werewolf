@@ -53,7 +53,7 @@ public class EventListener implements Listener {
 					Player pl = Bukkit.getPlayer(event.getPlayer().getName());
 					if(pl!=null){
 						VillageUtil.teleportToLobby(event.getPlayer());
-						System.out.println(event.getPlayer().getName()+" teleport to Lobby in VillageJoinEvent");
+						System.out.println("[Werewolf] "+event.getPlayer().getName()+" teleport to Lobby in VillageJoinEvent");
 					}
 				}
 			}, 2);
@@ -69,7 +69,7 @@ public class EventListener implements Listener {
 	@EventHandler
 	public void onChat(AsyncPlayerChatEvent event){
 		String world = " (in "+event.getPlayer().getWorld().getName()+")";
-		System.out.println(event.getPlayer().getName()+" chat: "+event.getMessage()+world);
+		System.out.println("[Werewolf] "+event.getPlayer().getName()+" chat: "+event.getMessage()+world);
 
 		if(VillageUtil.isInVillage(event.getPlayer()))
 			SendMessage.splitUnspecifiedMessage(event.getPlayer(), event.getMessage());

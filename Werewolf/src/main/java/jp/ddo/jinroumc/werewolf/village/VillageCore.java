@@ -65,8 +65,8 @@ public class VillageCore {
 	VillageCore(String villageName, String villageType, JavaPlugin plugin){
 		this.villageName = villageName;
 		this.villageType = villageType;
-		this.status = VillageStatus.empty;
-		this.result = VillageResult.draw;
+		this.status = VillageStatus.EMPTY;
+		this.result = VillageResult.DRAW;
 		this.plugin = plugin;
 		this.timerId = -1;
 		this.doTaskLaterId = -1;
@@ -75,7 +75,7 @@ public class VillageCore {
 		this.kickedPlayerList = new ArrayList<Player>();
 
 		this.day = 0;
-		this.time = VillageTime.night;
+		this.time = VillageTime.NIGHT;
 		this.scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
 		this.objective = this.scoreboard.registerNewObjective("Player Status", "dummy");
 		this.objective.setDisplayName("Player Status");
@@ -123,7 +123,7 @@ public class VillageCore {
 	public void unsetAllSettedRole(VillageRole role){
 		for(VillagePlayer vp : getJoiningPlayerList())
 			if(vp.role==role)
-				vp.role = VillageRole.none;
+				vp.role = VillageRole.NONE;
 	}
 	
 	public void unkick(String plName){
@@ -158,7 +158,7 @@ public class VillageCore {
 	}
 	
 	public VillagePlayer getAlivePlayerByColor(ChatColor color){
-		if(status==VillageStatus.ongoing)
+		if(status==VillageStatus.ONGOING)
 			for(VillagePlayer vp : playerList)
 				if(vp.alive && vp.color==color)
 					return vp;
@@ -192,16 +192,16 @@ public class VillageCore {
 	public List<VillagePlayer> getPlayerListExceptAliveJinrouAndNpc(){
 		List<VillagePlayer> plList = new ArrayList<VillagePlayer>();
 		for(VillagePlayer vp : playerList)
-			if(vp.connection && (vp.role!=VillageRole.jinrou || !vp.alive))
+			if(vp.connection && (vp.role!=VillageRole.JINROU || !vp.alive))
 				plList.add(vp);
 		return plList;
 	}
 
 	public List<VillagePlayer> getNpcList(){
 		List<VillagePlayer> plList = new ArrayList<VillagePlayer>();
-		if(status==VillageStatus.empty
-				|| status==VillageStatus.preparing
-				|| status==VillageStatus.recruiting){
+		if(status==VillageStatus.EMPTY
+				|| status==VillageStatus.PREPARING
+				|| status==VillageStatus.RECRUITING){
 			plList.add(getPlayer("Mr.Firvic"));
 		}else{
 			plList = getAlivePlayerList();
@@ -243,7 +243,7 @@ public class VillageCore {
 	
 	public List<VillagePlayer> getPlayerListExceptAliveWhileOngoing(){
 		List<VillagePlayer> plList = new ArrayList<VillagePlayer>();
-		if(status==VillageStatus.ongoing)
+		if(status==VillageStatus.ONGOING)
 			for(VillagePlayer vp : playerList)
 				if(!vp.alive && vp.connection)
 					plList.add(vp);
@@ -253,7 +253,7 @@ public class VillageCore {
 	public List<VillagePlayer> getAlivePlayerListExceptJinrou(){
 		List<VillagePlayer> plList = new ArrayList<VillagePlayer>();
 		for(VillagePlayer vp : playerList)
-			if(vp.alive && vp.role!=VillageRole.jinrou)
+			if(vp.alive && vp.role!=VillageRole.JINROU)
 				plList.add(vp);
 		return plList;
 	}
@@ -261,7 +261,7 @@ public class VillageCore {
 	public List<VillagePlayer> getAlivePlayerListExceptJinrouAndNpc(){
 		List<VillagePlayer> plList = new ArrayList<VillagePlayer>();
 		for(VillagePlayer vp : playerList)
-			if(vp.alive && vp.role!=VillageRole.jinrou && vp.connection)
+			if(vp.alive && vp.role!=VillageRole.JINROU && vp.connection)
 				plList.add(vp);
 		return plList;
 	}
@@ -269,7 +269,7 @@ public class VillageCore {
 	public List<VillagePlayer> getUranaishiList(){
 		List<VillagePlayer> plList = new ArrayList<VillagePlayer>();
 		for(VillagePlayer vp : playerList)
-			if(vp.role==VillageRole.uranaishi)
+			if(vp.role==VillageRole.URANAISHI)
 				plList.add(vp);
 		return plList;
 	}
@@ -277,7 +277,7 @@ public class VillageCore {
 	public List<VillagePlayer> getKariudoList(){
 		List<VillagePlayer> plList = new ArrayList<VillagePlayer>();
 		for(VillagePlayer vp : playerList)
-			if(vp.role==VillageRole.kariudo)
+			if(vp.role==VillageRole.KARIUDO)
 				plList.add(vp);
 		return plList;
 	}
@@ -285,7 +285,7 @@ public class VillageCore {
 	public List<VillagePlayer> getJinrouList(){
 		List<VillagePlayer> plList = new ArrayList<VillagePlayer>();
 		for(VillagePlayer vp : playerList)
-			if(vp.role==VillageRole.jinrou)
+			if(vp.role==VillageRole.JINROU)
 				plList.add(vp);
 		return plList;
 	}
@@ -293,7 +293,7 @@ public class VillageCore {
 	public List<VillagePlayer> getJinrouListExceptNpc(){
 		List<VillagePlayer> plList = new ArrayList<VillagePlayer>();
 		for(VillagePlayer vp : playerList)
-			if(vp.role==VillageRole.jinrou && vp.connection)
+			if(vp.role==VillageRole.JINROU && vp.connection)
 				plList.add(vp);
 		return plList;
 	}
@@ -301,7 +301,7 @@ public class VillageCore {
 	public List<VillagePlayer> getAliveJinrouList(){
 		List<VillagePlayer> plList = new ArrayList<VillagePlayer>();
 		for(VillagePlayer vp : playerList)
-			if(vp.role==VillageRole.jinrou && vp.alive)
+			if(vp.role==VillageRole.JINROU && vp.alive)
 				plList.add(vp);
 		return plList;
 	}
@@ -309,7 +309,7 @@ public class VillageCore {
 	public List<VillagePlayer> getAliveJinrouListExceptNpc(){
 		List<VillagePlayer> plList = new ArrayList<VillagePlayer>();
 		for(VillagePlayer vp : playerList)
-			if(vp.role==VillageRole.jinrou && vp.connection && vp.alive)
+			if(vp.role==VillageRole.JINROU && vp.connection && vp.alive)
 				plList.add(vp);
 		return plList;
 	}
@@ -317,7 +317,7 @@ public class VillageCore {
 	public List<VillagePlayer> getYoukoList(){
 		List<VillagePlayer> plList = new ArrayList<VillagePlayer>();
 		for(VillagePlayer vp : playerList)
-			if(vp.role==VillageRole.youko)
+			if(vp.role==VillageRole.YOUKO)
 				plList.add(vp);
 		return plList;
 	}
@@ -325,7 +325,7 @@ public class VillageCore {
 	public List<VillagePlayer> getAliveYoukoList(){
 		List<VillagePlayer> plList = new ArrayList<VillagePlayer>();
 		for(VillagePlayer vp : playerList)
-			if(vp.role==VillageRole.youko && vp.alive)
+			if(vp.role==VillageRole.YOUKO && vp.alive)
 				plList.add(vp);
 		return plList;
 	}
@@ -398,7 +398,7 @@ public class VillageCore {
 	public List<String> getAlivePlayerNameListExceptJinrou(){
 		List<String> plList = new ArrayList<String>();
 		for(VillagePlayer vp : playerList)
-			if(vp.alive && vp.role!=VillageRole.jinrou)
+			if(vp.alive && vp.role!=VillageRole.JINROU)
 				plList.add(vp.getName());
 		return plList;
 	}
@@ -486,13 +486,13 @@ public class VillageCore {
 	
 	public int getRoleNumInRule(VillageRole role){
 		switch(role){
-		case murabito: return maxNum-getTotalRoleNumInRuleExceptMurabito();
-		case uranaishi: return uranaiNum;
-		case reibaishi: return reibaiNum;
-		case kariudo: return kariudoNum;
-		case jinrou: return jinrouNum;
-		case kyoujin: return kyoujinNum;
-		case youko: return youkoNum;
+		case MURABITO: return maxNum-getTotalRoleNumInRuleExceptMurabito();
+		case URANAISHI: return uranaiNum;
+		case REIBAISHI: return reibaiNum;
+		case KARIUDO: return kariudoNum;
+		case JINROU: return jinrouNum;
+		case KYOUJIN: return kyoujinNum;
+		case YOUKO: return youkoNum;
 		}
 		return 0;
 	}

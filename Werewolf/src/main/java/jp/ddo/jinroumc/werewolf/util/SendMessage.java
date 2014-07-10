@@ -21,18 +21,18 @@ public class SendMessage {
 		Village vil = VillageUtil.getVillage(sender);
 		VillagePlayer vp = vil.getPlayer(sender);
 		
-		if(vil.status!=VillageStatus.ongoing){
+		if(vil.status!=VillageStatus.ONGOING){
 			sendToVillageByPlayer(vp, message, vil);
 		}else{
 			if(!vp.alive){
 				sendToGhost(sender, message, vil);
 			}else{
-				if(vil.time!=VillageTime.night){
+				if(vil.time!=VillageTime.NIGHT){
 					sendToVillageByPlayer(vp, message, vil);
 				}else{
-					if(vp.role==VillageRole.jinrou)
+					if(vp.role==VillageRole.JINROU)
 						sendToWolf(sender, message, vil);
-					else if(vp.role==VillageRole.youko)
+					else if(vp.role==VillageRole.YOUKO)
 						sendToFox(sender, message, vil);
 					else
 						sendToMyself(sender, message);
@@ -56,9 +56,9 @@ public class SendMessage {
 	
 	public static void sendToVillageByPlayer(VillagePlayer vp, String message, Village vil){
 		if(vp.gameMaster
-				&& (vil.status==VillageStatus.preparing
-				|| vil.status==VillageStatus.recruiting
-				|| vil.status==VillageStatus.finishing))
+				&& (vil.status==VillageStatus.PREPARING
+				|| vil.status==VillageStatus.RECRUITING
+				|| vil.status==VillageStatus.FINISHING))
 			for(VillagePlayer pc : vil.getPlayerListExceptNpc())
 				pc.sendMessage(C.d_aqua+"["+vp.getName()+"] "
 								+C.reset+""+message);
@@ -67,7 +67,7 @@ public class SendMessage {
 				pc.sendMessage("["+vp.getName()+"] "+C.reset+message);
 		
 		if(vp.alive
-				&& vil.status==VillageStatus.ongoing && vil.time==VillageTime.day){
+				&& vil.status==VillageStatus.ONGOING && vil.time==VillageTime.NOON){
 			int score = vil.objective.getScore(Bukkit.getOfflinePlayer(vp.getColorName())).getScore();
 			score ++;
 			vil.objective.getScore(Bukkit.getOfflinePlayer(vp.getColorName())).setScore(score);
@@ -81,7 +81,7 @@ public class SendMessage {
 
 	public static void sendToWolf(Player sender, String message, Village vil){
 		for(VillagePlayer vp : vil.getPlayerListExceptNpc()){
-			if(vp.role==VillageRole.jinrou)
+			if(vp.role==VillageRole.JINROU)
 				vp.sendMessage(C.d_red+"["+sender.getName()+" to wolf] "+message);
 			else{
 				if(message.length()<=5){
@@ -101,7 +101,7 @@ public class SendMessage {
 
 	public static void sendToFox(Player sender, String message, Village vil){
 		for(VillagePlayer vp : vil.getPlayerListExceptNpc()){
-			if(vp.role==VillageRole.youko)
+			if(vp.role==VillageRole.YOUKO)
 				vp.sendMessage(C.yellow+"["+sender.getName()+" to fox] "+message);
 			else{
 				if(message.length()<=5){

@@ -23,7 +23,7 @@ public class CommandMethod {
 		if(VillageUtil.isInVillage(pl)){
 			Village vil = VillageUtil.getVillage(pl);
 			VillagePlayer vp = vil.getPlayer(pl);
-			if(vp.alive && vil.status==VillageStatus.ongoing){
+			if(vp.alive && vil.status==VillageStatus.ONGOING){
 				pl.sendMessage(C.red+"Error: ゲーム進行中に他の村に行くことはできません。");
 				return;
 			}
@@ -52,14 +52,14 @@ public class CommandMethod {
 		VillageUtil.onPlayerLeave(pl);
 		VillageUtil.teleportToVillage(pl, vil);
 		VillageUtil.onPlayerEnter(pl, vil);
-		if(vil.status!=VillageStatus.empty) showRule(pl);
+		if(vil.status!=VillageStatus.EMPTY) showRule(pl);
 	}
 	
 	public static void enterVil(Player pl, String vilName, String password){
 		if(VillageUtil.isInVillage(pl)){
 			Village vil = VillageUtil.getVillage(pl);
 			VillagePlayer vp = vil.getPlayer(pl);
-			if(vp.alive && vil.status==VillageStatus.ongoing){
+			if(vp.alive && vil.status==VillageStatus.ONGOING){
 				pl.sendMessage(C.red+"Error: ゲーム進行中に他の村に行くことはできません。");
 				return;
 			}
@@ -92,7 +92,7 @@ public class CommandMethod {
 		VillageUtil.onPlayerLeave(pl);
 		VillageUtil.teleportToVillage(pl, vil);
 		VillageUtil.onPlayerEnter(pl, vil);
-		if(vil.status!=VillageStatus.empty) showRule(pl);
+		if(vil.status!=VillageStatus.EMPTY) showRule(pl);
 	}
 	
 	public static void leaveVil(Player pl){
@@ -102,7 +102,7 @@ public class CommandMethod {
 		}
 		Village vil = VillageUtil.getVillage(pl);
 		VillagePlayer vp = vil.getPlayer(pl);
-		if(vp.alive && vil.status==VillageStatus.ongoing){
+		if(vp.alive && vil.status==VillageStatus.ONGOING){
 			pl.sendMessage(C.red+"Error: ゲーム進行中に村を出ることはできません。");
 			return;
 		}
@@ -116,7 +116,7 @@ public class CommandMethod {
 		if(VillageUtil.isInVillage(pl)){
 			Village vil = VillageUtil.getVillage(pl);
 			VillagePlayer vp = vil.getPlayer(pl);
-			if(vp.alive && vil.status==VillageStatus.ongoing){
+			if(vp.alive && vil.status==VillageStatus.ONGOING){
 				pl.sendMessage(C.red+"Error: ゲーム進行中に村を出ることはできません。");
 				return;
 			}
@@ -139,18 +139,18 @@ public class CommandMethod {
 		for(String vilName : vilNameList){
 			Village vil = VillageUtil.getVillage(vilName);
 			switch(vil.status){
-			case empty: status = C.gold+"空き状態"; break;
-			case preparing: status = C.yellow+"準備中"; break;
-			case recruiting: status = C.aqua+"参加者募集中"; break;
-			case ongoing:
+			case EMPTY: status = C.gold+"空き状態"; break;
+			case PREPARING: status = C.yellow+"準備中"; break;
+			case RECRUITING: status = C.aqua+"参加者募集中"; break;
+			case ONGOING:
 				status = C.yellow+""+vil.day+"日目";
 				switch(vil.time){
-				case day: status += "昼"; break;
-				case execution: status += "夕方"; break;
-				case night: status += "夜"; break;
+				case NOON: status += "昼"; break;
+				case EXECUTION: status += "夕方"; break;
+				case NIGHT: status += "夜"; break;
 				}
 				break;
-			case finishing: status = C.yellow+"ゲーム終了中"; break;
+			case FINISHING: status = C.yellow+"ゲーム終了中"; break;
 			}
 			pl.sendMessage(C.gold+" - "+C.yellow+vil.title+C.gold
 							+" ("+vil.villageName+") は現在 "+status+C.gold+" です。");
@@ -169,17 +169,17 @@ public class CommandMethod {
 		List<String> pnList = vil.getPlayerNameListExceptNpc();
 		Collections.sort(pnList, String.CASE_INSENSITIVE_ORDER);
 		String message = C.gold+"Mr.Firvic";
-		if(vil.getPlayer("Mr.Firvic").role!=VillageRole.none
-				&& (vil.status==VillageStatus.preparing
-				|| vil.status==VillageStatus.recruiting))
+		if(vil.getPlayer("Mr.Firvic").role!=VillageRole.NONE
+				&& (vil.status==VillageStatus.PREPARING
+				|| vil.status==VillageStatus.RECRUITING))
 			message += " (配役済み)";
 		
 		for(String pn : pnList){
 			message += ", ";
 			message += pn;
 			VillagePlayer vp = vil.getPlayer(pn);
-			if(vil.status==VillageStatus.preparing || vil.status==VillageStatus.recruiting){
-				if(vp.role!=VillageRole.none){
+			if(vil.status==VillageStatus.PREPARING || vil.status==VillageStatus.RECRUITING){
+				if(vp.role!=VillageRole.NONE){
 					if(vp.gameMaster) message += " (GM, 配役済み)";
 					else message += " (配役済み)";	
 				}else{
@@ -205,7 +205,7 @@ public class CommandMethod {
 		if(VillageUtil.isInVillage(pl)){
 			Village vil = VillageUtil.getVillage(pl);
 			if(vil.villageType.equalsIgnoreCase(vilType) || vilType==""){
-				if(vil.status!=VillageStatus.empty){
+				if(vil.status!=VillageStatus.EMPTY){
 					pl.sendMessage(C.red+"Error: "+vil.villageName+" ではすでに人狼ゲームが開始されています。");
 					return;
 				}
@@ -218,7 +218,7 @@ public class CommandMethod {
 			}
 		}
 		for(Village vil : VillageUtil.getVillageList()){
-			if(vil.status==VillageStatus.empty && (vil.villageType.equalsIgnoreCase(vilType) || vilType=="")){
+			if(vil.status==VillageStatus.EMPTY && (vil.villageType.equalsIgnoreCase(vilType) || vilType=="")){
 				VillageUtil.onPlayerLeave(pl);
 				VillageUtil.teleportToVillage(pl, vil);
 				VillageUtil.onPlayerEnter(pl, vil);
@@ -248,7 +248,7 @@ public class CommandMethod {
 			pl.sendMessage(C.red+"Error: ゲームマスターしか使えないコマンドです。");
 			return;
 		}
-		if(vil.status!=VillageStatus.preparing){
+		if(vil.status!=VillageStatus.PREPARING){
 			pl.sendMessage(C.red+"Error: 人狼ゲームの状態が準備中のときしか使えないコマンドです。");
 			return;
 		}
@@ -267,7 +267,7 @@ public class CommandMethod {
 			pl.sendMessage(C.red+"Error: ゲームマスターしか使えないコマンドです。");
 			return;
 		}
-		if(vil.status!=VillageStatus.recruiting){
+		if(vil.status!=VillageStatus.RECRUITING){
 			pl.sendMessage(C.red+"Error: 人狼ゲームの状態が募集中のときしか使えないコマンドです。");
 			return;
 		}
@@ -286,8 +286,8 @@ public class CommandMethod {
 			pl.sendMessage(C.red+"Error: ゲームマスターしか使えないコマンドです。");
 			return;
 		}
-		if(vil.status!=VillageStatus.preparing && vil.status!=VillageStatus.recruiting
-				&& vil.status!=VillageStatus.finishing){
+		if(vil.status!=VillageStatus.PREPARING && vil.status!=VillageStatus.RECRUITING
+				&& vil.status!=VillageStatus.FINISHING){
 			pl.sendMessage(C.red+"Error: ゲーム進行中には使えないコマンドです。");
 			return;
 		}
@@ -328,7 +328,7 @@ public class CommandMethod {
 			pl.sendMessage(C.red+"Error: ゲームマスターしか使えないコマンドです。");
 			return;
 		}
-		if(vp.alive && vil.status==VillageStatus.ongoing && vil.time==VillageTime.night){
+		if(vp.alive && vil.status==VillageStatus.ONGOING && vil.time==VillageTime.NIGHT){
 			pl.sendMessage(C.red+"Error: 昼にしか使えないコマンドです。");
 			return;
 		}
@@ -370,7 +370,7 @@ public class CommandMethod {
 		}
 		Village vil = VillageUtil.getVillage(pl);
 		VillagePlayer vp = vil.getPlayer(pl);
-		if(vil.status!=VillageStatus.recruiting){
+		if(vil.status!=VillageStatus.RECRUITING){
 			pl.sendMessage(C.red+"Error: 現在 "+C.yellow+vil.title+C.red
 					+" ("+vil.villageName+") は参加者を募集していません。");
 			return;
@@ -398,7 +398,7 @@ public class CommandMethod {
 			pl.sendMessage(C.red+"Error: ゲームに参加中ではありません。");
 			return;
 		}
-		if(vil.status!=VillageStatus.preparing && vil.status!=VillageStatus.recruiting){
+		if(vil.status!=VillageStatus.PREPARING && vil.status!=VillageStatus.RECRUITING){
 			pl.sendMessage(C.red+"Error: ゲーム中は参加を辞めることができません。");
 			return;
 		}
@@ -417,7 +417,7 @@ public class CommandMethod {
 			pl.sendMessage(C.red+"Error: ゲームマスターしか使えないコマンドです。");
 			return;
 		}
-		if(vil.status!=VillageStatus.preparing && vil.status!=VillageStatus.recruiting){
+		if(vil.status!=VillageStatus.PREPARING && vil.status!=VillageStatus.RECRUITING){
 			pl.sendMessage(C.red+"Error: 人狼ゲームの状態が準備中か募集中のときしか使えないコマンドです。");
 			return;
 		}
@@ -431,7 +431,7 @@ public class CommandMethod {
 		}
 		VillageRole vr = VillageUtil.getVillageRoleByString(role);
 		if(target.equalsIgnoreCase("Mr.Firvic")
-			&& (vr==VillageRole.jinrou || vr==VillageRole.kyoujin || vr==VillageRole.youko)){
+			&& (vr==VillageRole.JINROU || vr==VillageRole.KYOUJIN || vr==VillageRole.YOUKO)){
 			pl.sendMessage(C.red+"Error: Mr.Firvic に "
 							+VillageUtil.getVillageRoleInJapanese(vr)+C.red+" をセットすることはできません。");
 			return;				
@@ -458,7 +458,7 @@ public class CommandMethod {
 			pl.sendMessage(C.red+"Error: ゲームマスターしか使えないコマンドです。");
 			return;
 		}
-		if(vil.status!=VillageStatus.preparing && vil.status!=VillageStatus.recruiting){
+		if(vil.status!=VillageStatus.PREPARING && vil.status!=VillageStatus.RECRUITING){
 			pl.sendMessage(C.red+"Error: 人狼ゲームの状態が準備中か募集中のときしか使えないコマンドです。");
 			return;
 		}
@@ -488,7 +488,7 @@ public class CommandMethod {
 			pl.sendMessage(C.red+"Error: ゲームに参加しているときしか使えないコマンドです。");
 			return;
 		}
-		if(vil.status!=VillageStatus.preparing && vil.status!=VillageStatus.recruiting){
+		if(vil.status!=VillageStatus.PREPARING && vil.status!=VillageStatus.RECRUITING){
 			pl.sendMessage(C.red+"Error: 人狼ゲームの状態が準備中か募集中のときしか使えないコマンドです。");
 			return;
 		}
@@ -498,7 +498,7 @@ public class CommandMethod {
 		}
 		VillageRole vr = VillageUtil.getVillageRoleByString(role);
 		vp.setRequestedRole(vr);
-		if(vr==VillageRole.none)
+		if(vr==VillageRole.NONE)
 			pl.sendMessage(C.gold+"配役の "+C.yellow+"希望なし"+C.gold+" に設定されました。");
 		else
 			pl.sendMessage(VillageUtil.getVillageRoleInJapanese(vr)+C.gold+" の配役を希望しました。");
@@ -515,7 +515,7 @@ public class CommandMethod {
 			pl.sendMessage(C.red+"Error: ゲームマスターしか使えないコマンドです。");
 			return;
 		}
-		if(vil.status!=VillageStatus.preparing && vil.status!=VillageStatus.recruiting){
+		if(vil.status!=VillageStatus.PREPARING && vil.status!=VillageStatus.RECRUITING){
 			pl.sendMessage(C.red+"Error: 人狼ゲームの状態が準備中か募集中のときしか使えないコマンドです。");
 			return;
 		}
@@ -525,11 +525,11 @@ public class CommandMethod {
 			return;
 		}
 		if(	vil.uranaiNum+vil.reibaiNum+vil.kariudoNum == 
-				vil.getSettedRoleNum(VillageRole.uranaishi)
-				+vil.getSettedRoleNum(VillageRole.reibaishi)
-				+vil.getSettedRoleNum(VillageRole.kariudo)
+				vil.getSettedRoleNum(VillageRole.URANAISHI)
+				+vil.getSettedRoleNum(VillageRole.REIBAISHI)
+				+vil.getSettedRoleNum(VillageRole.KARIUDO)
 				&& vil.getJoiningPlayerNum()-vil.getTotalRoleNumInRuleExceptMurabito()
-				<= vil.getSettedRoleNum(VillageRole.murabito)){
+				<= vil.getSettedRoleNum(VillageRole.MURABITO)){
 			pl.sendMessage(C.red+"Error: 第一犠牲者が人間以外になってしまいます。人間の配役を解除してください。");
 			return;
 		}
@@ -550,7 +550,7 @@ public class CommandMethod {
 			pl.sendMessage(C.red+"Error: ゲームマスターしか使えないコマンドです。");
 			return;
 		}
-		if(vil.status!=VillageStatus.ongoing){
+		if(vil.status!=VillageStatus.ONGOING){
 			pl.sendMessage(C.red+"Error: ゲーム進行中にしか使えないコマンドです。");
 			return;
 		}
@@ -570,13 +570,13 @@ public class CommandMethod {
 			pl.sendMessage(C.red+"Error: ゲームマスターしか使えないコマンドです。");
 			return;
 		}
-		if(vil.status!=VillageStatus.ongoing && vil.status!=VillageStatus.finishing){
+		if(vil.status!=VillageStatus.ONGOING && vil.status!=VillageStatus.FINISHING){
 			pl.sendMessage(C.red+"Error: ゲーム進行中かゲーム終了中にしか使えないコマンドです。");
 			return;
 		}
 
 		vil.sendToVillage(C.gold+"ゲームマスターがゲームをスキップしました。");
-		if(vil.status==VillageStatus.ongoing && vil.time==VillageTime.execution){
+		if(vil.status==VillageStatus.ONGOING && vil.time==VillageTime.EXECUTION){
 			vil.stopDoTaskLater();
 			vil.executedPlayer.kill();
 			
@@ -605,7 +605,7 @@ public class CommandMethod {
 		}
 
 		VillagePlayer tarvp = vil.getPlayer(target);
-		if(tarvp.alive && vil.status==VillageStatus.ongoing)
+		if(tarvp.alive && vil.status==VillageStatus.ONGOING)
 			vil.sendToVillage(C.gold+"ゲームマスターが "+tarvp.color+target
 					+C.gold+" さんをキックしました。");
 		else
@@ -646,7 +646,7 @@ public class CommandMethod {
 			pl.sendMessage(C.red+"Error: ゲームマスターしか使えないコマンドです。");
 			return;
 		}
-		if(vil.status!=VillageStatus.ongoing){
+		if(vil.status!=VillageStatus.ONGOING){
 			pl.sendMessage(C.red+"Error: ゲーム進行中にしか使えないコマンドです。");
 			return;
 		}
@@ -670,7 +670,7 @@ public class CommandMethod {
 		}
 		Village vil = VillageUtil.getVillage(pl);
 		VillagePlayer vp = vil.getPlayer(pl);
-		if(vil.status==VillageStatus.ongoing && vil.time==VillageTime.execution
+		if(vil.status==VillageStatus.ONGOING && vil.time==VillageTime.EXECUTION
 				&& vil.executedPlayer==vp && vp.alive){
 			pl.sendMessage(C.red+"Error: 処刑者は使えないコマンドです。");
 			return;
@@ -678,7 +678,7 @@ public class CommandMethod {
 		
 		
 		vp.teleportToHome();
-		if(vp.alive && vil.status==VillageStatus.ongoing)
+		if(vp.alive && vil.status==VillageStatus.ONGOING)
 			pl.sendMessage(C.gold+"自分の家に移動します。");
 		else
 			pl.sendMessage(C.gold+"村の入り口に移動します。");
@@ -691,11 +691,11 @@ public class CommandMethod {
 		}
 		Village vil = VillageUtil.getVillage(pl);
 		VillagePlayer vp = vil.getPlayer(pl);
-		if(!vp.alive || vil.status!=VillageStatus.ongoing){
+		if(!vp.alive || vil.status!=VillageStatus.ONGOING){
 			pl.sendMessage(C.red+"Error: ゲーム参加中にしか使えないコマンドです。");
 			return;
 		}
-		if(vil.time==VillageTime.night){
+		if(vil.time==VillageTime.NIGHT){
 			pl.sendMessage(C.red+"Error: 夜には使えないコマンドです。");
 			return;
 		}
@@ -723,7 +723,7 @@ public class CommandMethod {
 			pl.sendMessage(C.red+"Error: ゲームマスターしか使えないコマンドです。");
 			return;
 		}
-		if(vil.status!=VillageStatus.ongoing){
+		if(vil.status!=VillageStatus.ONGOING){
 			pl.sendMessage(C.red+"Error: ゲーム進行中にしか使えないコマンドです。");
 			return;
 		}
@@ -738,11 +738,11 @@ public class CommandMethod {
 		}
 		Village vil = VillageUtil.getVillage(pl);
 		VillagePlayer vp = vil.getPlayer(pl);
-		if(!vp.alive || vil.status!=VillageStatus.ongoing){
+		if(!vp.alive || vil.status!=VillageStatus.ONGOING){
 			pl.sendMessage(C.red+"Error: ゲーム参加中にしか使えないコマンドです。");
 			return;
 		}
-		if(vil.time==VillageTime.night){
+		if(vil.time==VillageTime.NIGHT){
 			pl.sendMessage(C.red+"Error: 夜には使えないコマンドです。");
 			return;
 		}
@@ -757,7 +757,7 @@ public class CommandMethod {
 		}
 		Village vil = VillageUtil.getVillage(pl);
 		VillagePlayer vp = vil.getPlayer(pl);
-		if(!vp.joining || vil.status!=VillageStatus.ongoing){
+		if(!vp.joining || vil.status!=VillageStatus.ONGOING){
 			pl.sendMessage(C.red+"Error: ゲーム参加中にしか使えないコマンドです。");
 			return;
 		}
@@ -772,11 +772,11 @@ public class CommandMethod {
 		}
 		Village vil = VillageUtil.getVillage(pl);
 		VillagePlayer vp = vil.getPlayer(pl);
-		if(!vp.alive || vil.status!=VillageStatus.ongoing){
+		if(!vp.alive || vil.status!=VillageStatus.ONGOING){
 			pl.sendMessage(C.red+"Error: ゲーム参加中にしか使えないコマンドです。");
 			return;
 		}
-		if(vil.time!=VillageTime.day && vil.time!=VillageTime.revote){
+		if(vil.time!=VillageTime.NOON && vil.time!=VillageTime.REVOTE){
 			pl.sendMessage(C.red+"Error: 昼にしか使えないコマンドです。");
 			return;
 		}
@@ -797,11 +797,11 @@ public class CommandMethod {
 		}
 		Village vil = VillageUtil.getVillage(pl);
 		VillagePlayer vp = vil.getPlayer(pl);
-		if(!vp.alive || vp.role!=VillageRole.uranaishi || vil.status!=VillageStatus.ongoing){
+		if(!vp.alive || vp.role!=VillageRole.URANAISHI || vil.status!=VillageStatus.ONGOING){
 			pl.sendMessage(C.red+"Error: ゲーム参加中の占い師にしか使えないコマンドです。");
 			return;
 		}
-		if(vil.time!=VillageTime.night){
+		if(vil.time!=VillageTime.NIGHT){
 			pl.sendMessage(C.red+"Error: 夜にしか使えないコマンドです。");
 			return;
 		}
@@ -825,11 +825,11 @@ public class CommandMethod {
 		}
 		Village vil = VillageUtil.getVillage(pl);
 		VillagePlayer vp = vil.getPlayer(pl);
-		if(!vp.alive || vp.role!=VillageRole.kariudo || vil.status!=VillageStatus.ongoing){
+		if(!vp.alive || vp.role!=VillageRole.KARIUDO || vil.status!=VillageStatus.ONGOING){
 			pl.sendMessage(C.red+"Error: ゲーム参加中の狩人にしか使えないコマンドです。");
 			return;
 		}
-		if(vil.time==VillageTime.night){
+		if(vil.time==VillageTime.NIGHT){
 			pl.sendMessage(C.red+"Error: 夜には使えないコマンドです。");
 			return;
 		}
@@ -850,11 +850,11 @@ public class CommandMethod {
 		}
 		Village vil = VillageUtil.getVillage(pl);
 		VillagePlayer vp = vil.getPlayer(pl);
-		if(!vp.alive || vp.role!=VillageRole.jinrou || vil.status!=VillageStatus.ongoing){
+		if(!vp.alive || vp.role!=VillageRole.JINROU || vil.status!=VillageStatus.ONGOING){
 			pl.sendMessage(C.red+"Error: ゲーム参加中の人狼にしか使えないコマンドです。");
 			return;
 		}
-		if(vil.time!=VillageTime.night){
+		if(vil.time!=VillageTime.NIGHT){
 			pl.sendMessage(C.red+"Error: 夜にしか使えないコマンドです。");
 			return;
 		}

@@ -61,33 +61,33 @@ public class VillageUtil {
 	public static VillageRole getVillageRoleByString(String role){
 		role = role.toLowerCase();
 		switch(role){
-		case "none": return VillageRole.none;
-		case "murabito": return VillageRole.murabito;
-		case "uranaishi": return VillageRole.uranaishi;
-		case "reibaishi": return VillageRole.reibaishi;
-		case "kariudo": return VillageRole.kariudo;
-		case "jinrou": return VillageRole.jinrou;
-		case "kyoujin": return VillageRole.kyoujin;
-		case "youko": return VillageRole.youko;
+		case "none": return VillageRole.NONE;
+		case "murabito": return VillageRole.MURABITO;
+		case "uranaishi": return VillageRole.URANAISHI;
+		case "reibaishi": return VillageRole.REIBAISHI;
+		case "kariudo": return VillageRole.KARIUDO;
+		case "jinrou": return VillageRole.JINROU;
+		case "kyoujin": return VillageRole.KYOUJIN;
+		case "youko": return VillageRole.YOUKO;
 		}
 		return null;
 	}
 
 	public static String getVillageRoleInJapanese(VillageRole role){
 		switch(role){
-		case murabito: return C.aqua+"村人";
-		case uranaishi: return C.aqua+"占い師";
-		case reibaishi: return C.aqua+"霊媒師";
-		case kariudo: return C.aqua+"狩人";
-		case jinrou: return C.d_red+"人狼";
-		case kyoujin: return C.d_red+"狂人";
-		case youko: return C.yellow+"妖狐";
+		case MURABITO: return C.aqua+"村人";
+		case URANAISHI: return C.aqua+"占い師";
+		case REIBAISHI: return C.aqua+"霊媒師";
+		case KARIUDO: return C.aqua+"狩人";
+		case JINROU: return C.d_red+"人狼";
+		case KYOUJIN: return C.d_red+"狂人";
+		case YOUKO: return C.yellow+"妖狐";
 		}
 		return null;
 	}
 
 	public static String getTrueRole(VillagePlayer vp){
-		if(vp.role!=VillageRole.jinrou)
+		if(vp.role!=VillageRole.JINROU)
 			return C.aqua+"村人";
 		else
 			return C.d_red+"人狼";
@@ -159,7 +159,7 @@ public class VillageUtil {
 	public static List<String> getRoleListExceptNone(){
 		List<String> roleList = new ArrayList<String>();
 		for(VillageRole vr : VillageRole.values()){
-			if(vr==VillageRole.none) continue;
+			if(vr==VillageRole.NONE) continue;
 			roleList.add(vr.toString());
 		}
 		return roleList;
@@ -183,12 +183,12 @@ public class VillageUtil {
 		pl.setScoreboard(VillageUtil.getVillage(pl).scoreboard);
 		
 		VillagePlayer vp = vil.getPlayer(pl);
-		if(vil.status==VillageStatus.empty && !(vp.getName().contains(".")))
+		if(vil.status==VillageStatus.EMPTY && !(vp.getName().contains(".")))
 			BarAPI.setMessage(pl, C.yellow+vil.title+C.white
 								+" ("+vil.villageName+") <空き状態>");
-		if(vil.status==VillageStatus.ongoing && !vp.alive)
+		if(vil.status==VillageStatus.ONGOING && !vp.alive)
 			vp.addGhostTeam();
-		if(vil.status==VillageStatus.finishing)
+		if(vil.status==VillageStatus.FINISHING)
 			vp.changeStatusOnGameFinish();
 		
 		pl.getInventory().addItem(new ItemStack(Material.LOG, 64));
@@ -210,7 +210,7 @@ public class VillageUtil {
 				pl.showPlayer(pc.getPlayer());
 				pc.getPlayer().showPlayer(pl);
 			}
-			if(vil.getPlayerListExceptNpc().size()==0 && vil.status!=VillageStatus.empty)
+			if(vil.getPlayerListExceptNpc().size()==0 && vil.status!=VillageStatus.EMPTY)
 				vil.rebuildVillage();
 		}
 		BarAPI.removeBar(pl);
@@ -250,7 +250,7 @@ public class VillageUtil {
 		}
 		
 		vil.playerList.add(new VillagePlayer(pl));
-		if(vil.status!=VillageStatus.ongoing)
+		if(vil.status!=VillageStatus.ONGOING)
 			vil.sendToVillage(C.yellow+pl.getName()+C.gold+" さんが "
 							+C.yellow+vil.title+C.gold+" ("+vil.villageName+") を訪れました。");
 	}
@@ -260,7 +260,7 @@ public class VillageUtil {
 		while(itr.hasNext()){
 			if(itr.next().player==pl){
 				itr.remove();
-				if(vil.status!=VillageStatus.ongoing)
+				if(vil.status!=VillageStatus.ONGOING)
 					vil.sendToVillage(C.yellow+pl.getName()+C.gold
 									+" さんが "+C.yellow+vil.title+C.gold
 									+" ("+vil.villageName+") から去っていきました。");
@@ -274,7 +274,7 @@ public class VillageUtil {
 			Village vil = VillageUtil.getVillage(pl);
 			VillagePlayer vp = vil.getPlayer(pl);
 			vp.teleportToHome();
-			if(!vp.alive && vil.status==VillageStatus.ongoing)
+			if(!vp.alive && vil.status==VillageStatus.ONGOING)
 				vp.addInvisibleEffect();
 		}
 	}	

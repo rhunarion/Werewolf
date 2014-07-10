@@ -36,8 +36,8 @@ public class VillagePlayerCore{
 		this.villagerEntity = null;
 		this.proffession = Profession.getProfession(rnd.nextInt(5));
 		this.village = VillageUtil.getVillage(pl);
-		this.role = VillageRole.none;
-		this.roleRequested = VillageRole.none;
+		this.role = VillageRole.NONE;
+		this.roleRequested = VillageRole.NONE;
 		this.color = C.white;
 		this.gameMaster = false;
 		this.joining = false;
@@ -55,8 +55,8 @@ public class VillagePlayerCore{
 		this.villagerEntity = null;
 		this.proffession = Profession.getProfession(rnd.nextInt(5));
 		this.village = vil;
-		this.role = VillageRole.none;
-		this.roleRequested = VillageRole.none;
+		this.role = VillageRole.NONE;
+		this.roleRequested = VillageRole.NONE;
 		this.color = C.white;
 		this.gameMaster = false;
 		this.joining = false;

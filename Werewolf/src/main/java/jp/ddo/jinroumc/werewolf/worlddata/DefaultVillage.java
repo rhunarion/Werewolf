@@ -37,7 +37,7 @@ public class DefaultVillage extends Village {
 	
 	public Location getSpawnLocation(){
 		World world = Bukkit.getWorld(villageName);
-		return new Location(world, 24.5, 63.0, 0.5, 90, 0); 
+		return new Location(world, 28.5, 63.0, 0.5, 90, 0); 
 	}
 	
 	public Location getConfigRoom(){
@@ -155,19 +155,19 @@ public class DefaultVillage extends Village {
 		effect.trail(true);
 
 		switch(vil.result){
-		case draw:
+		case DRAW:
 			effect.withColor(Color.LIME);
 			effect.withFade(Color.GREEN);
 			break;
-		case murabito:
+		case MURABITO:
 			effect.withColor(Color.AQUA);
 			effect.withFade(Color.TEAL);
 			break;
-		case jinrou:
+		case JINROU:
 			effect.withColor(Color.RED);
 			effect.withFade(Color.MAROON);
 			break;
-		case youko:
+		case YOUKO:
 			effect.withColor(Color.YELLOW);
 			effect.withFade(Color.OLIVE);
 			break;
