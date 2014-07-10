@@ -209,7 +209,7 @@ public class WerewolfLobby extends JavaPlugin implements Listener {
 		meta.addPage("< 困ったときは 1/2 >\n" +
 				"まずは公式Wikiを確認してください。\n" +
 				"http://jinroumc.wiki.fc2.com\n" +
-				"(または「jinrou-mc」で検索)\n\n" +
+				"(または「jinroumc」で検索)\n\n" +
 				"最新情報や詳しい遊び方を確認できます。");
 		meta.addPage("< 困ったときは 2/2 >\n" +
 				"/helpとコマンドすると、今使えるコマンドのヘルプを見ることができます。\n" +

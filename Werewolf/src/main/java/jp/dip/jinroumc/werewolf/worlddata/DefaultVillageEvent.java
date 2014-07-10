@@ -353,7 +353,9 @@ public class DefaultVillageEvent implements Listener {
 			if(vil.status==VillageStatus.EMPTY
 					|| (vil.status==VillageStatus.PREPARING && !vp.joining)
 					|| (vil.status==VillageStatus.RECRUITING && !vp.joining)
-					|| (vil.status==VillageStatus.ONGOING && !vp.alive)){
+					|| (vil.status==VillageStatus.ONGOING && !vp.alive)
+					|| (vil.status==VillageStatus.ONGOING && vil.time==VillageTime.NIGHT
+						&& vp.alive && vp.role!=VillageRole.JINROU)){
 				event.setCancelled(true); updateInventory(pl, vil); return; }
 			
 			if(x<=-39 || 39<=x || y<=47 || 80<=y || z<=-39 || 39<=z){
@@ -377,6 +379,27 @@ public class DefaultVillageEvent implements Listener {
 					event.setCancelled(true);
 					updateInventory(pl, vil);
 					return; 
+				}
+			}
+			
+			if(bl.getType()==Material.OBSIDIAN){
+				for(DefaultVillageHouseCore house : DefaultVillageHouse.getHouseMap().values()){
+					if(house.frontDoorX-2<=x && x<=house.frontDoorX+2
+							&& house.frontDoorY<=y && y<=house.frontDoorY+2
+							&& house.frontDoorZ-2<=z && z<=house.frontDoorZ+2){
+						pl.sendMessage(C.red+"Error: ドアの近くに黒曜石は置けません。");
+						event.setCancelled(true);
+						updateInventory(pl, vil);
+						return; 
+					}
+					if(house.rearDoorX-2<=x && x<=house.rearDoorX+2
+							&& house.rearDoorY<=y && y<=house.rearDoorY+2
+							&& house.rearDoorZ-2<=z && z<=house.rearDoorZ+2){
+						pl.sendMessage(C.red+"Error: ドアの近くに黒曜石は置けません。");
+						event.setCancelled(true);
+						updateInventory(pl, vil);
+						return; 
+					}
 				}
 			}
 		}		
