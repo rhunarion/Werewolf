@@ -8,6 +8,6 @@ You can enjoy WEREWOLF GAME, with many useful commands, graphical and hearing ef
 If you want to play this plugin, access to **jinrou-mc.ddo.jp** in multiplay-mode of Minecraft.
 
 This project is in progress, and maybe doesn't work exactly.  
-And would anyone help me to translate to English?
+In addition, would anyone help me to translate to English?
 
 Wiki (Japanese) : http://jinroumc.wiki.fc2.com
