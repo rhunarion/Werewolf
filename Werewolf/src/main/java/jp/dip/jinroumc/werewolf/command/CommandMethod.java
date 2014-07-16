@@ -17,8 +17,6 @@ import jp.dip.jinroumc.werewolf.worlddata.DefaultVillage;
 import org.bukkit.entity.Player;
 
 public class CommandMethod {
-	public static boolean allowMakeVil = true;
-	
 	public static void enterVil(Player pl, String vilName){
 		if(VillageUtil.isInVillage(pl)){
 			Village vil = VillageUtil.getVillage(pl);
@@ -194,10 +192,6 @@ public class CommandMethod {
 	}
 	
 	public static void makeVil(Player pl, String vilType){
-		if(!allowMakeVil){
-			pl.sendMessage(C.red+"Error: 現在、人狼ゲームの準備開始が禁止されています。");
-			return;
-		}
 		if(!VillageUtil.isVillageType(vilType) && !(vilType=="")){
 			pl.sendMessage(C.red+"Error: "+vilType+" という村ワールドのタイプは存在しません。");
 			return;

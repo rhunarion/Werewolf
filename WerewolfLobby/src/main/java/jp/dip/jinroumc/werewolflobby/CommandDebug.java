@@ -1,8 +1,6 @@
 package jp.dip.jinroumc.werewolflobby;
 
-import jp.dip.jinroumc.werewolf.command.CommandMethod;
 import jp.dip.jinroumc.werewolf.util.C;
-import jp.dip.jinroumc.werewolf.util.PluginChecker;
 import jp.dip.jinroumc.werewolf.village.Village;
 import jp.dip.jinroumc.werewolf.village.VillageUtil;
 import jp.dip.jinroumc.werewolf.village.VillagePlayer;
@@ -60,18 +58,6 @@ public class CommandDebug implements CommandExecutor {
 			return true;
 		}
 		
-		if(args[0].equalsIgnoreCase("disallowMakeVil")){
-			CommandMethod.allowMakeVil = false;
-			sender.sendMessage(C.yellow+"/"+PluginChecker.getWw()+"makevil"+C.gold+" コマンドの使用を禁止します。");
-			return true;
-		}
-		
-		if(args[0].equalsIgnoreCase("allowMakeVil")){
-			CommandMethod.allowMakeVil = true;
-			sender.sendMessage(C.yellow+"/"+PluginChecker.getWw()+"makevil"+C.gold+" コマンドの使用を許可します。");
-			return true;
-		}
-		
 		if(args[0].equalsIgnoreCase("rebuild")){
 			if(args.length==1){
 				sender.sendMessage(C.gold+"全ての村を再生成します。");
@@ -90,6 +76,26 @@ public class CommandDebug implements CommandExecutor {
 			}else{
 				return true;
 			}
+		}
+		
+		if(args[0].equalsIgnoreCase("restart")){
+			
+			class AddShutdownHookSample {
+				public void attachShutDownHook(){
+					Runtime.getRuntime().addShutdownHook(new Thread() {
+						@Override
+						public void run() {
+							System.out.println("Inside Add Shutdown Hook");
+						}
+					});
+					System.out.println("Shut Down Hook Attached.");
+				}
+			}
+
+			AddShutdownHookSample sample = new AddShutdownHookSample();
+			sample.attachShutDownHook();
+			System.out.println("Last instruction of Program....");
+			Bukkit.shutdown();
 		}
 		
 		if(args[0].equalsIgnoreCase("g")){
